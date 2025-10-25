@@ -1,0 +1,169 @@
+{
+	"easycom": {
+		"autoscan": true,
+		// 注意一定要放在custom里，否则无效，https://ask.dcloud.net.cn/question/131175
+		"custom": {
+			"^u--(.*)": "@/uni_modules/uview-plus/components/u-$1/u-$1.vue",
+			"^up-(.*)": "@/uni_modules/uview-plus/components/u-$1/u-$1.vue",
+			"^u-([^-].*)": "@/uni_modules/uview-plus/components/u-$1/u-$1.vue"
+		}
+	},
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+    {
+			"path": "pages/index/index",
+			"style": {
+				//隐藏导航栏
+				"navigationStyle": "custom",
+				"navigationBarTitleText": "推荐",
+				//开启下拉手势
+				"enablePullDownRefresh": true
+			}
+		},
+    {
+			"path": "pages/login/index",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTitleText": "登录"
+			}
+		},
+		{
+			"path": "pages/index/product",
+			"style": {
+				"navigationBarTitleText": "详情"
+			}
+		},
+		{
+			"path": "pages/class/index",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTitleText": "分类产品",
+        "enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/creation/index",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTitleText": "创作"
+			}
+		},
+		{
+			"path": "pages/user/index",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTitleText": "我的"
+			}
+		},
+		{
+			"path": "pages/user/myPoints",
+			"style": {
+				"navigationBarTitleText": "我的算力"
+			}
+		},
+		{
+			"path": "pages/user/myCreation",
+			"style": {
+				"navigationBarTitleText": "我的创作"
+			}
+		},
+		{
+			"path": "pages/user/myCollection",
+			"style": {
+				"navigationBarTitleText": "我的收藏"
+			}
+		},
+		{
+			"path": "pages/user/settings/index",
+			"style": {
+				"navigationBarTitleText": "我的设置"
+			}
+		},
+		{
+		  "path": "pages/user/member",
+		  "style": {
+		    "navigationBarTitleText": "开通会员",
+		    "navigationBarBackgroundColor": "#0166FE",
+		    "navigationBarTextStyle": "white",
+		    "app-plus": {
+					//导航栏右侧按钮
+		      "titleNView": {
+		        "buttons": [
+		          {
+								"text": "\ue603",
+								"fontSrc": "/static/iconfont/iconfont.ttf",
+								"width": "44px",
+								"height": "44px",
+								"fontSize":"32rpx",
+								"color":"#ffffff"
+							}
+		        ]
+		      }
+		    }
+		  }
+		},
+		{
+			"path": "pages/class/filter",
+			"style": {
+				"navigationBarTitleText": "创建AI智能体",
+				"app-plus": {
+				  "titleNView": {
+				    "buttons": [
+				      {
+								"text": "\ue603",
+								"fontSrc": "/static/iconfont/iconfont.ttf",
+								"width": "44px",
+								"height": "44px",
+								"fontSize":"32rpx",
+								"color":"#333333"
+							}
+				    ]
+				  }
+				}
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#ffffff",
+		"backgroundColor": "#F8F8F8",
+		"app-plus":{
+			"bounce":"none"
+		}
+	},
+	"tabBar": {
+		"color": "#666", // 未选中文字颜色
+		"selectedColor": "#0166FE", // 选中文字颜色
+		"backgroundColor": "#ffffff", // 背景色
+		"borderStyle": "black", // 边框颜色（仅支持 black/white）
+		"fontSize": "10px", // 文字大小（部分端支持，单位 px/rpx）
+		"iconWidth": "24px", // 图标宽度（部分端支持，单位 px/rpx）
+		"list": [
+			{
+				"pagePath": "pages/index/index",
+				"text": "推荐",
+				"iconPath": "/static/image/tabbar/home.png",
+				"selectedIconPath": "/static/image/tabbar/homo_1.png"
+			},
+			{
+				"pagePath": "pages/class/index",
+				"text": "分类产品",
+				"iconPath": "/static/image/tabbar/label.png",
+				"selectedIconPath": "/static/image/tabbar/label_1.png"
+			},
+			{
+				"pagePath": "pages/creation/index",
+				"text": "创作",
+				"iconPath": "/static/image/tabbar/file.png",
+				"selectedIconPath": "/static/image/tabbar/file_1.png"
+			},
+			{
+				"pagePath": "pages/user/index",
+				"text": "我的",
+				"iconPath": "/static/image/tabbar/my.png",
+				"selectedIconPath": "/static/image/tabbar/my_1.png"
+			}
+		]
+	},
+	"uniIdRouter": {}
+}
