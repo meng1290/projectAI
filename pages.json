@@ -19,7 +19,7 @@
 				"enablePullDownRefresh": true
 			}
 		},
-    {
+		{
 			"path": "pages/login/index",
 			"style": {
 				"navigationStyle": "custom",
@@ -70,6 +70,12 @@
 			"path": "pages/user/myCollection",
 			"style": {
 				"navigationBarTitleText": "我的收藏"
+			}
+		},
+		{
+			"path": "pages/user/aboutUs",
+			"style": {
+				"navigationBarTitleText": "关于我们"
 			}
 		},
 		{

@@ -57,6 +57,8 @@
 	import { reactive, ref, toRefs, unref, inject} from 'vue'
 	import { onLoad } from '@dcloudio/uni-app'
   import { passWordLogin } from '@/api/index.js'
+  import { useUserStore } from '@/stores/index'
+  const store = useUserStore()
 	
 	import avatar from '@/static/image/avatar.png';
   //切换登录类型
@@ -122,7 +124,7 @@
     // 登录
     const state = reactive({
       form:{
-        account:'',
+        account:'18600443402',
         code:'',
         password:''
       },
@@ -149,15 +151,13 @@
 		const login = () => {
       formRef.value.validate().then(valid => {  
         if (valid) {
-          passWordLogin(form.value).then(res => {
+          store.login(form.value).then(() => {
             uni.showToast({
               title: '登录成功',
               icon: 'success'
             });
             setTimeout(()=>{
-              uni.switchTab({
-                url: `/pages/index/index`,
-              });
+              uni.navigateBack()
             },1000)
           })
         }

@@ -1,9 +1,13 @@
 <template>
 	<view class="user">
 		<view class="header">
-			<view class="avatar-text">
-				<up-avatar :src="avatar" size="64" shape="circle" mode="aspectFill"></up-avatar>
-				<view class="userName">九驹开通会员享受全部权益开通会员享受全部权益</view>
+			<view class="avatar-text" v-if="store.isLogin">
+				<up-avatar :src="store.userInfo.avatar?store.userInfo.avatar:avatar" size="64" shape="circle" mode="aspectFill"></up-avatar>
+				<view class="userName">{{store.userInfo.nickname}}</view>
+			</view>
+			<view class="avatar-text" v-else @click="handleLogin">
+				<up-avatar size="64" shape="circle" mode="aspectFill"></up-avatar>
+				<view class="userName">登录/注册</view>
 			</view>
 			<up-icon @click="handleSettings" name="setting" size="32" color="#000"></up-icon>
 		</view>
@@ -20,14 +24,22 @@
 			<u-cell title="我的算力" @click="handleCell(0)" :isLink="true" arrow-direction="right" value="200" color="#000"></u-cell>
 			<u-cell title="我的创作" @click="handleCell(1)" :isLink="true" arrow-direction="right" color="#000"></u-cell>
 			<u-cell title="我的收藏" @click="handleCell(2)" :isLink="true" arrow-direction="right" color="#000"></u-cell>
+			<u-cell title="关于我们" @click="handleCell(3)" :isLink="true" arrow-direction="right" color="#000"></u-cell>
 		</view>
 	</view>
 </template>
 
 <script setup>
 	import { reactive, ref, unref, inject} from 'vue'
+	import { useUserStore } from '@/stores/index'
+	const store = useUserStore()
 	import avatar from "@/static/image/userAvatar.png"
 	
+	const handleLogin = () => {
+		uni.navigateTo({
+			url:"/pages/login/index"
+		})
+	}
 	const handleSettings = () => {
 		uni.navigateTo({
 			url:"/pages/user/settings/index"
@@ -43,6 +55,7 @@
 		{url:'/pages/user/myPoints',name:'我的算力'},
 		{url:'/pages/user/myCreation',name:'我的创作'},
 		{url:'/pages/user/myCollection',name:'我的收藏'},
+		{url:'/pages/user/aboutUs',name:'我的收藏'},
 	]
 	const handleCell = (index) => {
 		uni.navigateTo({
@@ -65,9 +78,9 @@
 				width: 0;
 				display: flex;
 				.userName{
-					font-size: 64rpx;
+					font-size: 50rpx;
 					font-weight: 600;
-					margin-left: 40rpx;
+					margin-left: 30rpx;
 					margin-right: 20rpx;
 					white-space:nowrap;
 					text-overflow:ellipsis; overflow:hidden;

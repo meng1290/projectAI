@@ -118,7 +118,9 @@
           loadStatus.value = 'nomore'
         }
         uni.stopPullDownRefresh()
-      })
+      }).catch(err => {
+				loadStatus.value = 'nomore'
+			})
     }
     /* 重置列表 */
     const resetList = () => {

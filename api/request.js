@@ -1,12 +1,23 @@
 
 import baseUrl from './baseUrl.js'
 import Loading from '@/utils/loading.js'
+import { pinia } from '@/main.js'
 
-function baseRequest(url, method, data,{needToken=true},params) {
+const getToken = async () => {
+  // 在这里动态导入 useUserStore
+  const userModule = await import('@/stores/index')
+  const userStore = userModule.useUserStore(pinia)
+  return userStore.token
+}
+
+
+async function baseRequest(url, method, data,opt = {needToken:true},params) {
+	const { needToken = true } = opt;
 	let HEADER = {
 		'content-type': 'application/json',
 	}
-	if(!uni.getStorageSync('TOKEN') && needToken){
+	const token = await getToken()
+	if(!token && needToken){
 		uni.showToast({
 			icon:'none',
 			title:'暂未登录，即将跳转登录页'
@@ -21,7 +32,7 @@ function baseRequest(url, method, data,{needToken=true},params) {
 		})
 	}
 	Loading.show()
-	if(uni.getStorageSync('TOKEN')) HEADER['Authorization'] = uni.getStorageSync('TOKEN');
+	if(token) HEADER['X-Token'] = token;
 	return new Promise((reslove, reject) => {
 		uni.request({
 			url: baseUrl + '/' + url,

@@ -14,11 +14,17 @@ app.$mount()
 
 // #ifdef VUE3
 import { createSSRApp } from 'vue'
+import * as Pinia from 'pinia' // 引入 Pinia
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate' // 引入持久化存储插件
+export const pinia = Pinia.createPinia()
+pinia.use(piniaPluginPersistedstate)
 export function createApp() {
   const app = createSSRApp(App)
-	app.use(uviewPlus) // 必须注册
+  app.use(pinia)
+  app.use(uviewPlus)
   return {
-    app
+    app,
+    Pinia
   }
 }
 // #endif

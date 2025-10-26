@@ -2,5 +2,9 @@
   "devDependencies": {
     "sass": "^1.93.2",
     "sass-loader": "^16.0.5"
+  },
+  "dependencies": {
+    "pinia": "^3.0.3",
+    "pinia-plugin-persistedstate": "^4.5.0"
   }
 }
