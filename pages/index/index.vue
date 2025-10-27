@@ -88,7 +88,6 @@
     const getList = () => {
       loadStatus.value = 'loading'
       getModelList(queryParams.value).then(res => {
-        console.log(res)
         if(res.records.length > 0){
           dataList.value = [...dataList.value,...res.records]
           queryParams.value.page++
@@ -142,7 +141,6 @@
 		}
 		.list{
 			width:100%;
-			padding: 0 12rpx;
 			box-sizing: border-box;
 			padding-bottom: 20px;
 		}

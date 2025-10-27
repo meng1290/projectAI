@@ -110,16 +110,15 @@
 			console.log(val,radiovalue.value)
 		}
 		const toUserAgreement = (type) => {
-			console.log(type)
-			// if(type === 1){
-			// 	uni.navigateTo({
-			// 		url: `/components/userAgreement/agreement1`,
-			// 	});
-			// }else{
-			// 	uni.navigateTo({
-			// 		url: `/components/userAgreement/agreement2`,
-			// 	});
-			// }
+			if(type === 1){
+				uni.navigateTo({
+					url: `/pages/agreement/userAgreement`,
+				});
+			}else{
+				uni.navigateTo({
+					url: `/pages/agreement/privacyPolicy`,
+				});
+			}
 		}
     // 登录
     const state = reactive({

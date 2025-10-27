@@ -1,5 +1,5 @@
 
-import baseUrl from './baseUrl.js'
+import config from '@/config/index.js'
 import Loading from '@/utils/loading.js'
 import { pinia } from '@/main.js'
 
@@ -24,7 +24,7 @@ async function baseRequest(url, method, data,opt = {needToken:true},params) {
 			title:'暂未登录，即将跳转登录页'
 		})
 		setTimeout(()=>{
-			uni.reLaunch({
+			uni.navigateTo({
 				url:'/pages/login/index'
 			})
 		},800)
@@ -36,7 +36,7 @@ async function baseRequest(url, method, data,opt = {needToken:true},params) {
 	if(token) HEADER['X-Token'] = token;
 	return new Promise((reslove, reject) => {
 		uni.request({
-			url: baseUrl + '/' + url,
+			url: config.baseUrl + '/' + url,
 			method: method || 'POST',
 			header: HEADER,
 			data: data || {},

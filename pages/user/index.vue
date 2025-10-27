@@ -41,6 +41,11 @@
 		})
 	}
 	const handleSettings = () => {
+		if(!store.isLogin){
+			return uni.navigateTo({
+				url:"/pages/login/index"
+			})
+		}
 		uni.navigateTo({
 			url:"/pages/user/settings/index"
 		})
@@ -52,12 +57,17 @@
 		})
 	}
 	const routerList = [
-		{url:'/pages/user/myPoints',name:'我的算力'},
-		{url:'/pages/user/myCreation',name:'我的创作'},
-		{url:'/pages/user/myCollection',name:'我的收藏'},
-		{url:'/pages/user/aboutUs',name:'我的收藏'},
+		{url:'/pages/user/myPoints',name:'我的算力',isLogin:true},
+		{url:'/pages/user/myCreation',name:'我的创作',isLogin:true},
+		{url:'/pages/user/myCollection',name:'我的收藏',isLogin:true},
+		{url:'/pages/user/aboutUs/index',name:'关于我们',isLogin:false},
 	]
 	const handleCell = (index) => {
+		if(routerList[index].isLogin && !store.isLogin){
+			return uni.navigateTo({
+				url:"/pages/login/index"
+			})
+		}
 		uni.navigateTo({
 			url: routerList[index].url
 		})

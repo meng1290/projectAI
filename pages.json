@@ -73,15 +73,33 @@
 			}
 		},
 		{
-			"path": "pages/user/aboutUs",
+			"path": "pages/user/aboutUs/index",
 			"style": {
 				"navigationBarTitleText": "关于我们"
+			}
+		},
+		{
+			"path": "pages/user/aboutUs/updateDetails",
+			"style": {
+				"navigationBarTitleText": "当前版本更新内容"
 			}
 		},
 		{
 			"path": "pages/user/settings/index",
 			"style": {
 				"navigationBarTitleText": "我的设置"
+			}
+		},
+		{
+			"path": "pages/user/settings/modifAvatar",
+			"style": {
+				"navigationBarTitleText": "修改头像"
+			}
+		},
+		{
+			"path": "pages/user/settings/modifyName",
+			"style": {
+				"navigationBarTitleText": "修改名称"
 			}
 		},
 		{
@@ -97,9 +115,9 @@
 		          {
 								"text": "\ue603",
 								"fontSrc": "/static/iconfont/iconfont.ttf",
-								"width": "44px",
-								"height": "44px",
-								"fontSize":"32rpx",
+								"width": "30px",
+								"height": "30px",
+								"fontSize":"16px",
 								"color":"#ffffff"
 							}
 		        ]
@@ -117,14 +135,26 @@
 				      {
 								"text": "\ue603",
 								"fontSrc": "/static/iconfont/iconfont.ttf",
-								"width": "44px",
-								"height": "44px",
-								"fontSize":"32rpx",
+								"width": "30px",
+								"height": "30px",
+								"fontSize":"16rpx",
 								"color":"#333333"
 							}
 				    ]
 				  }
 				}
+			}
+		},
+		{
+			"path": "pages/agreement/privacyPolicy",
+			"style": {
+				"navigationBarTitleText": "隐私政策"
+			}
+		},
+		{
+			"path": "pages/agreement/userAgreement",
+			"style": {
+				"navigationBarTitleText": "用户服务协议"
 			}
 		}
 	],
