@@ -111,14 +111,13 @@
 		}
 		const toUserAgreement = (type) => {
 			if(type === 1){
-				uni.navigateTo({
-					url: `/pages/agreement/userAgreement`,
-				});
+				uni.setStorageSync('webViewObj',{url:'/static/agreement/userAgreement.html',title:'用户协议'})
 			}else{
-				uni.navigateTo({
-					url: `/pages/agreement/privacyPolicy`,
-				});
+				uni.setStorageSync('webViewObj',{url:'/static/agreement/privacyPolicy.html',title:'隐私政策'})
 			}
+			uni.navigateTo({
+				url: `/pages/common/webview/index`,
+			});
 		}
     // 登录
     const state = reactive({

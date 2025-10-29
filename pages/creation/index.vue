@@ -4,10 +4,16 @@
 		<view class="upload">
 			<up-upload
 			  :fileList="fileList"
-			  @afterRead="afterRead"
-			  @delete="deletePic"
-				multiple
+				autoDelete
+				autoUpload
+			  :autoUploadApi="config.baseUrl+'/upload/image/file'"
+				:multiple="false"
 			  :maxCount="1"
+				:previewFullImage="true"
+				accept="image"
+				:maxSize="16 * 1024 * 1024"
+				customAfterAutoUpload
+				@afterAutoUpload="afterAutoUpload"
 			>
 			  <view class="box">
 			  	<image class="image" :src="uploadUrl"></image>
@@ -29,71 +35,74 @@
 			</view>
 			<view class="points">
 				<view class="text">本次消耗算力：50</view>
-				<view class="text">我的算力余额：600</view>
+				<view class="text">我的算力余额：{{store.isLogin?store.userInfo.integral:0}}</view>
 			</view>
 		</view>
 		<view class="btns">
 			<up-button type="primary" color="#FF9500" shape="circle" :customStyle="{height:'96rpx',fontSize:'32rpx',flex:'1'}">充值</up-button>
-			<up-button type="primary" color="#0166FE" shape="circle" :customStyle="{height:'96rpx',fontSize:'32rpx',flex:'2'}">生成</up-button>
+			<up-button type="primary" @click="handleCreateTask()" :loading="btnLoading" loadingText="生成中" color="#0166FE" shape="circle" :customStyle="{height:'96rpx',fontSize:'32rpx',flex:'2'}">生成</up-button>
 		</view>
 	</view>
 </template>
 
 <script setup>
 	import { reactive, ref, unref, inject} from 'vue'
+	import { useUserStore } from '@/stores/index'
+	import { createTask, getTaskResult } from "@/api/index.js"
+	const store = useUserStore()
+	import config from "@/config/index.js"
+	
+	
 	import uploadUrl from "@/static/image/upload.png"
 	import exampleUrl from "@/static/image/example.png"
 	import checkSquareUrl from "@/static/image/checkSquare.png"
 	
+	
 	const fileList = ref([])
 	
-	const afterRead = async(event) =>{
-		// 当设置 multiple 为 true 时, file 为数组格式，否则为对象格式
-		let lists = [].concat(event.file);
-		let fileListLen = fileList.value.length;
-		lists.map((item) => {
-			fileList.value.push({
-				...item,
-				status: "uploading",
-				message: "上传中",
+	const afterAutoUpload = (res) => {
+		const data = JSON.parse(res)
+		if(data.code != 200){
+			uni.showToast({
+				title: data.message || '上传失败，请重试',
+				icon: 'none',
 			});
-		});
-		for (let i = 0; i < lists.length; i++) {
-			const result = await uploadFilePromise(lists[i].url);
-			let item = fileList.value[fileListLen];
-			fileList.value.splice(
-				fileListLen,
-				1,
-				Object.assign(item, {
-					status: "success",
-					message: "",
-					url: result,
-				})
-			);
-			fileListLen++;
+			fileList.value = []
+		}else{
+			res.callback({
+				url: data.result.path
+			});
 		}
 	}
-	
-	const uploadFilePromise = (url) => {
-		return new Promise((resolve, reject) => {
-			let a = uni.uploadFile({
-				url: "http://192.168.2.21:7001/upload", // 仅为示例，非真实的接口地址
-				filePath: url,
-				name: "file",
-				formData: {
-					user: "test",
-				},
-				success: (res) => {
-					setTimeout(() => {
-						resolve(res.data.data);
-					}, 1000);
-				},
+	const btnLoading = ref(false)
+	const handleCreateTask = () => {
+		if(fileList.value.length === 0){
+			return uni.showToast({
+				title: '请先上传图片',
+				icon: 'none',
 			});
-		});
-	}
-	const deletePic = (event) => {
-		fileList.value.splice(event.index, 1);
-	}
+		}
+		if(!store.isLogin){
+			return uni.navigateTo({
+				url:"/pages/login/index"
+			})
+		}
+		btnLoading.value = true
+		createTask({submitimgs:fileList.value[0].url,aiproduct_id:3}).then(res => {
+			getTaskResult({id:res.id}).then(res2 => {
+				uni.setStorageSync('creationResults',res2.submitimgs)
+				uni.navigateTo({
+					url:"/pages/creation/creationResults"
+				})
+				btnLoading.value = false
+			}).catch(err => {
+				btnLoading.value = false
+			})
+		}).catch(err => {
+			btnLoading.value = false
+		})
+	} 
+	
 </script>
 
 <style lang="scss" scoped>

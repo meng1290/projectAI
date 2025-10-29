@@ -69,7 +69,8 @@
 		{
 			"path": "pages/user/myCollection",
 			"style": {
-				"navigationBarTitleText": "我的收藏"
+				"navigationBarTitleText": "我的收藏",
+				"enablePullDownRefresh": true
 			}
 		},
 		{
@@ -100,6 +101,12 @@
 			"path": "pages/user/settings/modifyName",
 			"style": {
 				"navigationBarTitleText": "修改名称"
+			}
+		},
+		{
+			"path": "pages/creation/creationResults",
+			"style": {
+				"navigationBarTitleText": "创作结果"
 			}
 		},
 		{
@@ -137,7 +144,7 @@
 								"fontSrc": "/static/iconfont/iconfont.ttf",
 								"width": "30px",
 								"height": "30px",
-								"fontSize":"16rpx",
+								"fontSize":"16px",
 								"color":"#333333"
 							}
 				    ]
@@ -146,15 +153,9 @@
 			}
 		},
 		{
-			"path": "pages/agreement/privacyPolicy",
+			"path": "pages/common/webview/index",
 			"style": {
-				"navigationBarTitleText": "隐私政策"
-			}
-		},
-		{
-			"path": "pages/agreement/userAgreement",
-			"style": {
-				"navigationBarTitleText": "用户服务协议"
+				"navigationBarTitleText": "协议"
 			}
 		}
 	],
@@ -165,6 +166,10 @@
 		"backgroundColor": "#F8F8F8",
 		"app-plus":{
 			"bounce":"none"
+		},
+		"navigationBarShadow": {
+			"color": "#EEEEEE", // 边框（阴影）颜色
+			"width": "1px" // 边框（阴影）宽度（支持 px 或 rpx）
 		}
 	},
 	"tabBar": {

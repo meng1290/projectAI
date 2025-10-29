@@ -24,3 +24,11 @@ export function addCollect(data) {
 export function delCollect(data) {
 	return request.post('collect/del',data)
 }
+/* 创建生成任务 */
+export function createTask(data) {
+	return request.post('aitask/create',data)
+}
+/* 获取执行结果 */
+export function getTaskResult(data) {
+	return request.get('aitask/getresult',data)
+}

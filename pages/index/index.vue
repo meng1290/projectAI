@@ -111,11 +111,10 @@
 
 <style lang="scss" scoped>
 	.page{
-		padding: 0rpx 40rpx;
-		box-sizing: border-box;
 		padding-top: var(--status-bar-height) !important;
 		.sticky{
-			padding-top: 30rpx;
+			padding: 30rpx 32rpx 0;
+			box-sizing: border-box;
       .tabs{
         height: 92rpx;
       }
@@ -124,6 +123,8 @@
 			bottom: 12rpx !important;
 		}
 		.swiper{
+			margin: 0 32rpx;
+			box-sizing: border-box;
 			position: relative;
 			border-radius: 24rpx;
 			overflow: hidden;
@@ -141,8 +142,9 @@
 		}
 		.list{
 			width:100%;
+			padding: 0rpx 32rpx;
 			box-sizing: border-box;
-			padding-bottom: 20px;
+			margin-bottom: 20rpx;
 		}
 	}
 	

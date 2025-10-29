@@ -42,6 +42,13 @@
 	})
 	
 	const handleDetail = (item) => {
+		let productDetail = {
+			image: item.image,
+			store_name: item.store_name,
+			userCollect: item.userCollect,
+			userCollectNums: item.userCollectNums
+		}
+		uni.setStorageSync('productDetail',productDetail)
 		uni.navigateTo({
 			url:"/pages/index/product"
 		})
@@ -80,7 +87,7 @@
 			width: calc((100% - 20rpx) / 2);
 			margin-bottom: 30rpx;
 			border-radius: 16rpx;
-			box-shadow: 4rpx 4rpx 12rpx rgba(0, 0, 0, 0.1);
+			box-shadow: 4rpx 4rpx 12rpx rgba(0, 0, 0, 0.08);
 			overflow: hidden;
 			&:nth-child(odd) {
 				margin-right: 20rpx;

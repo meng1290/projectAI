@@ -57,11 +57,15 @@
 	  }
 	});
 	
-	const toAgreement = (index) => {
-		let url = index == 1?'/pages/agreement/userAgreement':'/pages/agreement/privacyPolicy'
+	const toAgreement = (type) => {
+		if(type === 1){
+			uni.setStorageSync('webViewObj',{url:'/static/agreement/userAgreement.html',title:'用户协议'})
+		}else{
+			uni.setStorageSync('webViewObj',{url:'/static/agreement/privacyPolicy.html',title:'隐私政策'})
+		}
 		uni.navigateTo({
-			url
-		})
+			url: `/pages/common/webview/index`,
+		});
 	}
 	const toUpdateDetails = () => {
 		uni.navigateTo({

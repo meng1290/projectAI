@@ -56,7 +56,7 @@
 	const logOut = () => {
 		store.logout().then(res => {
 			showModal.value = false
-			uni.switchTab({
+			uni.reLaunch({
 				url:'/pages/index/index'
 			})
 		})

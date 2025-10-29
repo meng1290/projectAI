@@ -31,7 +31,7 @@
 	})
 	onPullDownRefresh(() => {
 		uni.stopPullDownRefresh()
-	  resetList()
+	  getDataLit()
 	})
 	onReachBottom(() => {
 	  getDataLit()

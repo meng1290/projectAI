@@ -107,11 +107,9 @@
 
 <style lang="scss" scoped>
 	.page{
-		padding: 0rpx 40rpx;
-		box-sizing: border-box;
 		padding-top: var(--status-bar-height) !important;
 		.sticky{
-			padding-top: 30rpx;
+			padding: 30rpx 32rpx 0;
       .tabs{
         height: 92rpx;
       }
@@ -119,25 +117,9 @@
 		::v-deep .u-tabs__wrapper__nav__line{
 			bottom: 12rpx !important;
 		}
-		.swiper{
-			position: relative;
-			border-radius: 24rpx;
-			overflow: hidden;
-			margin-bottom: 30rpx;
-			::v-deep .u-button {
-				width: 188rpx;
-				height: 88rpx;
-				padding: 0;
-				font-size: 32rpx;
-			  position: absolute;
-			  right: 32rpx;
-			  bottom: 16rpx;
-			  border-radius: 18rpx;
-			}
-		}
 		.list{
 			width:100%;
-			padding: 0 12rpx;
+			padding: 0 32rpx;
 			box-sizing: border-box;
 			margin-bottom: 20px;
 		}
