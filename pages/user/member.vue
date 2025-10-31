@@ -5,23 +5,23 @@
 				<view class="points"><text>3000</text><text>积分/月</text></view>
 				<view class="tips">最多每月生成300张图片</view>
 				<view class="ul">
-					<view class="li" v-for="(item,i) in 4" :key="i">
+					<view class="li" v-for="(item,i) in memberRightList" :key="i">
 						<up-icon name="checkbox-mark" size="24" color="#fff"></up-icon>
-						<text>生图速度优先</text>
+						<text>{{item.title}}</text>
 					</view>
 				</view>
 			</view>
 			<view class="list">
 				<up-radio-group v-model="radiovalue" placement="column">
-					<view class="li" v-for="item in dataList" :key="item.id" @click="handleRadio(item.id)">
+					<view class="li" v-for="item in dataList" :key="item.mc_id" @click="handleRadio(item.mc_id)">
 						<view class="li_l">
 							<view class="name">
-								<up-radio shape="square" :name="item.id"></up-radio>
-								<view class="text">{{item.name}}</view>
+								<up-radio shape="square" :name="item.mc_id"></up-radio>
+								<view class="text">{{item.title}}<text v-if="false">（有效期：{{item.vip_day}}天）</text></view>
 							</view>
-							<view v-if="item.tips" class="tips">{{item.tips}}</view>
+							<view v-if="item.price" class="tips">原价：￥{{item.price}}</view>
 						</view>
-						<view class="li_r">￥{{item.amount}}</view>
+						<view class="li_r">￥{{item.pre_price}}</view>
 					</view>
 				</up-radio-group>
 			</view>
@@ -34,19 +34,42 @@
 </template>
 
 <script setup>
-	import { reactive, ref, unref, inject} from 'vue'
+	import { reactive, ref, toRefs, unref, inject} from 'vue'
 	import { onLoad, onNavigationBarButtonTap } from '@dcloudio/uni-app'
-	const dataList = [
-				{id:1,name:"连续包月",tips:"",amount:"69"},
-				{id:2,name:"连续包年",tips:"折合￥55元每月",amount:"699"},
-			]
-	const radiovalue = ref(1)
+	import { memberRight, memberShip } from "@/api/index.js"
 	
+	const state = reactive({
+		memberRightList:[],
+	  dataList: [],
+		radiovalue: 1,
+	})
+	const { memberRightList, dataList, radiovalue } = toRefs(state)
+	// const dataList = [
+	// 	{id:1,name:"连续包月",tips:"",amount:"69"},
+	// 	{id:2,name:"连续包年",tips:"折合￥55元每月",amount:"699"},
+	// ]
+	// const radiovalue = ref(1)
 	
+	onLoad(() => {
+		getDataList()
+		getMemberRight()
+	})
 	
 	onNavigationBarButtonTap(() => {
 		console.log('点击了右侧')
 	})
+	
+	const getDataList = () => {
+		memberShip().then(res => {
+			dataList.value = res || []
+		})
+	}
+	const getMemberRight = () => {
+		memberRight().then(res => {
+			memberRightList.value = res.member_right || []
+		})
+	}
+	
 	const handleRadio = (id) => {
 		console.log(id)
 		radiovalue.value = id

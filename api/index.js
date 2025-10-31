@@ -32,3 +32,11 @@ export function createTask(data) {
 export function getTaskResult(data) {
 	return request.get('aitask/getresult',data)
 }
+/* 会员权益 */
+export function memberRight(data) {
+	return request.get('user/member/right',data)
+}
+/* 会员卡 */
+export function memberShip(data) {
+	return request.get('user/member/ship',data)
+}

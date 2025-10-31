@@ -28,5 +28,8 @@
 			background-color: #fff;
 			z-index: 99;
 		}
+		.u-image__image{
+			display: block;
+		}
 	}
 </style>

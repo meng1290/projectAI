@@ -41,10 +41,16 @@
 			}
 		},
 		{
+			"path": "pages/creation/creation",
+			"style": {
+				"navigationBarTitleText": "创作"
+			}
+		},
+		{
 			"path": "pages/creation/index",
 			"style": {
-				"navigationStyle": "custom",
-				"navigationBarTitleText": "创作"
+				"navigationBarTitleText": "我的创作",
+				 "enablePullDownRefresh": true
 			}
 		},
 		{
@@ -135,21 +141,28 @@
 		{
 			"path": "pages/class/filter",
 			"style": {
-				"navigationBarTitleText": "创建AI智能体",
-				"app-plus": {
-				  "titleNView": {
-				    "buttons": [
-				      {
-								"text": "\ue603",
-								"fontSrc": "/static/iconfont/iconfont.ttf",
-								"width": "30px",
-								"height": "30px",
-								"fontSize":"16px",
-								"color":"#333333"
-							}
-				    ]
-				  }
-				}
+				"navigationBarTitleText": "搜索"
+				// "app-plus": {
+				//   "titleNView": {
+				//     "buttons": [
+				//       {
+				// 				"text": "\ue603",
+				// 				"fontSrc": "/static/iconfont/iconfont.ttf",
+				// 				"width": "30px",
+				// 				"height": "30px",
+				// 				"fontSize":"16px",
+				// 				"color":"#333333"
+				// 			}
+				//     ]
+				//   }
+				// }
+			}
+		},
+		{
+			"path": "pages/class/filterList",
+			"style": {
+				"navigationBarTitleText": "搜索结果",
+				"enablePullDownRefresh": true
 			}
 		},
 		{
@@ -194,7 +207,7 @@
 			},
 			{
 				"pagePath": "pages/creation/index",
-				"text": "创作",
+				"text": "我的创作",
 				"iconPath": "/static/image/tabbar/file.png",
 				"selectedIconPath": "/static/image/tabbar/file_1.png"
 			},

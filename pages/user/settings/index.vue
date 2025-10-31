@@ -30,7 +30,11 @@
 			</u-cell>
 		</view>
 		
-		<up-button type="primary" @click="showModal = true" color="#aaa"  text="退出登录"></up-button>
+		<view class="btns">
+			<up-button type="primary" @click="logOut" color="#aaa"  text="退出登录"></up-button>
+			<view class="logOff" ><text @click="logOff">注销账户</text></view>
+		</view>
+		
 		
 		<up-modal :show="showModal" title="提示" content='您确认要退出登录吗？' showCancelButton @confirm="logOut" @cancel="showModal = false" contentTextAlign="center"></up-modal>
 	</view>
@@ -52,13 +56,34 @@
 		console.log(avatarImage.value)
 	};
 	
-	const showModal = ref(false)
 	const logOut = () => {
-		store.logout().then(res => {
-			showModal.value = false
-			uni.reLaunch({
-				url:'/pages/index/index'
-			})
+		uni.showModal({
+			title:'退出登录',
+			content:'您确认要退出登录吗？',
+			success(res) {
+				if(res.confirm){
+					store.logout().then(res => {
+						uni.reLaunch({
+							url:'/pages/index/index'
+						})
+					})
+				}
+			}
+		})
+	}
+	const logOff = () => {
+		uni.showModal({
+			title:'注销账户',
+			content:'您在该平台所有的信息将被清空且无法恢复，请确认是否注销。',
+			success(res) {
+				if(res.confirm){
+					store.logout().then(res => {
+						uni.reLaunch({
+							url:'/pages/index/index'
+						})
+					})
+				}
+			}
 		})
 	}
 	
@@ -73,15 +98,6 @@
 	}
 	
 	
-	// uni.showModal({
-	// 	title:'注销账户',
-	// 	content:'您在该平台所有的信息将被清空且无法恢复，请确认是否注销。',
-	// 	success(res) {
-	// 		if(res.confirm){
-	// 			that.surelogOff()
-	// 		}
-	// 	}
-	// })
 </script>
 
 <style lang="scss" scoped>
@@ -89,9 +105,16 @@
 		padding: 32rpx;
 		box-sizing: border-box;
 		position: relative;
-		&>.u-button{
+		.btns{
 			width: 100%;
 			margin-top: 100rpx;
+			.logOff{
+				width: 100%;
+				text-align: center;
+				color: #999;
+				font-size: 28rpx;
+				margin: 30rpx auto 0;
+			}
 		}
 	}
 </style>

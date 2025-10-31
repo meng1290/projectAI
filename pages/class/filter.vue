@@ -11,7 +11,7 @@
 			</view>
 			<view class="btns">
 				<up-button type="primary" @click="handleReset" color="#FF9500" shape="circle" :customStyle="{height:'96rpx',fontSize:'32rpx',flex:'1'}">重置</up-button>
-				<up-button type="primary" color="#0166FE" shape="circle" :customStyle="{height:'96rpx',fontSize:'32rpx',flex:'1'}">开始搜索</up-button>
+				<up-button type="primary" @click="handleSearch" color="#0166FE" shape="circle" :customStyle="{height:'96rpx',fontSize:'32rpx',flex:'1'}">开始搜索</up-button>
 			</view>
 		</view>
 	</view>
@@ -21,12 +21,15 @@
 	import { reactive, ref, toRefs, unref, inject} from 'vue'
   import { onLoad, onNavigationBarButtonTap } from '@dcloudio/uni-app'
   import { getCategory } from '@/api/index.js'
+	import { useUserStore } from '@/stores/index'
+	const store = useUserStore()
 
   const state = reactive({
     dataList: [],
-    selsectVal: []
+    selsectVal: [],
+		selsectName:[],
   })
-  const { dataList, selsectVal } = toRefs(state)
+  const { dataList, selsectVal, selsectName } = toRefs(state)
 
   onLoad(() => {
     getCategoryList()
@@ -45,7 +48,17 @@
 	})
 	const handleSelect = (i,item) => {
 		selsectVal.value[i] = item.code
-    console.log(selsectVal.value)
+		selsectName.value[i] = item.name
+    console.log(item)
+	}
+	const handleSearch = () => {
+		if(!selsectVal.value.length){
+			return uni.$u.toast('请选择类型');
+		}
+		store.setFilterPageParams({value:selsectVal.value,name:selsectName})
+		uni.navigateTo({
+			url:'/pages/class/filterList'
+		})
 	}
 	const handleReset = () => {
 		selsectVal.value = []

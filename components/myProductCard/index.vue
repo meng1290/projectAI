@@ -19,7 +19,7 @@
 						<view v-if="isCollectNum" class="collectNum">{{item.userCollectNums}}</view>
 					</view>
 					<view class="btn">
-						<up-button type="primary" color="#0166FE" shape="circle" :customStyle="{height:'50rpx',padding:'0 20rpx',fontSize:'24rpx'}">画同款</up-button>
+						<up-button type="primary" @click="handleCreation(item)" color="#0166FE" shape="circle" :customStyle="{height:'50rpx',padding:'0 20rpx',fontSize:'24rpx'}">画同款</up-button>
 					</view>
 				</view>
 			</view>
@@ -43,6 +43,7 @@
 	
 	const handleDetail = (item) => {
 		let productDetail = {
+			id: item.id,
 			image: item.image,
 			store_name: item.store_name,
 			userCollect: item.userCollect,
@@ -74,7 +75,12 @@
 				})
 			})
 		}
-		
+	}
+	
+	const handleCreation = (item) => {
+		uni.navigateTo({
+			url:`/pages/creation/creation?id=${item.id}`
+		})
 	}
 </script>
 

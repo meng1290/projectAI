@@ -23,10 +23,10 @@
 		<view class="cell-box">
 			<u-cell title="我的算力" @click="handleCell(0)" :isLink="true" arrow-direction="right" color="#000">
 				<template #value>
-					{{store.userInfo.integral}}
+					{{store.userInfo.now_money}}
 				</template>
 			</u-cell>
-			<u-cell title="我的创作" @click="handleCell(1)" :isLink="true" arrow-direction="right" color="#000"></u-cell>
+			<!-- <u-cell title="我的创作" @click="handleCell(1)" :isLink="true" arrow-direction="right" color="#000"></u-cell> -->
 			<u-cell title="我的收藏" @click="handleCell(2)" :isLink="true" arrow-direction="right" color="#000"></u-cell>
 			<u-cell title="关于我们" @click="handleCell(3)" :isLink="true" arrow-direction="right" color="#000"></u-cell>
 		</view>
@@ -56,6 +56,11 @@
 	}
 	
 	const handleMember = () => {
+		if(!store.isLogin){
+			return uni.navigateTo({
+				url:"/pages/login/index"
+			})
+		}
 		uni.navigateTo({
 			url:"/pages/user/member"
 		})

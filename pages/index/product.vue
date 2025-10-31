@@ -12,13 +12,10 @@
 					<view class="store_name">{{productDetail.store_name}}</view>
 				</view>
 			</view>
-			
-			<view class="btns">
-				<up-button type="primary" color="#0166FE" shape="circle" :customStyle="{width: '100%',height:'96rpx',fontSize:'32rpx',marginTop:'80rpx'}">做同款</up-button>
-			</view>
-			
 		</view>
-		
+		<view class="btns">
+			<up-button type="primary" @click="handleCreation(productDetail)" color="#0166FE" :customStyle="{width: '100%',height:'96rpx',fontSize:'32rpx'}">做同款</up-button>
+		</view>
 	</view>
 </template>
 
@@ -31,13 +28,21 @@
 	onLoad(() => {
 		productDetail = uni.getStorageSync('productDetail')
 	})
-			
+	
+	const handleCreation = (item) => {
+		uni.navigateTo({
+			url:`/pages/creation/creation?id=${item.id}`
+		})
+	}
 </script>
 
 <style lang="scss" scoped>
 	.page{
+		min-height: 100vh;
+		padding-bottom: 180rpx;
+		box-sizing: border-box;
+		position: relative;
 		.content{
-			padding-bottom: 80rpx;
 			width: 100%;
 			.image {
 				display: block;
@@ -50,11 +55,17 @@
 				padding: 32rpx;
 				box-sizing: border-box;
 			}
-			.btns{
-				padding: 32rpx;
-				box-sizing: border-box;
-			}
+			
 		}
-		
+		.btns{
+			background-color: #fff;
+			position: fixed;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			margin: auto;
+			padding: 32rpx;
+			box-sizing: border-box;
+		}
 	}
 </style>

@@ -7,6 +7,7 @@ export const useUserStore = defineStore('user', {
   state: () => ({
     token: '',
     userInfo:{},
+		filterPageParams:null,//搜索页面跳转传递参数
   }),
 
   // 计算属性（类似 Vuex 的 getters）
@@ -38,7 +39,10 @@ export const useUserStore = defineStore('user', {
 					resolve(true)
 				},100)
       })
-    }
+    },
+		setFilterPageParams(params) {
+			this.filterPageParams = params;
+		}
   },
 	persist: {
 		key: 'my-pinia-state', // 自定义存储的 key
