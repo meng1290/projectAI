@@ -38,6 +38,7 @@
 					uni.saveImageToPhotosAlbum({
 						filePath: res.tempFilePath,
 						success: () => {
+							uni.showLoading()
 							uni.showToast({
 								title: '保存成功',
 								icon: "none",
@@ -46,6 +47,7 @@
 						},
 						fail: (err) => {
 							permissionCheck().then(res=>{
+								uni.showLoading()
 								uni.showToast({
 									title: '保存失败',
 									icon: "none",
@@ -60,6 +62,7 @@
 											uni.hideLoading()
 											phonePermissionSetting()
 										} else if (res.cancel) {
+											uni.showLoading()
 											uni.showToast({
 												title: '保存失败',
 												icon: 'none'
@@ -71,9 +74,12 @@
 							
 						}
 					})
+				}else{
+					uni.showLoading()
 				}
 			},
 			fail: (err) => {
+				uni.showLoading()
 				uni.showToast({
 					title: JSON.stringify(err),
 					icon: "none",

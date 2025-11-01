@@ -82,7 +82,7 @@ function judgeIosPermissionRecord() {
 function judgeIosPermissionCamera() {
 	var result = false;
 	var AVCaptureDevice = plus.ios.import("AVCaptureDevice");
-	var authStatus = AVCaptureDevice.authorizationStatusForMediaType('vide');
+	var authStatus = AVCaptureDevice.authorizationStatusForMediaType('video');
 	console.log("authStatus:" + authStatus);
 	if (authStatus == 3) {
 		result = true;
@@ -264,17 +264,9 @@ function checkSystemEnableLocation() {
 	}
 }
 
-// App 端（支持 CommonJS）：使用 module.exports
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = permissionExports;
-}
-
-// H5 端（支持 ESM）：使用 export
-if (typeof exports === 'object' && typeof window !== 'undefined') {
-  Object.keys(permissionExports).forEach(key => {
-    exports[key] = permissionExports[key];
-  });
-  // 或直接用 ESM 导出（更简洁，推荐）
-  // export default permissionExports; 
-  // 注意：若用 export default，导入时需对应调整
-}
+export default {
+    judgeIosPermission: judgeIosPermission,
+    requestAndroidPermission: requestAndroidPermission,
+    checkSystemEnableLocation: checkSystemEnableLocation,
+    gotoAppPermissionSetting: gotoAppPermissionSetting,
+};

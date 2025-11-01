@@ -19,11 +19,20 @@
 				</template>
 			</u-cell>
 			<u-cell title="用户名称" @click="handleCell(1)" :isLink="true" arrow-direction="right" :value="store.userInfo.nickname" color="#000"></u-cell>
-			<u-cell title="登录手机号" :isLink="true" :value="store.userInfo.phone" color="#000" rightIcon=""></u-cell>
+			<u-cell title="登录手机号" @click="handleCell(2)" :isLink="true"  color="#000" arrow-direction="right">
+				<template #value>
+					<view v-if="store.userInfo.phone">
+						<text style="color: #666;">{{store.userInfo.phone}}</text>
+					</view>
+					<view v-else style="display: flex;">
+						<text style="margin-right: 20rpx;color: #666;" >未绑定</text>
+					</view>
+				</template>
+			</u-cell>
 			<u-cell title="邀请码" :isLink="true" color="#000" rightIcon="">
 				<template #value>
 					<view style="display: flex;">
-						<text style="margin-right: 20rpx;" >12345</text>
+						<text style="margin-right: 20rpx;color: #666;" >1234567</text>
 						<up-button type="primary" :plain="true" size="mini" @click="utils.copy(12345)" text="复制"></up-button>
 					</view>
 				</template>
@@ -46,7 +55,7 @@
 	import { useUserStore } from '@/stores/index'
 	const store = useUserStore()
 	
-	
+	const showModal = ref(false)
 	
 	const avatarImage = ref('');
 	const avatarCropperRef = ref(null);
@@ -88,8 +97,9 @@
 	}
 	
 	const routerList = [
-		{url:'/pages/user/settings/modifAvatar',name:'头像'},
+		{url:'/pages/user/settings/modifyAvatar',name:'头像'},
 		{url:'/pages/user/settings/modifyName',name:'用户名称'},
+		{url:'/pages/user/settings/modifyPhone',name:'登录手机号'},
 	]
 	const handleCell = (index) => {
 		uni.navigateTo({

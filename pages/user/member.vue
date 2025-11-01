@@ -17,18 +17,45 @@
 						<view class="li_l">
 							<view class="name">
 								<up-radio shape="square" :name="item.mc_id"></up-radio>
-								<view class="text">{{item.title}}<text v-if="false">（有效期：{{item.vip_day}}天）</text></view>
+								<view class="text">{{item.title}}</view>
 							</view>
-							<view v-if="item.price" class="tips">原价：￥{{item.price}}</view>
+							<view v-if="item.vip_day > 0" class="tips">{{item.vip_day}}天</view>
 						</view>
-						<view class="li_r">￥{{item.pre_price}}</view>
+						<view class="li_r">
+							<view class="pre_price">￥{{item.pre_price}}</view>
+							<view class="price">￥{{item.price}}</view>
+						</view>
+					</view>
+				</up-radio-group>
+			</view>
+			<view class="payType">
+				<view class="tit">支付方式</view>
+				<up-radio-group v-model="radioPay" placement="column">
+					<view class="li" @click="handleRadioPay(1)">
+						<view class="li_l">
+							<view class="img">
+								<up-image class="image" width="100%" :src="'/static/image/pay/wxPay.png'" mode="widthFix"></up-image>
+							</view>
+							<view class="text">微信支付</view>
+						</view>
+						<up-radio shape="square" :name="1"></up-radio>
+					</view>
+					<view class="li" @click="handleRadioPay(2)">
+						<view class="li_l">
+							<view class="img">
+								<up-image class="image" width="100%" :src="'/static/image/pay/aliPay.png'" mode="widthFix"></up-image>
+							</view>
+							<view class="text">支付宝</view>
+						</view>
+						<up-radio shape="square" :name="2"></up-radio>
 					</view>
 				</up-radio-group>
 			</view>
 			<view class="btn">
-				<up-button type="primary" color="#0166FE" shape="circle" :customStyle="{height:'130rpx',fontSize:'32rpx'}">立即开通</up-button>
+				<up-button type="primary" color="#0166FE" shape="circle" :customStyle="{height:'100rpx',fontSize:'32rpx'}">立即开通</up-button>
+				<view class="agreement">已阅读并同意<text class="link" @click="handlePayAgreement">《童创AI付费协议》</text>（含自动续费条款）</view>
 			</view>
-			<view class="agreement">已阅读并同意<text class="link">《童创AI付费协议》</text>（含自动续费条款）</view>
+			
 		</view>
 	</view>
 </template>
@@ -42,13 +69,10 @@
 		memberRightList:[],
 	  dataList: [],
 		radiovalue: 1,
+		radioPay: 1,
 	})
-	const { memberRightList, dataList, radiovalue } = toRefs(state)
-	// const dataList = [
-	// 	{id:1,name:"连续包月",tips:"",amount:"69"},
-	// 	{id:2,name:"连续包年",tips:"折合￥55元每月",amount:"699"},
-	// ]
-	// const radiovalue = ref(1)
+	const { memberRightList, dataList, radiovalue, radioPay } = toRefs(state)
+	
 	
 	onLoad(() => {
 		getDataList()
@@ -74,12 +98,23 @@
 		console.log(id)
 		radiovalue.value = id
 	}
+	const handleRadioPay = (id) => {
+		console.log(id)
+		radioPay.value = id
+	}
+	const handlePayAgreement = () => {
+		uni.setStorageSync('webViewObj',{url:'/static/agreement/paymentAgreement.html',title:'付费协议'})
+		uni.navigateTo({
+			url: `/pages/common/webview/index`,
+		});
+	}
 </script>
 
 <style lang="scss" scoped>
 	.page{
-		padding-bottom: 10rpx;
+		padding-bottom: 200rpx;
 		box-sizing: border-box;
+		position: relative;
 		::v-deep .u-navbar__content__right{
 			.u-icon__icon{
 				color: #ADAFB2 !important;
@@ -110,7 +145,7 @@
 				}
 				.ul{
 					width: 100%;
-					margin: 80rpx 0;
+					margin: 30rpx 0;
 					.li{
 						width: 100%;
 						height: 48rpx;
@@ -118,13 +153,12 @@
 						display: flex;
 						justify-content: flex-start;
 						align-items: center;
-						margin-bottom: 20rpx;
 					}
 				}
 			}
 			.list{
 				width: 100%;
-				padding: 80rpx 32rpx 10rpx 32rpx;
+				padding: 40rpx 32rpx 10rpx 32rpx;
 				box-sizing: border-box;
 				color: #fff;
 				font-size: 32rpx;
@@ -134,7 +168,6 @@
 					background-color: #5C5C5C;
 					padding: 30rpx;
 					box-sizing: border-box;
-					margin-bottom: 30rpx;
 					display: flex;
 					justify-content: space-between;
 					.li_l{
@@ -155,28 +188,78 @@
 					}
 					.li_r{
 						flex: 1;
-						font-size: 64rpx;
-						font-weight: bold;
+						
 						display: flex;
+						flex-wrap: wrap;
 						justify-content: flex-end;
 						align-items: center;
+						.pre_price{
+							width: 100%;
+							font-size: 64rpx;
+							font-weight: bold;
+							text-align: right;
+						}
+						.price{
+							width: 100%;
+							text-align: right;
+							text-decoration: line-through;
+						}
+					}
+				}
+			}
+			.payType{
+				width: 100%;
+				padding: 32rpx;
+				box-sizing: border-box;
+				.tit{
+					font-size: 36rpx;
+					font-weight: bold;
+					margin-bottom: 20rpx;
+				}
+				.li{
+					width: 100%;
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+					.li_l{
+						flex: 1;
+						display: flex;
+						justify-content: flex-start;
+						align-items: center;
+						.img{
+							width: 60rpx;
+							height: 60rpx;
+							margin-right: 32rpx;
+							display: flex;
+							align-items: center;
+						}
+						.text{
+							font-size: 32rpx;
+							font-weight: bold;
+						}
 					}
 				}
 			}
 			.btn{
 				width: 100%;
-				padding: 0 32rpx;
+				padding: 20rpx 32rpx;
 				box-sizing: border-box;
-			}
-			.agreement{
-				font-size: 28rpx;
-				text-align: center;
-				margin: 40rpx 0;
-				color: #333;
-				.link{
-					color: #249afa;
+				background-color: #fff;
+				position: fixed;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				.agreement{
+					font-size: 28rpx;
+					text-align: center;
+					margin-top: 20rpx;
+					color: #333;
+					.link{
+						color: #249afa;
+					}
 				}
 			}
+			
 		}
 	}
 </style>

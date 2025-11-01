@@ -1,5 +1,5 @@
 
-import * as permission from '@/js_sdk/wa-permission/permission.js';
+import permission from "@/js_sdk/wa-permission/permission.js";
 
 //手机权限，图册
 export function permissionCheck(){

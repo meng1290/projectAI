@@ -49,6 +49,10 @@
 			userCollect: item.userCollect,
 			userCollectNums: item.userCollectNums
 		}
+		// uni.setStorageSync('creationResults',[item.image])
+		// uni.navigateTo({
+		// 	url:"/pages/creation/creationResults"
+		// })
 		uni.setStorageSync('productDetail',productDetail)
 		uni.navigateTo({
 			url:"/pages/index/product"

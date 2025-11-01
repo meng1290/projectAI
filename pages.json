@@ -98,7 +98,7 @@
 			}
 		},
 		{
-			"path": "pages/user/settings/modifAvatar",
+			"path": "pages/user/settings/modifyAvatar",
 			"style": {
 				"navigationBarTitleText": "修改头像"
 			}
@@ -107,6 +107,12 @@
 			"path": "pages/user/settings/modifyName",
 			"style": {
 				"navigationBarTitleText": "修改名称"
+			}
+		},
+		{
+			"path": "pages/user/settings/modifyPhone",
+			"style": {
+				"navigationBarTitleText": "登录手机号"
 			}
 		},
 		{

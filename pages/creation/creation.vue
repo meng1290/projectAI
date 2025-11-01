@@ -98,6 +98,7 @@
 		createTask({submitimgs:fileList.value[0].url,aiproduct_id:id.value}).then(res => {
 			getTaskResult({id:res.id}).then(res2 => {
 				if(!res2.images.length){
+					btnLoading.value = false
 					return uni.showToast({
 						title: '生成失败',
 						icon: 'none',

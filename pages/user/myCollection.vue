@@ -31,21 +31,26 @@
 	})
 	onPullDownRefresh(() => {
 		uni.stopPullDownRefresh()
-	  getDataLit()
+	  resetList()
 	})
 	onReachBottom(() => {
 	  getDataLit()
 	})
 	const getDataLit = () => {
 		getCollect(queryParams.value).then(res => {
-			if(res.records.length > 0){
+			let len = res.records.length
+			if(len > 0){
 				res.records.map(item => {
 					item.userCollect = true
 					item.id = item.product.id
 				})
 			  dataList.value = [...dataList.value,...res.records]
 			  queryParams.value.page++
-			  loadStatus.value = 'loadmore'
+			  if(len < queryParams.value.limit){
+			  	loadStatus.value = 'nomore'
+			  }else{
+			  	loadStatus.value = 'loadmore'
+			  }
 			}else{
 			  loadStatus.value = 'nomore'
 			}
@@ -60,7 +65,7 @@
 	  dataList.value = []
 	  queryParams.value.page = 1
 	  loadStatus.value = 'loading'
-	  getList()
+	  getDataLit()
 	}
 </script>
 

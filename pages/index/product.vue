@@ -22,7 +22,6 @@
 <script setup>
 	import { reactive, ref, toRefs, unref, inject} from 'vue'
 	import { onLoad } from '@dcloudio/uni-app'
-	import imgUrl from "@/static/image/picture2.png"
 	
 	let productDetail = {}
 	onLoad(() => {

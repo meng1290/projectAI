@@ -18,7 +18,7 @@
 
 <script setup>
 	import { reactive, ref, unref, inject} from 'vue'
-	import picture from "@/static/image/picture.png"
+	import picture from "@/static/image/banner.png"
 	const list = [
 					{
 						time:'10分钟时间',

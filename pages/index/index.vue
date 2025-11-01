@@ -88,10 +88,15 @@
     const getList = () => {
       loadStatus.value = 'loading'
       getModelList(queryParams.value).then(res => {
-        if(res.records.length > 0){
+				let len = res.records.length
+        if(len > 0){
           dataList.value = [...dataList.value,...res.records]
           queryParams.value.page++
-          loadStatus.value = 'loadmore'
+          if(len < queryParams.value.limit){
+          	loadStatus.value = 'nomore'
+          }else{
+          	loadStatus.value = 'loadmore'
+          }
         }else{
           loadStatus.value = 'nomore'
         }
@@ -142,9 +147,8 @@
 		}
 		.list{
 			width:100%;
-			padding: 0rpx 32rpx;
+			padding: 0rpx 32rpx 32rpx;
 			box-sizing: border-box;
-			margin-bottom: 20rpx;
 		}
 	}
 	
