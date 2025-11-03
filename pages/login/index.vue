@@ -59,6 +59,7 @@
   import { passWordLogin } from '@/api/index.js'
   import { useUserStore } from '@/stores/index'
   const store = useUserStore()
+	import utils from "@/utils/index.js"
 	
 	import avatar from '@/static/image/avatar.png';
   //切换登录类型
@@ -66,7 +67,8 @@
   const changeLoginType = (type) => {
     if(type === loginType.value)return
     if([1,2].includes(type)){
-      return uni.$u.toast('暂未开通')
+			
+      // return uni.$u.toast('暂未开通')
     }
     loginType.value = type
   }
@@ -119,7 +121,7 @@
 				url: `/pages/common/webview/index`,
 			});
 		}
-    // 登录
+    // 登录参数
     const state = reactive({
       form:{
         account:'18600443402',
@@ -146,22 +148,65 @@
     })
     const { form, rules } = toRefs(state)
     const formRef = ref(null)
+		// 账号密码登录
 		const login = () => {
-      formRef.value.validate().then(valid => {  
-        if (valid) {
-          store.login(form.value).then(() => {
-            uni.showToast({
-              title: '登录成功',
-              icon: 'success'
-            });
-            setTimeout(()=>{
-              uni.navigateBack()
-            },1000)
-          })
-        }
-      })
+			if(loginType.value === 1){
+				
+			}else if(loginType.value === 2){
+				wechatLogin()
+			}else if(loginType.value === 3){
+				
+			}else if(loginType.value === 4){
+				formRef.value.validate().then(valid => {
+				  if (valid) {
+				    store.login(form.value).then(() => {
+				      uni.showToast({
+				        title: '登录成功',
+				        icon: 'success'
+				      });
+				      setTimeout(()=>{
+				        uni.navigateBack()
+				      },1000)
+				    })
+				  }
+				})
+			}else{
+				
+			}
+      
 		}
-	
+	//微信授权登录
+	const wechatLogin = () => {
+		uni.login({
+			provider: 'weixin',
+			onlyAuthorize: true, // 微信登录仅请求授权认证
+			success: (loginRes) => {
+				const { code } = loginRes;
+				if (code) {
+					getWechatUserInfo(code);
+					console.log(code,'获取成功')
+				} else {
+					uni.showToast({ title: '授权失败，未获取到 code', icon: 'none' });
+				}
+			},
+			fail: (err) => {
+				uni.showToast({ title: '授权已取消', icon: 'none' });
+			}
+		});
+	}
+	const getWechatUserInfo = (code) => {
+		uni.showModal({
+			title:'获取成功',
+			content: code,
+			success(res) {
+				if(res.confirm){
+					store.logout().then(res => {
+						utils.copy(code)
+					})
+				}
+			}
+		})
+	}
 </script>
 
 <style lang="scss" scoped>
