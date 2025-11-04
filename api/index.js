@@ -40,3 +40,15 @@ export function memberRight(data) {
 export function memberShip(data) {
 	return request.get('user/member/ship',data)
 }
+/* 获取图形验证码 */
+export function getCaptcha(data) {
+	return request.get('getCaptcha',data,{needToken:false})
+}
+/* 发送短信验证码 */
+export function authVerify(data) {
+	return request.post('auth/verify',data,{needToken:false})
+}
+/* 短信登录 */
+export function authSmslogin(data) {
+	return request.post('auth/smslogin',data,{needToken:false})
+}

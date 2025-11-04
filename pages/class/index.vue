@@ -22,6 +22,7 @@
 	import { reactive, ref, toRefs, unref, inject} from 'vue'
 	import { onLoad, onPullDownRefresh, onReachBottom } from '@dcloudio/uni-app'
   import { getModelList, getCategory } from '@/api/index.js'
+		import { useLoginRefresh } from '@/utils/useLoginRefresh.js';
 	import myProductCard from "@/components/myProductCard/index.vue"
 
 	const statusBarHeight = uni.getSystemInfoSync().statusBarHeight
@@ -76,7 +77,6 @@
   const getList = () => {
     loadStatus.value = 'loading'
     getModelList(queryParams.value).then(res => {
-      console.log(res)
 			let len = res.records.length
       if( len > 0){
         dataList.value = [...dataList.value,...res.records]
@@ -108,6 +108,8 @@
       url:'/pages/class/filter'
     })
   }
+	//监听到登录状态变化触发
+	useLoginRefresh(resetList)
 </script>
 
 <style lang="scss" scoped>

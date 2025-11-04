@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { passWordLogin } from '@/api/index.js'
+import { passWordLogin, authSmslogin } from '@/api/index.js'
 
 // 定义 Store，第一个参数是 Store 的唯一标识
 export const useUserStore = defineStore('user', {
@@ -21,7 +21,6 @@ export const useUserStore = defineStore('user', {
     login(data) {
 			return new Promise((resolve,reject) => {
 				passWordLogin(data).then(res => {
-				  console.log(res)
 				  this.token = res.token || ''
 				  this.userInfo = res.user || {}
 				  resolve(true)
@@ -30,6 +29,18 @@ export const useUserStore = defineStore('user', {
 				})
 			})
     },
+		//短信登录
+		smsLogin(data) {
+			return new Promise((resolve,reject) => {
+				authSmslogin(data).then(res => {
+				  this.token = res.token || ''
+				  this.userInfo = res.user || {}
+				  resolve(true)
+				}).catch(err => {
+					reject(false)
+				})
+			})
+		},
     // 退出登录
     logout() {
 			return new Promise((resolve,reject) => {

@@ -29,6 +29,7 @@
 	import { reactive, ref, toRefs, unref, inject} from 'vue'
 	import { onLoad, onPullDownRefresh, onReachBottom } from '@dcloudio/uni-app'
 	import { getModelList, getCategory } from '@/api/index.js'
+	import { useLoginRefresh } from '@/utils/useLoginRefresh.js';
 	import myProductCard from "@/components/myProductCard/index.vue"
 
 	import banner from '@/static/image/banner.png';
@@ -51,18 +52,19 @@
     loadStatus: 'loading',//loadmore/ loading / nomore
   })
 	const { list, bannerList, dataList, queryParams, loadStatus } = toRefs(state)
-	
+		
+		//
 		onLoad(() => {
       getCategoryList()
       getList()
     })
+		//下拉刷新
 		onPullDownRefresh(() => {
-			console.log('下拉刷新')
 			uni.stopPullDownRefresh()
       resetList()
 		})
+		//滚动触底
 		onReachBottom(() => {
-			console.log('滚动触底')
       getList()
 		})
     /* 获取分类列表 */
@@ -112,6 +114,8 @@
       loadStatus.value = 'loading'
       getList()
     }
+		//监听到登录状态变化触发
+		useLoginRefresh(resetList)
 </script>
 
 <style lang="scss" scoped>

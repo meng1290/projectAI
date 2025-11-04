@@ -1,15 +1,32 @@
 @font-face {
   font-family: "iconfont"; /* Project id 5032821 */
-  src: url('/static/iconfont/iconfont.woff2?t=1759585422135') format('woff2'),
-       url('/static/iconfont/iconfont.woff?t=1759585422135') format('woff'),
-       url('/static/iconfont/iconfont.ttf?t=1759585422135') format('truetype');
+  src: url('/static/iconfont/iconfont.woff2?t=1759585422136') format('woff2'),
+       url('/static/iconfont/iconfont.woff?t=1759585422136') format('woff'),
+       url('/static/iconfont/iconfont.ttf?t=1759585422136') format('truetype');
 }
+
 .iconfont {
   font-family: "iconfont" !important;
   font-size: 16px;
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-shuangxiang:before {
+  content: "\e602";
+}
+
+.icon-mimadenglu2:before {
+  content: "\e63f";
+}
+
+.icon-yanzhengma:before {
+  content: "\e623";
+}
+
+.icon-a-shoujihaoshouji:before {
+  content: "\e6b4";
 }
 
 .icon-ziyuan:before {
