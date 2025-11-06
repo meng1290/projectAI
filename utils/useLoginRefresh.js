@@ -12,7 +12,9 @@ export const useLoginRefresh = (callback) => {
     () => userStore.isLogin,
     (newVal, oldVal) => {
       if (newVal && !oldVal) {
-        callback(); // 执行页面的刷新逻辑
+				setTimeout(() => {
+					callback(); // 执行页面的刷新逻辑
+				},300)
       }
     }
   );

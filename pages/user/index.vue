@@ -35,9 +35,16 @@
 
 <script setup>
 	import { reactive, ref, unref, inject} from 'vue'
+	import { onLoad, onShow } from '@dcloudio/uni-app'
 	import { useUserStore } from '@/stores/index'
 	const store = useUserStore()
 	import avatar from "@/static/image/userAvatar.png"
+	
+	onShow(() => {
+		if(store.isLogin){
+			store.getUserInfo()
+		}
+	})
 	
 	const handleLogin = () => {
 		uni.navigateTo({

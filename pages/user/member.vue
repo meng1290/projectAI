@@ -2,8 +2,6 @@
 	<view class="page">
 		<view class="content">
 			<view class="main">
-				<view class="points"><text>3000</text><text>积分/月</text></view>
-				<view class="tips">最多每月生成300张图片</view>
 				<view class="ul">
 					<view class="li" v-for="(item,i) in memberRightList" :key="i">
 						<up-icon name="checkbox-mark" size="24" color="#fff"></up-icon>
@@ -12,17 +10,25 @@
 				</view>
 			</view>
 			<view class="list">
-				<up-radio-group v-model="radiovalue" placement="column">
+				<up-radio-group v-model="radioVipValue" placement="column">
 					<view class="li" v-for="item in dataList" :key="item.mc_id" @click="handleRadio(item.mc_id)">
-						<view class="li_l">
-							<view class="name">
+						<view class="li_box">
+							<view class="li_l">
 								<up-radio shape="square" :name="item.mc_id"></up-radio>
-								<view class="text">{{item.title}}</view>
+								<view class="text">
+									<view>{{item.title}}</view>
+									<view class="day" v-if="item.vip_day > 0">（{{item.vip_day}}天）</view>
+								</view>
 							</view>
-							<view v-if="item.vip_day > 0" class="tips">{{item.vip_day}}天</view>
+							<view class="li_r">
+								<view class="pre_price">￥{{item.pre_price}}</view>
+							</view>
 						</view>
-						<view class="li_r">
-							<view class="pre_price">￥{{item.pre_price}}</view>
+						<view class="li_fotter">
+							<view class="tips">
+								<view>{{item.lvalues}}算力</view>
+								<view>最多生成{{item.imgnums}}张图片</view>
+							</view>
 							<view class="price">￥{{item.price}}</view>
 						</view>
 					</view>
@@ -34,7 +40,7 @@
 					<view class="li" @click="handleRadioPay(1)">
 						<view class="li_l">
 							<view class="img">
-								<up-image class="image" width="100%" :src="'/static/image/pay/wxPay.png'" mode="widthFix"></up-image>
+								<text class="iconfont icon-zhifu-weixinzhifu"></text>
 							</view>
 							<view class="text">微信支付</view>
 						</view>
@@ -43,7 +49,7 @@
 					<view class="li" @click="handleRadioPay(2)">
 						<view class="li_l">
 							<view class="img">
-								<up-image class="image" width="100%" :src="'/static/image/pay/aliPay.png'" mode="widthFix"></up-image>
+								<text class="iconfont icon-zhifubaozhifu"></text>
 							</view>
 							<view class="text">支付宝</view>
 						</view>
@@ -52,7 +58,7 @@
 				</up-radio-group>
 			</view>
 			<view class="btn">
-				<up-button type="primary" color="#0166FE" shape="circle" :customStyle="{height:'100rpx',fontSize:'32rpx'}">立即开通</up-button>
+				<up-button type="primary" @click="handlePaySubmit" color="#0166FE" shape="circle" :customStyle="{height:'100rpx',fontSize:'32rpx'}">立即开通</up-button>
 				<view class="agreement">已阅读并同意<text class="link" @click="handlePayAgreement">《童创AI付费协议》</text>（含自动续费条款）</view>
 			</view>
 			
@@ -63,15 +69,19 @@
 <script setup>
 	import { reactive, ref, toRefs, unref, inject} from 'vue'
 	import { onLoad, onNavigationBarButtonTap } from '@dcloudio/uni-app'
-	import { memberRight, memberShip } from "@/api/index.js"
+	import { memberRight, memberShip, svipPay } from "@/api/index.js"
 	
 	const state = reactive({
 		memberRightList:[],
 	  dataList: [],
-		radiovalue: 1,
+		radioVipValue: 0,
 		radioPay: 1,
+		vipObj:{
+			lvalues:0,
+			imgnums:0
+		},
 	})
-	const { memberRightList, dataList, radiovalue, radioPay } = toRefs(state)
+	const { memberRightList, dataList, radioVipValue, radioPay, vipObj } = toRefs(state)
 	
 	
 	onLoad(() => {
@@ -85,7 +95,11 @@
 	
 	const getDataList = () => {
 		memberShip().then(res => {
-			dataList.value = res || []
+			if(res && res.length){
+				dataList.value = res
+				radioVipValue.value = res[0].mc_id
+				vipObj.value = dataList.value.find(item => item.mc_id === radioVipValue.value)
+			}
 		})
 	}
 	const getMemberRight = () => {
@@ -93,10 +107,92 @@
 			memberRightList.value = res.member_right || []
 		})
 	}
+	//发起支付
+	const handlePaySubmit = () =>{
+		if(!radioVipValue.value){
+			return uni.showToast({
+				title: '请选择会员类型',
+				icon: 'none'
+			});
+		}
+		if(!radioPay.value){
+			return uni.showToast({
+				title: '请选择支付方式',
+				icon: 'none'
+			});
+		}
+		if(radioPay.value === 1){//微信
+			weChatPay()
+		}else if(radioPay.value === 2){//支付宝
+			alipayPayment()
+		}
+	}
+	
+	const weChatPay = () => {
+		
+	}
+	const alipayPayment = () => {
+		svipPay(radioVipValue.value,{pay_type:'alipayApp'}).then(res => {
+			const orderInfo = res.config.data || ''
+			uni.getProvider({
+				service: 'payment',
+				success: function (res) {
+					console.log(res.provider)
+					if (~res.provider.indexOf('alipay')) {
+						uni.requestPayment({
+							"provider": "alipay",   //固定值为"alipay"
+							"orderInfo": orderInfo, //此处为服务器返回的订单信息字符串
+							success: function (res) {
+								
+								var rawdata = JSON.parse(res.rawdata);
+								console.log(1,res.rawdata)
+								console.log(2,JSON.stringify(res.rawdata))
+								console.log('支付成功',rawdata)
+								payResult(true)
+							},
+							fail: function (err) {
+								const errStr = JSON.stringify(err)
+								if(errStr.includes('取消支付')){
+									uni.showToast({
+										title: '取消支付',
+										icon: 'none'
+									});
+								}else{
+									uni.showToast({
+										title: '支付失败',
+										icon: 'none'
+									});
+								}
+								// payResult(false)
+							}
+						});
+					}
+				},
+				fail: function(err) {
+					uni.showToast({
+						title: '支付失败：当前环境不支持',
+						icon: 'none'
+					});
+				}
+			});
+		})
+	}
+	const payResult = (res) => {
+		if(res){
+			uni.redirectTo({
+				url:"/pages/common/payResult/success"
+			})
+		}else{
+			uni.redirectTo({
+				url:"/pages/common/payResult/fail"
+			})
+		}
+	}
 	
 	const handleRadio = (id) => {
 		console.log(id)
-		radiovalue.value = id
+		radioVipValue.value = id
+		vipObj.value = dataList.value.find(item => item.mc_id === radioVipValue.value)
 	}
 	const handleRadioPay = (id) => {
 		console.log(id)
@@ -145,7 +241,6 @@
 				}
 				.ul{
 					width: 100%;
-					margin: 30rpx 0;
 					.li{
 						width: 100%;
 						height: 48rpx;
@@ -168,39 +263,45 @@
 					background-color: #5C5C5C;
 					padding: 30rpx;
 					box-sizing: border-box;
-					display: flex;
-					justify-content: space-between;
-					.li_l{
-						flex: 1;
-						.name{
+					.li_box{
+						display: flex;
+						justify-content: space-between;
+						.li_l{
+							flex: 1;
 							width: 100%;
-							height: 100rpx;
 							display: flex;
 							justify-content: flex-start;
 							align-items: center;
 							.text{
 								margin-left: 10rpx;
+								display: flex;
+								align-items: flex-end;
+								.day{
+									font-size: 24rpx;
+								}
 							}
 						}
-						.tips{
-							padding-left: 56rpx;
+						.li_r{
+							flex: 1;
+							.pre_price{
+								width: 100%;
+								font-size: 64rpx;
+								font-weight: bold;
+								text-align: right;
+							}
+							
 						}
 					}
-					.li_r{
-						flex: 1;
-						
+					.li_fotter{
+						width: 100%;
 						display: flex;
-						flex-wrap: wrap;
-						justify-content: flex-end;
+						justify-content: space-between;
 						align-items: center;
-						.pre_price{
-							width: 100%;
-							font-size: 64rpx;
-							font-weight: bold;
-							text-align: right;
+						.tips{
+							padding-left: 56rpx;
+							font-size: 24rpx;
 						}
 						.price{
-							width: 100%;
 							text-align: right;
 							text-decoration: line-through;
 						}
@@ -232,6 +333,15 @@
 							margin-right: 32rpx;
 							display: flex;
 							align-items: center;
+							.iconfont{
+								font-size: 60rpx;
+							}
+							.icon-zhifubaozhifu{
+								color: #009FE8;
+							}
+							.icon-zhifu-weixinzhifu{
+								color: #48B338;
+							}
 						}
 						.text{
 							font-size: 32rpx;

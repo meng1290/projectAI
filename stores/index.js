@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { passWordLogin, authSmslogin } from '@/api/index.js'
+import { passWordLogin, authSmslogin, authApp, userInfo } from '@/api/index.js'
 
 // 定义 Store，第一个参数是 Store 的唯一标识
 export const useUserStore = defineStore('user', {
@@ -17,7 +17,7 @@ export const useUserStore = defineStore('user', {
 
   // 方法（类似 Vuex 的 mutations + actions，Pinia 中可直接写异步逻辑）
   actions: {
-    // 登录方法
+    // 手机号密码登录
     login(data) {
 			return new Promise((resolve,reject) => {
 				passWordLogin(data).then(res => {
@@ -29,6 +29,18 @@ export const useUserStore = defineStore('user', {
 				})
 			})
     },
+		//微信登录
+		wechatLoain(data){
+			return new Promise((resolve,reject) => {
+				authApp(data).then(res => {
+				  this.token = res.token || ''
+				  this.userInfo = res.user || {}
+				  resolve(true)
+				}).catch(err => {
+					reject(false)
+				})
+			})
+		},
 		//短信登录
 		smsLogin(data) {
 			return new Promise((resolve,reject) => {
@@ -51,6 +63,22 @@ export const useUserStore = defineStore('user', {
 				},100)
       })
     },
+		//获取用户信息
+		getUserInfo() {
+			return new Promise((resolve,reject) => {
+				userInfo().then(res => {
+					const userInfo = {
+						...this.userInfo,
+						...res
+					}
+					this.userInfo = userInfo
+					resolve(true)
+				}).catch(err => {
+					reject(false)
+				})
+			})
+		},
+		//搜索页面存储参数
 		setFilterPageParams(params) {
 			this.filterPageParams = params;
 		}

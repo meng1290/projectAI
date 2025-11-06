@@ -52,3 +52,15 @@ export function authVerify(data) {
 export function authSmslogin(data) {
 	return request.post('auth/smslogin',data,{needToken:false})
 }
+/* 微信登录 */
+export function authApp(data) {
+	return request.post('auth/app',data,{needToken:false})
+}
+/* 获取支付参数 */
+export function svipPay(id,data) {
+	return request.post(`svip/pay/${id}`,data)
+}
+/* 获取用户信息 */
+export function userInfo(data) {
+	return request.get('user/userinfo',data)
+}

@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 5032821 */
-  src: url('/static/iconfont/iconfont.woff2?t=1759585422136') format('woff2'),
-       url('/static/iconfont/iconfont.woff?t=1759585422136') format('woff'),
-       url('/static/iconfont/iconfont.ttf?t=1759585422136') format('truetype');
+  src: url('/static/iconfont/iconfont.woff2?t=1762398986100') format('woff2'),
+       url('/static/iconfont/iconfont.woff?t=1762398986100') format('woff'),
+       url('/static/iconfont/iconfont.ttf?t=1762398986100') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,38 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-zhifubaozhifu:before {
+  content: "\e634";
+}
+
+.icon-zhifu-weixinzhifu:before {
+  content: "\e64c";
+}
+
+.icon-zhifu-weixinzhifu1:before {
+  content: "\e600";
+}
+
+.icon-zhifushibai:before {
+  content: "\e65e";
+}
+
+.icon-zhifushibai2:before {
+  content: "\e61a";
+}
+
+.icon-zhifuchenggong1:before {
+  content: "\e651";
+}
+
+.icon-zhifuchenggong:before {
+  content: "\e630";
+}
+
+.icon-zhifushibai1:before {
+  content: "\e62f";
 }
 
 .icon-shuangxiang:before {

@@ -176,6 +176,18 @@
 			"style": {
 				"navigationBarTitleText": "协议"
 			}
+		},
+		{
+			"path": "pages/common/payResult/fail",
+			"style": {
+				"navigationBarTitleText": "支付失败"
+			}
+		},
+		{
+			"path": "pages/common/payResult/success",
+			"style": {
+				"navigationBarTitleText": "支付成功"
+			}
 		}
 	],
 	"globalStyle": {

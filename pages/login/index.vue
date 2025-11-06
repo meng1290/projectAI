@@ -41,7 +41,7 @@
           
         </up-form>
 				<view class="btns">
-          <up-button type="primary" @click="login()" :loading="btnLoading" loadingText="请求中" color="#0166FE" :customStyle="{fontSize:'32rpx !important'}">{{['','本机号一键登录','微信授权登录','登录','登录'][loginType]}}</up-button>
+          <up-button type="primary" @click="login()" :loading="btnLoading" loadingText="请求中" color="#0166FE" :customStyle="{fontSize:'32rpx !important'}">{{['','本机号一键登录','微信授权登录','短信登录','账户密码登录'][loginType]}}</up-button>
           <!-- <up-button type="primary" @click="login()" icon="heart" color="#ffffff" iconColor="#333" text="本机登录"></up-button> -->
         </view>
 			</view>
@@ -232,8 +232,16 @@
 			success: (loginRes) => {
 				const { code } = loginRes;
 				if (code) {
-					getWechatUserInfo(code);
-					console.log(code,'获取成功')
+					btnLoading.value = true
+					store.wechatLoain({code:code}).then(res => {
+						uni.showToast({
+							title: '登录成功',
+							icon: 'success'
+						});
+						navigateBackOrHome()
+					}).catch(err => {
+						btnLoading.value = false
+					})
 				} else {
 					uni.showToast({ title: '授权失败，未获取到 code', icon: 'none' });
 				}
@@ -242,19 +250,6 @@
 				uni.showToast({ title: '授权已取消', icon: 'none' });
 			}
 		});
-	}
-	const getWechatUserInfo = (code) => {
-		uni.showModal({
-			title:'获取成功',
-			content: code,
-			success(res) {
-				if(res.confirm){
-					store.logout().then(res => {
-						utils.copy(code)
-					})
-				}
-			}
-		})
 	}
 	
 	
@@ -366,7 +361,7 @@
 					align-items: center;
 					justify-content: center;
 					.icon-weixin{
-						font-size: 45px;
+						font-size: 48px;
 						color: #28C445;
 					}
 					.icon-shuangxiang{

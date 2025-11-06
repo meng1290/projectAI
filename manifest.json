@@ -2,8 +2,8 @@
     "name" : "童创AI",
     "appid" : "__UNI__8F2F210",
     "description" : "",
-    "versionName" : "1.0.1",
-    "versionCode" : 101,
+    "versionName" : "1.0.2",
+    "versionCode" : 102,
     "transformPx" : false,
     /* 5+App特有相关 */
     "app-plus" : {
@@ -19,7 +19,8 @@
         /* 模块配置 */
         "modules" : {
             "Camera" : {},
-            "OAuth" : {}
+            "OAuth" : {},
+            "Payment" : {}
         },
         /* 应用发布信息 */
         "distribute" : {
@@ -58,6 +59,11 @@
                     "weixin" : {
                         "appid" : "wx2a5b5fbd9281bc80",
                         "UniversalLinks" : ""
+                    }
+                },
+                "payment" : {
+                    "alipay" : {
+                        "__platform__" : [ "ios", "android" ]
                     }
                 }
             }
