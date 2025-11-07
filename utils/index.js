@@ -29,4 +29,12 @@
 		    return `${year}-${month.padStart(2, 0)}-${date.padStart(2, 0)}`
 		  }
 		},
+		formatAmount(num) {
+		  // 处理非数字情况
+		  if (num === null || num === undefined || isNaN(Number(num))) {
+		    return '0.00';
+		  }
+		  // 转换为数字并保留两位小数，再格式化补零
+		  return Number(num).toFixed(2);
+		}
 	}

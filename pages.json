@@ -126,22 +126,22 @@
 		  "style": {
 		    "navigationBarTitleText": "开通会员",
 		    "navigationBarBackgroundColor": "#0166FE",
-		    "navigationBarTextStyle": "white",
-		    "app-plus": {
-					//导航栏右侧按钮
-		      "titleNView": {
-		        "buttons": [
-		          {
-								"text": "\ue603",
-								"fontSrc": "/static/iconfont/iconfont.ttf",
-								"width": "30px",
-								"height": "30px",
-								"fontSize":"16px",
-								"color":"#ffffff"
-							}
-		        ]
-		      }
-		    }
+		    "navigationBarTextStyle": "white"
+		   //  "app-plus": {
+					// //导航栏右侧按钮
+		   //    "titleNView": {
+		   //      "buttons": [
+		   //        {
+					// 			"text": "\ue603",
+					// 			"fontSrc": "/static/iconfont/iconfont.ttf",
+					// 			"width": "30px",
+					// 			"height": "30px",
+					// 			"fontSize":"16px",
+					// 			"color":"#ffffff"
+					// 		}
+		   //      ]
+		   //    }
+		   //  }
 		  }
 		},
 		{

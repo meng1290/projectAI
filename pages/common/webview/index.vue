@@ -1,6 +1,6 @@
 <template>
 	<view class="page">
-		<web-view :src="webViewObj.url"></web-view>
+		<web-view :src="webViewObj.url+'?12'"></web-view>
 	</view>
 </template>
 

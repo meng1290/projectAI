@@ -34,54 +34,31 @@
 					</view>
 				</up-radio-group>
 			</view>
-			<view class="payType">
-				<view class="tit">支付方式</view>
-				<up-radio-group v-model="radioPay" placement="column">
-					<view class="li" @click="handleRadioPay(1)">
-						<view class="li_l">
-							<view class="img">
-								<text class="iconfont icon-zhifu-weixinzhifu"></text>
-							</view>
-							<view class="text">微信支付</view>
-						</view>
-						<up-radio shape="square" :name="1"></up-radio>
-					</view>
-					<view class="li" @click="handleRadioPay(2)">
-						<view class="li_l">
-							<view class="img">
-								<text class="iconfont icon-zhifubaozhifu"></text>
-							</view>
-							<view class="text">支付宝</view>
-						</view>
-						<up-radio shape="square" :name="2"></up-radio>
-					</view>
-				</up-radio-group>
-			</view>
+			
 			<view class="btn">
 				<up-button type="primary" @click="handlePaySubmit" color="#0166FE" shape="circle" :customStyle="{height:'100rpx',fontSize:'32rpx'}">立即开通</up-button>
 				<view class="agreement">已阅读并同意<text class="link" @click="handlePayAgreement">《童创AI付费协议》</text>（含自动续费条款）</view>
 			</view>
 			
 		</view>
+		
+		<selectPayMethod ref="selectPayMethodRef"></selectPayMethod>
 	</view>
 </template>
 
 <script setup>
 	import { reactive, ref, toRefs, unref, inject} from 'vue'
 	import { onLoad, onNavigationBarButtonTap } from '@dcloudio/uni-app'
-	import { memberRight, memberShip, svipPay } from "@/api/index.js"
+	import { memberRight, memberShip } from "@/api/index.js"
+	import selectPayMethod from "@/components/selectPayMethod/index.vue"
 	
 	const state = reactive({
 		memberRightList:[],
 	  dataList: [],
 		radioVipValue: 0,
-		radioPay: 1,
-		vipObj:{
-			lvalues:0,
-			imgnums:0
-		},
+		amount:'0',
 	})
-	const { memberRightList, dataList, radioVipValue, radioPay, vipObj } = toRefs(state)
+	const { memberRightList, dataList, radioVipValue, amount } = toRefs(state)
 	
 	
 	onLoad(() => {
@@ -98,7 +75,7 @@
 			if(res && res.length){
 				dataList.value = res
 				radioVipValue.value = res[0].mc_id
-				vipObj.value = dataList.value.find(item => item.mc_id === radioVipValue.value)
+				amount.value = res[0].pre_price
 			}
 		})
 	}
@@ -108,6 +85,7 @@
 		})
 	}
 	//发起支付
+	const selectPayMethodRef = ref(null)
 	const handlePaySubmit = () =>{
 		if(!radioVipValue.value){
 			return uni.showToast({
@@ -115,89 +93,16 @@
 				icon: 'none'
 			});
 		}
-		if(!radioPay.value){
-			return uni.showToast({
-				title: '请选择支付方式',
-				icon: 'none'
-			});
-		}
-		if(radioPay.value === 1){//微信
-			weChatPay()
-		}else if(radioPay.value === 2){//支付宝
-			alipayPayment()
-		}
+		selectPayMethodRef.value.show(radioVipValue.value,amount.value)
 	}
 	
-	const weChatPay = () => {
-		
-	}
-	const alipayPayment = () => {
-		svipPay(radioVipValue.value,{pay_type:'alipayApp'}).then(res => {
-			const orderInfo = res.config.data || ''
-			uni.getProvider({
-				service: 'payment',
-				success: function (res) {
-					console.log(res.provider)
-					if (~res.provider.indexOf('alipay')) {
-						uni.requestPayment({
-							"provider": "alipay",   //固定值为"alipay"
-							"orderInfo": orderInfo, //此处为服务器返回的订单信息字符串
-							success: function (res) {
-								
-								var rawdata = JSON.parse(res.rawdata);
-								console.log(1,res.rawdata)
-								console.log(2,JSON.stringify(res.rawdata))
-								console.log('支付成功',rawdata)
-								payResult(true)
-							},
-							fail: function (err) {
-								const errStr = JSON.stringify(err)
-								if(errStr.includes('取消支付')){
-									uni.showToast({
-										title: '取消支付',
-										icon: 'none'
-									});
-								}else{
-									uni.showToast({
-										title: '支付失败',
-										icon: 'none'
-									});
-								}
-								// payResult(false)
-							}
-						});
-					}
-				},
-				fail: function(err) {
-					uni.showToast({
-						title: '支付失败：当前环境不支持',
-						icon: 'none'
-					});
-				}
-			});
-		})
-	}
-	const payResult = (res) => {
-		if(res){
-			uni.redirectTo({
-				url:"/pages/common/payResult/success"
-			})
-		}else{
-			uni.redirectTo({
-				url:"/pages/common/payResult/fail"
-			})
-		}
-	}
+	
 	
 	const handleRadio = (id) => {
-		console.log(id)
 		radioVipValue.value = id
-		vipObj.value = dataList.value.find(item => item.mc_id === radioVipValue.value)
+		amount.value = (dataList.value || []).find(item => item?.mc_id === radioVipValue.value)?.pre_price ?? '';
 	}
-	const handleRadioPay = (id) => {
-		console.log(id)
-		radioPay.value = id
-	}
+
 	const handlePayAgreement = () => {
 		uni.setStorageSync('webViewObj',{url:'/static/agreement/paymentAgreement.html',title:'付费协议'})
 		uni.navigateTo({
@@ -308,48 +213,7 @@
 					}
 				}
 			}
-			.payType{
-				width: 100%;
-				padding: 32rpx;
-				box-sizing: border-box;
-				.tit{
-					font-size: 36rpx;
-					font-weight: bold;
-					margin-bottom: 20rpx;
-				}
-				.li{
-					width: 100%;
-					display: flex;
-					justify-content: space-between;
-					align-items: center;
-					.li_l{
-						flex: 1;
-						display: flex;
-						justify-content: flex-start;
-						align-items: center;
-						.img{
-							width: 60rpx;
-							height: 60rpx;
-							margin-right: 32rpx;
-							display: flex;
-							align-items: center;
-							.iconfont{
-								font-size: 60rpx;
-							}
-							.icon-zhifubaozhifu{
-								color: #009FE8;
-							}
-							.icon-zhifu-weixinzhifu{
-								color: #48B338;
-							}
-						}
-						.text{
-							font-size: 32rpx;
-							font-weight: bold;
-						}
-					}
-				}
-			}
+			
 			.btn{
 				width: 100%;
 				padding: 20rpx 32rpx;

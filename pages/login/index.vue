@@ -104,9 +104,8 @@
   const loginType = ref(4)
   const changeLoginType = (type) => {
     if(type === loginType.value)return
-    if([1,2].includes(type)){
-			
-      // return uni.$u.toast('暂未开通')
+    if([1].includes(type)){
+      return uni.$u.toast('暂未开通')
     }
     loginType.value = type
   }
