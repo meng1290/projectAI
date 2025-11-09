@@ -64,3 +64,7 @@ export function svipPay(id,data) {
 export function userInfo(data) {
 	return request.get('user/userinfo',data)
 }
+/* 我的创作记录 */
+export function zuopinlist(data) {
+	return request.get('aitask/zuopinlist',data)
+}

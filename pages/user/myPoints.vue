@@ -5,13 +5,13 @@
 				<text>我的算力</text>
 				<!-- <text>算力明细</text> -->
 			</view>
-			<view class="points">1736648.00</view>
-			<view class="times">算力将于2025-12-12 12:00:00过期</view>
+			<view class="points">{{store.userInfo.now_money}}</view>
+			<view class="times" v-if="store.userInfo.now_money>0">算力将于2025-12-12 12:00:00过期</view>
 		</view>
 		<view class="list">
 			<view class="tit">算力明细</view>
 			<view class="ul">
-				<view class="li" v-for="(item,i) in 8" :key="i">
+				<view class="li" v-for="(item,i) in dataList" :key="i">
 					<view class="li_l">
 						<view class="name">消费</view>
 						<view class="time">2025-12-12 12:12:00</view>
@@ -21,6 +21,7 @@
 					</view>
 				</view>
 			</view>
+			<up-empty v-if="!dataList.length" text=" " mode="data" :icon="'/static/image/data.png'" />
 		</view>
 		
 	</view>
@@ -28,7 +29,9 @@
 
 <script setup>
 	import { reactive, ref, toRefs, unref, inject} from 'vue'
-	
+	import { useUserStore } from '@/stores/index'
+	const store = useUserStore()
+	const dataList = ref([])
 </script>
 
 <style lang="scss" scoped>

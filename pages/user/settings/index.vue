@@ -3,7 +3,7 @@
 		<view class="cell-box">
 			<u-cell title="头像" :isLink="true" arrow-direction="right" color="#000">
 				<template #value>
-					<up-cropper
+					<!-- <up-cropper
 						ref="avatarCropperRef"
 						:canChangeSize="false"
 						areaWidth="300rpx" 
@@ -11,11 +11,11 @@
 						exportWidth="260rpx" 
 						exportHeight="260rpx"
 						@confirm="onAvatarConfirm"
-					>
+					> -->
 						<view class="avatar-wrapper">
 							<up-avatar :src="store.userInfo.avatar?store.userInfo.avatar:'/static/image/userAvatar.png'" size="60rpx"></up-avatar>
 						</view>
-					</up-cropper>
+					<!-- </up-cropper> -->
 				</template>
 			</u-cell>
 			<u-cell title="用户名称" @click="handleCell(1)" :isLink="true" arrow-direction="right" :value="store.userInfo.nickname" color="#000"></u-cell>
@@ -29,14 +29,14 @@
 					</view>
 				</template>
 			</u-cell>
-			<u-cell title="邀请码" :isLink="true" color="#000" rightIcon="">
+			<!-- <u-cell title="邀请码" :isLink="true" color="#000" rightIcon="">
 				<template #value>
 					<view style="display: flex;">
 						<text style="margin-right: 20rpx;color: #666;" >1234567</text>
 						<up-button type="primary" :plain="true" size="mini" @click="utils.copy(12345)" text="复制"></up-button>
 					</view>
 				</template>
-			</u-cell>
+			</u-cell> -->
 		</view>
 		
 		<view class="btns">

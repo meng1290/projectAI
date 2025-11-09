@@ -77,7 +77,8 @@
 	// 登录参数
 	const state = reactive({
 	  form:{
-	    account:'18600443402',
+	    // account:'18600443402',
+	    account:'',
 	    sms_code:'',
 	    password:''
 	  },

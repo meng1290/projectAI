@@ -41,6 +41,10 @@
 	  tips.value = text;
 	};
 	const getCode = () => {
+		return uni.showToast({
+			title: '功能开发中',
+			icon: 'none'
+		});
 		console.log(uCodeRef)
 	  if (uCodeRef.value.canGetCode) {
 	    // 模拟向后端请求验证码
@@ -60,6 +64,10 @@
 	};
 	
 	const btnClick = () => {
+		return uni.showToast({
+			title: '功能开发中',
+			icon: 'none'
+		});
 		modifyUserName({
 			username:this.username.value
 		}).then(res=>{
