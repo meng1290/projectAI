@@ -11,7 +11,7 @@
 		</up-sticky>
 		
 		<view class="swiper">
-			<up-swiper :list="bannerList" height="380rpx" radius="0"></up-swiper>
+			<up-swiper :list="bannerList" height="380rpx" radius="0" :autoplay="false"></up-swiper>
 			<up-button type="primary" color="#FF9500">开始学习</up-button>
 		</view>
 		<view class="list">
@@ -38,8 +38,6 @@
   const state = reactive({
     list: [],
     bannerList: [
-      {url: banner},
-      {url: banner},
       {url: banner},
     ],
     dataList: [],

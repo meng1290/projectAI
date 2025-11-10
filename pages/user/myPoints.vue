@@ -6,22 +6,25 @@
 				<!-- <text>算力明细</text> -->
 			</view>
 			<view class="points">{{store.userInfo.now_money}}</view>
-			<view class="times" v-if="store.userInfo.now_money>0">算力将于2025-12-12 12:00:00过期</view>
+			<view class="times" v-if="store.userInfo.now_money>0">算力将于{{store.userInfo.overdue_time}}过期</view>
 		</view>
 		<view class="list">
 			<view class="tit">算力明细</view>
 			<view class="ul">
 				<view class="li" v-for="(item,i) in dataList" :key="i">
 					<view class="li_l">
-						<view class="name">消费</view>
-						<view class="time">2025-12-12 12:12:00</view>
+						<view class="name">{{item.title}}</view>
+						<view class="time">{{item.create_time}}</view>
 					</view>
 					<view class="li_r">
-						<view class="num">-20</view>
+						<view v-if="item.pm" class="num add">+{{item.number}}</view>
+						<view v-else class="num subtract">-{{item.number}}</view>
+						<view class="balance">余额：{{item.balance}}</view>
 					</view>
 				</view>
 			</view>
 			<up-empty v-if="!dataList.length" text=" " mode="data" :icon="'/static/image/data.png'" />
+			<up-loadmore line :status="loadStatus" />
 		</view>
 		
 	</view>
@@ -29,9 +32,45 @@
 
 <script setup>
 	import { reactive, ref, toRefs, unref, inject} from 'vue'
+	import { onLoad, onReachBottom } from '@dcloudio/uni-app'
+	import { billList } from "@/api/index.js"
 	import { useUserStore } from '@/stores/index'
 	const store = useUserStore()
-	const dataList = ref([])
+	const state = reactive({
+	  dataList: [],
+	  queryParams:{
+	    page: 1,
+	    limit: 10,
+	  },
+	  loadStatus: 'nomore',//loadmore/ loading / nomore
+	})
+	const { dataList, queryParams, loadStatus } = toRefs(state)
+	
+	onLoad(() => {
+		getDataList()
+	})
+	//滚动触底
+	onReachBottom(() => {
+		getDataList()
+	})
+	const getDataList = () => {
+		billList(queryParams.value).then(res => {
+			let len = res.records.length
+			if(len > 0){
+				dataList.value = [...dataList.value,...res.records]
+				queryParams.value.page++
+				if(len < queryParams.value.limit){
+					loadStatus.value = 'nomore'
+				}else{
+					loadStatus.value = 'loadmore'
+				}
+			}else{
+				loadStatus.value = 'nomore'
+			}
+		}).catch(err => {
+			loadStatus.value = 'nomore'
+		})
+	}
 </script>
 
 <style lang="scss" scoped>
@@ -106,6 +145,15 @@
 					.li_r{
 						text-align: right;
 						font-size: 32rpx;
+						.balance{
+							font-size: 24rpx;
+						}
+						.add{
+							color: green;
+						}
+						.subtract{
+							color: red;
+						}
 					}
 				}
 			}

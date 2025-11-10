@@ -3,90 +3,115 @@
 		<view class="list">
 			<view class="box" v-for="(item,index) in dataList" :key="index">
 				<view class="list-time">生成时间：{{item.create_time}}</view>
-				<view class="grid" v-for="(baseListItem,baseListIndex) in  item.baseList" :key="baseListIndex">
-					<view class="grid-title">{{baseListItem.title}}</view>
+				<view class="grid" @click="handleDetail([item.submitimgs])">
+					<view class="grid-title">参考图</view>
 					<view class="img-box">
-						<image class="image" :src="baseListItem.imgUrl" mode="aspectFill"></image>
+						<up-image class="image" width="100%" height="100%" :src="item.submitimgs" mode="aspectFill">
+						  <template #loading><up-loading-icon></up-loading-icon></template>
+							<template #error>
+								<view style="font-size: 28rpx;">加载失败</view>
+							</template>
+						</up-image>
+					</view>
+				</view>
+				<view class="grid" @click="handleDetail(item.images)">
+					<view class="grid-title">生成图</view>
+					<view class="img-box">
+						<up-image class="image" width="100%" height="100%" :src="item.images.length?item.images[0]:''" mode="aspectFill">
+						  <template #loading>
+								<view class="loadingImg">
+									<up-loading-icon></up-loading-icon>
+									<view style="font-size: 28rpx;margin-top: 20rpx;">生成中</view>
+								</view>
+							</template>
+							<template #error>
+								<view style="font-size: 28rpx;">加载失败</view>
+							</template>
+						</up-image>
 					</view>
 				</view>
 				<view class="border" v-show="index + 1 !== dataList.length" ></view>
 			</view>
 			<up-empty v-if="!dataList.length" text=" " mode="data" :icon="'/static/image/data.png'" />
+			<up-loadmore line :status="loadStatus" />
 		</view>	
 	</view>
 </template>
 
 <script setup>
 	import { reactive, ref, toRefs, unref, inject} from 'vue'
-	import picture from "@/static/image/banner.png"
 	import { onLoad, onPullDownRefresh, onReachBottom } from '@dcloudio/uni-app'
 	import { zuopinlist } from '@/api/index.js'
 	import { useLoginRefresh } from '@/utils/useLoginRefresh.js';
+	import { useUserStore } from '@/stores/index'
+	const store = useUserStore()
+	
 	const state = reactive({
 	  dataList: [],
 	  queryParams:{
 	    page: 1,
 	    limit: 10,
-	    store_name:'',
-	    cid:'',
 	  },
-	  loadStatus: 'loading',//loadmore/ loading / nomore
+	  loadStatus: 'nomore',//loadmore/ loading / nomore
 	})
 	const { dataList, queryParams, loadStatus } = toRefs(state)
-		onLoad(() => {
-				getList()
-		})
-		//下拉刷新
-		onPullDownRefresh(() => {
-			uni.stopPullDownRefresh()
-		  resetList()
-		})
-		//滚动触底
-		onReachBottom(() => {
-		  getList()
-		})
-		/* 分页加载列表 */
-		const getList = () => {
-		  loadStatus.value = 'loading'
-		  zuopinlist(queryParams.value).then(res => {
-				let len = res.records.length
-		    if(len > 0){
-		      dataList.value = [...dataList.value,...res.records]
-					dataList.value = dataList.value.map(item =>({
-						...item,
-						baseList:[
-							{
-								title:'参考图',
-								imgUrl: item.submitimgs
-							},{
-								title:'生成图',
-								imgUrl: item.images?item.images[0]:''
-							}
-						]
-					}))
-		      queryParams.value.page++
-		      if(len < queryParams.value.limit){
-		      	loadStatus.value = 'nomore'
-		      }else{
-		      	loadStatus.value = 'loadmore'
-		      }
-		    }else{
-		      loadStatus.value = 'nomore'
-		    }
-		    uni.stopPullDownRefresh()
-		  }).catch(err => {
+	onLoad(() => {
+		if(store.isLogin){
+			getList()
+		}
+	})
+	//下拉刷新
+	onPullDownRefresh(() => {
+		uni.stopPullDownRefresh()
+		resetList()
+	})
+	//滚动触底
+	onReachBottom(() => {
+		getList()
+	})
+	/* 分页加载列表 */
+	const getList = () => {
+		loadStatus.value = 'loading'
+		zuopinlist(queryParams.value).then(res => {
+			let len = res.records.length
+			if(len > 0){
+				dataList.value = [...dataList.value,...res.records]
+				queryParams.value.page++
+				if(len < queryParams.value.limit){
+					loadStatus.value = 'nomore'
+				}else{
+					loadStatus.value = 'loadmore'
+				}
+			}else{
 				loadStatus.value = 'nomore'
-			})
+			}
+			uni.stopPullDownRefresh()
+		}).catch(err => {
+			loadStatus.value = 'nomore'
+		})
+	}
+	/* 重置列表 */
+	const resetList = () => {
+		dataList.value = []
+		queryParams.value.page = 1
+		loadStatus.value = 'loading'
+		getList()
+	}
+	//监听到登录状态变化触发
+	useLoginRefresh(resetList)
+	
+	const handleDetail = (image) => {
+		if(!image.length){
+			return uni.showToast({
+				title: '生成中，请稍后',
+				icon: 'none'
+			});
 		}
-		/* 重置列表 */
-		const resetList = () => {
-		  dataList.value = []
-		  queryParams.value.page = 1
-		  loadStatus.value = 'loading'
-		  getList()
-		}
-		//监听到登录状态变化触发
-		useLoginRefresh(resetList)
+		uni.setStorageSync('creationResults',image)
+		uni.navigateTo({
+			url:"/pages/creation/creationResults"
+		})
+	}
 </script>
 
 <style lang="scss" scoped>
@@ -115,7 +140,11 @@
 					}
 					.img-box{
 						width: 100%;
-						height: 580rpx;
+						height: 400rpx;
+						border-radius: 16rpx;
+						overflow: hidden;
+						background-color: #f5f5f5;
+						box-shadow: 4rpx 4rpx 12rpx rgba(0, 0, 0, 0.08);
 						.image{
 							width:100%;
 							height: 100%;

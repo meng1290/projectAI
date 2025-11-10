@@ -25,13 +25,32 @@
 <script setup>
 	import { reactive, ref, toRefs, unref, inject} from 'vue'
 	
+
 	const avatarImage = ref('');
 	const avatarCropperRef = ref(null);
 	
 	const onAvatarConfirm = (rsp) => {
+		
 	  avatarImage.value = rsp.path;
 		console.log(avatarImage.value)
 	};
+	
+	const btnClick = () => {
+		return uni.showToast({
+			title: '功能开发中',
+			icon: 'none'
+		});
+		modifyUserName({
+			username:this.username.value
+		}).then(res=>{
+			
+			setTimeout(()=>{
+				uni.switchTab({
+					url:'/pages/user/index'
+				})
+			},1000)
+		})
+	}
 </script>
 
 <style lang="scss" scoped>

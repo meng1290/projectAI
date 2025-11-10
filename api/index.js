@@ -68,3 +68,11 @@ export function userInfo(data) {
 export function zuopinlist(data) {
 	return request.get('aitask/zuopinlist',data)
 }
+/* 算力明细 */
+export function billList(data) {
+	return request.get('user/bill/lst',data)
+}
+/* 更改头像昵称 */
+export function changeUserInfo(data) {
+	return request.post('user/change/info',data)
+}

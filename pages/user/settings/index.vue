@@ -1,21 +1,11 @@
 <template>
 	<view class="page">
 		<view class="cell-box">
-			<u-cell title="头像" :isLink="true" arrow-direction="right" color="#000">
+			<u-cell title="头像"  @click="handleCell(0)" :isLink="true" arrow-direction="right" color="#000">
 				<template #value>
-					<!-- <up-cropper
-						ref="avatarCropperRef"
-						:canChangeSize="false"
-						areaWidth="300rpx" 
-						areaHeight="300rpx" 
-						exportWidth="260rpx" 
-						exportHeight="260rpx"
-						@confirm="onAvatarConfirm"
-					> -->
-						<view class="avatar-wrapper">
-							<up-avatar :src="store.userInfo.avatar?store.userInfo.avatar:'/static/image/userAvatar.png'" size="60rpx"></up-avatar>
-						</view>
-					<!-- </up-cropper> -->
+					<view class="avatar-wrapper">
+						<up-avatar :src="store.userInfo.avatar?store.userInfo.avatar:'/static/image/userAvatar.png'" size="60rpx"></up-avatar>
+					</view>
 				</template>
 			</u-cell>
 			<u-cell title="用户名称" @click="handleCell(1)" :isLink="true" arrow-direction="right" :value="store.userInfo.nickname" color="#000"></u-cell>
@@ -57,13 +47,7 @@
 	
 	const showModal = ref(false)
 	
-	const avatarImage = ref('');
-	const avatarCropperRef = ref(null);
-	
-	const onAvatarConfirm = (rsp) => {
-	  avatarImage.value = rsp.path;
-		console.log(avatarImage.value)
-	};
+
 	
 	const logOut = () => {
 		uni.showModal({

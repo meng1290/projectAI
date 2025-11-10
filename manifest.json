@@ -53,6 +53,13 @@
                     "NSPhotoLibraryUsageDescription" : "该应用需要读取你的相册，以便为你上传图片操作",
                     "NSPhotoLibraryAddUsageDescription" : "该应用需要读取你的相册，以便为你保存图片到相册",
                     "NSCameraUsageDescription" : "该应用需要你的相机，以便你拍摄上传个人信息"
+                },
+                "capabilities" : {
+                    "entitlements" : {
+                        "com.apple.developer.associated-domains" : [
+                            "applinks:static-mp-d3a0d0df-cf2f-4083-a76f-531b4e7cbe85.next.bspapp.com"
+                        ]
+                    }
                 }
             },
             /* SDK配置 */
@@ -60,7 +67,7 @@
                 "oauth" : {
                     "weixin" : {
                         "appid" : "wx2a5b5fbd9281bc80",
-                        "UniversalLinks" : ""
+                        "UniversalLinks" : "https://static-mp-d3a0d0df-cf2f-4083-a76f-531b4e7cbe85.next.bspapp.com/uni-universallinks/__UNI__8F2F210/"
                     }
                 },
                 "payment" : {
@@ -141,5 +148,6 @@
                 }
             }
         }
-    }
+    },
+    "_spaceID" : "mp-d3a0d0df-cf2f-4083-a76f-531b4e7cbe85"
 }

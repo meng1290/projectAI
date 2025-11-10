@@ -72,46 +72,51 @@
 	const alipayPayment = () => {
 		svipPay(typeId.value,{pay_type:'alipayApp'}).then(res => {
 			const orderInfo = res.config.data || ''
-			uni.getProvider({
-				service: 'payment',
-				success: function (res) {
-					close()
-					if (~res.provider.indexOf('alipay')) {
-						uni.requestPayment({
-							"provider": "alipay",   //固定值为"alipay"
-							"orderInfo": orderInfo, //此处为服务器返回的订单信息字符串
-							success: function (res) {
-								var rawdata = JSON.parse(res.rawdata);
-								console.log(1,res.rawdata)
-								console.log(2,JSON.stringify(res.rawdata))
-								console.log('支付成功',rawdata)
-								payResult(true)
-							},
-							fail: function (err) {
-								const errStr = JSON.stringify(err)
-								if(errStr.includes('取消支付')){
-									uni.showToast({
-										title: '取消支付',
-										icon: 'none'
-									});
-								}else{
-									uni.showToast({
-										title: '支付失败',
-										icon: 'none'
-									});
+			if(orderInfo === 'freecard'){
+				payResult(true)
+			}else{
+				uni.getProvider({
+					service: 'payment',
+					success: function (res) {
+						close()
+						if (~res.provider.indexOf('alipay')) {
+							uni.requestPayment({
+								"provider": "alipay",   //固定值为"alipay"
+								"orderInfo": orderInfo, //此处为服务器返回的订单信息字符串
+								success: function (res) {
+									var rawdata = JSON.parse(res.rawdata);
+									console.log(1,res.rawdata)
+									console.log(2,JSON.stringify(res.rawdata))
+									console.log('支付成功',rawdata)
+									payResult(true)
+								},
+								fail: function (err) {
+									const errStr = JSON.stringify(err)
+									if(errStr.includes('取消支付')){
+										uni.showToast({
+											title: '取消支付',
+											icon: 'none'
+										});
+									}else{
+										uni.showToast({
+											title: '支付失败',
+											icon: 'none'
+										});
+									}
+									// payResult(false)
 								}
-								// payResult(false)
-							}
+							});
+						}
+					},
+					fail: function(err) {
+						uni.showToast({
+							title: '支付失败：当前环境不支持',
+							icon: 'none'
 						});
 					}
-				},
-				fail: function(err) {
-					uni.showToast({
-						title: '支付失败：当前环境不支持',
-						icon: 'none'
-					});
-				}
-			});
+				});
+			}
+			
 		})
 	}
 	const payResult = (res) => {

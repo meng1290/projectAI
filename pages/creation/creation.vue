@@ -95,27 +95,77 @@
 			})
 		}
 		btnLoading.value = true
-		createTask({submitimgs:fileList.value[0].url,aiproduct_id:id.value}).then(res => {
-			getTaskResult({id:res.id}).then(res2 => {
-				if(!res2.images.length){
-					btnLoading.value = false
-					return uni.showToast({
-						title: '生成失败',
-						icon: 'none',
-					});
-				}
-				uni.setStorageSync('creationResults',res2.images)
+		createTask({submitimgs:fileList.value[0].url,aiproduct_id:id.value}).then( async (res) => {
+			const result = await pollTaskResult(res.id,6)
+			uni.hideLoading()
+			if (result) {
+				console.log('获取到任务结果:', result)
+				uni.setStorageSync('creationResults',result.images)
 				uni.navigateTo({
 					url:"/pages/creation/creationResults"
 				})
-				btnLoading.value = false
-			}).catch(err => {
-				btnLoading.value = false
-			})
+			} else {
+				console.log('未获取到有效任务结果')
+				uni.showToast({
+					title: '生成失败',
+					icon: 'none',
+				});
+			}
+			
+			// getTaskResult({id:res.id}).then(res2 => {
+			// 	if(!res2.images.length){
+			// 		btnLoading.value = false
+			// 		return uni.showToast({
+			// 			title: '生成失败',
+			// 			icon: 'none',
+			// 		});
+			// 	}
+			// 	uni.setStorageSync('creationResults',res2.images)
+			// 	uni.navigateTo({
+			// 		url:"/pages/creation/creationResults"
+			// 	})
+			// 	btnLoading.value = false
+			// }).catch(err => {
+			// 	btnLoading.value = false
+			// })
 		}).catch(err => {
 			btnLoading.value = false
 		})
 	} 
+	//延迟函数
+	const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms))
+	//轮询获取任务结果
+	const pollTaskResult = async (id, maxRetries = 5, interval = 5000) => {
+	  btnLoading.value = true
+	  for (let i = 0; i < maxRetries; i++) {
+	    try {
+	      const result = await getTaskResult({id})
+				uni.showLoading({ title: '加载中' });
+	      // 检查是否有图片数据
+	      if (result.images && result.images.length > 0) {
+	        btnLoading.value = false
+	        return result // 返回结果并结束轮询
+	      }
+	      console.log(`第 ${i + 1} 次请求，images为空，${interval/1000}秒后重试`)
+	      // 如果不是最后一次重试，则等待5秒
+	      if (i < maxRetries - 1) {
+	        await delay(interval)
+	      }
+	    } catch (error) {
+	      console.error(`第 ${i + 1} 次请求失败:`, error)
+	      // 如果不是最后一次重试，则等待5秒
+	      if (i < maxRetries - 1) {
+	        await delay(interval)
+	      }
+	    }
+	  }
+	  
+	  // 达到最大重试次数仍未获取到数据
+	  btnLoading.value = false
+	  console.log('已达到最大重试次数，未获取到有效数据')
+	  return null
+	}
+	
 	const handleCharging = () => {
 		if(btnLoading.value)return
 		uni.navigateTo({
