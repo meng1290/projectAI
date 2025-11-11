@@ -59,9 +59,9 @@
 	
 	const toAgreement = (type) => {
 		if(type === 1){
-			uni.setStorageSync('webViewObj',{url:'/static/agreement/userAgreement.html',title:'用户协议'})
+			uni.setStorageSync('webViewObj',{url:config.userAgreement,title:'用户协议'})
 		}else{
-			uni.setStorageSync('webViewObj',{url:'/static/agreement/privacyPolicy.html',title:'隐私政策'})
+			uni.setStorageSync('webViewObj',{url:config.privacyPolicy,title:'隐私政策'})
 		}
 		uni.navigateTo({
 			url: `/pages/common/webview/index`,

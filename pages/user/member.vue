@@ -51,6 +51,7 @@
 	import { onLoad, onNavigationBarButtonTap } from '@dcloudio/uni-app'
 	import { memberRight, memberShip } from "@/api/index.js"
 	import selectPayMethod from "@/components/selectPayMethod/index.vue"
+	import config from '@/config/index.js'
 	
 	const state = reactive({
 		memberRightList:[],
@@ -104,7 +105,7 @@
 	}
 
 	const handlePayAgreement = () => {
-		uni.setStorageSync('webViewObj',{url:'/static/agreement/paymentAgreement.html',title:'付费协议'})
+		uni.setStorageSync('webViewObj',{url:config.paymentAgreement,title:'付费协议'})
 		uni.navigateTo({
 			url: `/pages/common/webview/index`,
 		});

@@ -47,6 +47,9 @@
 			</view>
 			
       <view class="loginType">
+				<view class="apple">
+					<text @click="changeLoginType(5)" class="iconfont icon-iconfontapple"></text>
+				</view>
         <text @click="changeLoginType(1)" class="iconfont icon-denglu-shoujidenglu"></text>
         <text @click="changeLoginType(2)" class="iconfont icon-weixin"></text>
         <text @click="changeLoginType(3)" class="iconfont icon-duanxindenglu1"></text>
@@ -73,6 +76,7 @@
 	import utils from "@/utils/index.js"
 	import imageVerifcationCode from "@/components/imageVerifcationCode/index.vue"
 	import avatar from '@/static/image/avatar.png';
+	import config from '@/config/index.js'
 	
 	// 登录参数
 	const state = reactive({
@@ -269,9 +273,9 @@
 	}
 	const toUserAgreement = (type) => {
 		if(type === 1){
-			uni.setStorageSync('webViewObj',{url:'/static/agreement/userAgreement.html',title:'用户协议'})
+			uni.setStorageSync('webViewObj',{url:config.userAgreement,title:'用户协议'})
 		}else{
-			uni.setStorageSync('webViewObj',{url:'/static/agreement/privacyPolicy.html',title:'隐私政策'})
+			uni.setStorageSync('webViewObj',{url:config.privacyPolicy,title:'隐私政策'})
 		}
 		uni.navigateTo({
 			url: `/pages/common/webview/index`,
@@ -399,11 +403,25 @@
         .iconfont{
           font-size: 70rpx;
           margin: 0 24rpx;
-          &:nth-of-type(1){color: #636DF1;}
-          &:nth-of-type(2){color: #28C445;}
-          &:nth-of-type(3){color: #FFAE13;}
-          &:nth-of-type(4){color: #47A0FC;}
         }
+				.apple{
+					width: 68rpx;
+					height: 68rpx;
+					border: 2rpx solid #666;
+					border-radius: 60rpx;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					margin: 0 24rpx;
+					.icon-iconfontapple{
+						font-size: 32rpx;
+						margin: 0;
+					}
+				}
+				.icon-denglu-shoujidenglu{color: #636DF1;}
+				.icon-weixin{color: #28C445;}
+				.icon-duanxindenglu1{color: #FFAE13;}
+				.icon-mimadenglu{color: #47A0FC;}
       }
 		}
 		.agreement{
