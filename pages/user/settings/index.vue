@@ -4,7 +4,7 @@
 			<u-cell title="头像"  @click="handleCell(0)" :isLink="true" arrow-direction="right" color="#000">
 				<template #value>
 					<view class="avatar-wrapper">
-						<up-avatar :src="store.userInfo.avatar?store.userInfo.avatar:'/static/image/userAvatar.png'" size="60rpx"></up-avatar>
+						<up-avatar :src="store.userInfo.avatar?store.userInfo.avatar:''" size="60rpx"></up-avatar>
 					</view>
 				</template>
 			</u-cell>

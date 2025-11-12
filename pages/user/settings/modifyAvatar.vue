@@ -1,24 +1,6 @@
 <template>
 	<view class="page">
-		<view class="avatar">
-			<up-cropper 
-				ref="avatarCropperRef"
-				:canChangeSize="false"
-				areaWidth="400rpx" 
-				areaHeight="400rpx" 
-				exportWidth="400rpx" 
-				exportHeight="400rpx"
-				@confirm="onAvatarConfirm"
-			>
-				<view class="avatar-wrapper">
-					<up-avatar :src="avatarImage" size="400rpx"></up-avatar>
-				</view>
-			</up-cropper>
-		</view>
-		
-		<view class="bottom_btn">
-			<up-button type="primary" style="width: 100%; margin: 50rpx auto;" @click='btnClick'>确认提交</up-button>
-		</view>
+		<qf-image-cropper :width="100" :height="100" :radius="0" @crop="handleCrop"></qf-image-cropper>
 	</view>
 </template>
 
@@ -27,52 +9,41 @@
 	import { onLoad } from '@dcloudio/uni-app'
 	import { useUserStore } from '@/stores/index'
 	const store = useUserStore()
-	import { uploadImageFile } from "@/utils/imageRequest.js"
-	import utils from "@/utils/index.js"
-
-	const avatarImage = ref('');
+	import config from '@/config/index.js'
+	import QfImageCropper  from "@/uni_modules/qf-image-cropper/components/qf-image-cropper/qf-image-cropper.vue"
+	import { changeUserInfo } from "@/api/index.js"
 	
-	const avatarCropperRef = ref(null);
-	
-	const onAvatarConfirm = (rsp) => {
-		
-	  avatarImage.value = rsp.path;
-		console.log(avatarImage.value,rsp)
-	};
-	
-	const btnClick = async () => {
-		if(!avatarImage.value){
-			return uni.showToast({
-				title: '请先选择头像',
-				icon: 'none'
-			});
-		}
-		try {
-			const file = await utils.blobUrlToFormData(avatarImage.value,`avatar_${Date.now()}.png`)
-			const formData = new FormData()
-			formData.append('file', file)
-			
-			const result = await uploadImageFile(formData,avatarImage.value)
-			
-			URL.revokeObjectURL(avatarImage.value)
-		} catch(err) {
-			console.log(err)
-			uni.showToast({
-				title: '上传失败',
-				icon: 'none'
-			});
-		}
-		// utils.blobUrlToFile(avatarImage.value,'avatar.png').then(file => {
-		// 	console.log(file)
-		// 	const formData = new FormData();
-		// 	formData.append('file', file);
-		// 	uploadImageFile(formData).then(res => {
-		// 		console.log(res)
-		// 	})
-		// })
-		
-		
-		
+	const handleCrop = (e) => {
+		uni.uploadFile({
+			url: config.baseUrl + '/upload/image/file',
+			filePath: e.tempFilePath,
+			name: 'file',
+			formData: {},
+			success: (res) => {
+				const data = JSON.parse(res.data);
+				if (res.statusCode === 200) {
+					if (data.code === 200) {
+						changeUserInfo({avatar: data.result.path}).then(result => {
+							uni.showToast({ title: "上传成功", icon: 'success' });
+							setTimeout(() => {
+								uni.switchTab({
+								  url: '/pages/user/index'
+								});
+							},300)
+						}).catch(err => {
+							uni.showToast({ title: "上传失败", icon: 'none' });
+						})
+					} else {
+						uni.showToast({ title: data.message, icon: 'none' });
+					}
+				} else {
+					uni.showToast({ title: '服务器异常', icon: 'none' });
+				}
+			},
+			fail: (err) => {
+				uni.showToast({ title: '上传失败', icon: 'none' });
+			}
+		});
 	}
 </script>
 
@@ -81,19 +52,6 @@
 		background-color: #f5f5f5;
 	}
 	.page{
-		padding: 32rpx;
-		.avatar{
-			padding: 100rpx 0;
-			display: flex;
-			justify-content: center;
-		}
 		
-		.bottom_btn{
-			padding: 0 32rpx;
-			position: fixed;
-			left: 0;
-			right: 0;
-			bottom: 0;
-		}
 	}
 </style>

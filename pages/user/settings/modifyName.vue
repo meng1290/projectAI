@@ -5,7 +5,7 @@
 				<view class="">
 					用户名称
 				</view>
-				<input type="text" focus v-model="username" placeholder="请输入新用户名称" placeholder-class="placeholder">
+				<input type="text" focus v-model="username" placeholder="请输入新用户名称" pattern="^\S*$" @input="handleInput"  placeholder-class="placeholder">
 			</view>
 		</view>
 		<view class="bottom_btn">
@@ -19,21 +19,24 @@
 	import { onLoad } from '@dcloudio/uni-app'
 	import { useUserStore } from '@/stores/index'
 	const store = useUserStore()
+	import { changeUserInfo } from "@/api/index.js"
 	
 	const username = ref('')
 	onLoad(() => {
 	  username.value = store.userInfo.nickname
 	})
-	
+	const handleInput = (e) => {
+		username.value = e.detail.value.replace(/\s+/g, '');
+	}
 	const btnClick = () => {
-		return uni.showToast({
-			title: '功能开发中',
-			icon: 'none'
-		});
-		modifyUserName({
-			username:this.username.value
-		}).then(res=>{
-			
+		if(!username.value || !username.value.trim()){
+			return uni.showToast({
+				title: '请输入昵称',
+				icon: 'none'
+			});
+		}
+		
+		changeUserInfo({nickname:username.value}).then(res=>{
 			setTimeout(()=>{
 				uni.switchTab({
 					url:'/pages/user/index'

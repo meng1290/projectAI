@@ -2,7 +2,7 @@
 	<view class="user">
 		<view class="header">
 			<view class="avatar-text" v-if="store.isLogin">
-				<up-avatar :src="store.userInfo.avatar?store.userInfo.avatar:avatar" size="64" shape="circle" mode="aspectFill"></up-avatar>
+				<up-avatar :src="store.userInfo.avatar?store.userInfo.avatar:''" size="64" shape="circle" mode="aspectFill"></up-avatar>
 				<view class="userName">{{store.userInfo.nickname}}</view>
 			</view>
 			<view class="avatar-text" v-else @click="handleLogin">
@@ -38,7 +38,6 @@
 	import { onLoad, onShow } from '@dcloudio/uni-app'
 	import { useUserStore } from '@/stores/index'
 	const store = useUserStore()
-	import avatar from "@/static/image/userAvatar.png"
 	
 	onShow(() => {
 		if(store.isLogin){
