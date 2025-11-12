@@ -6,9 +6,19 @@
             "type" : "uni-app:app-ios"
         },
         {
-            "customPlaygroundType" : "device",
-            "playground" : "standard",
+            "customPlaygroundType" : "local",
+            "playground" : "custom",
             "type" : "uni-app:app-android"
+        },
+        {
+            "app" : {
+                "launchtype" : "local"
+            },
+            "default" : {
+                "launchtype" : "local"
+            },
+            "provider" : "aliyun",
+            "type" : "uniCloud"
         }
     ]
 }

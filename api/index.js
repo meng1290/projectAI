@@ -76,3 +76,7 @@ export function billList(data) {
 export function changeUserInfo(data) {
 	return request.post('user/change/info',data)
 }
+/* 手机号一键登录 */
+export function authPhoneLogin(data) {
+	return request.post('auth/local_phone_login',data,{needToken:false})
+}

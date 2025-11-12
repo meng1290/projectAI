@@ -1,23 +1,33 @@
-'use strict';
-exports.main = async (event, context) => {
-  // event里包含着客户端提交的参数
-  console.log("event:"+event);
-  const res = await uniCloud.getPhoneNumber({
-  	appid: '__UNI__8F2F210', //填写你自己的appid
-  	provider: 'univerify',
-  	access_token: event.access_token,
-  	openid: event.openid
-  })
- 
-  console.log(res); // res里包含手机号
-  // 执行用户信息入库等操作，正常情况下不要把完整手机号返回给前端
-  // 如果数据库在uniCloud上，可以直接入库
-  // 如果数据库不在uniCloud上，可以通过 uniCloud.httpclient API，
-  // 将手机号通过http方式传递给其他服务器的接口，
-  // 详见：https://uniapp.dcloud.net.cn/uniCloud/cf-functions?id=httpclient
-  return {
-    code: 0,
-    message: '获取手机号成功',
-    data:res
+// 云函数验证签名，此示例中以接受GET请求为例作演示
+const crypto = require('crypto')
+exports.main = async(event) => {
+
+  const secret = 'your-secret-string' // 自己的密钥不要直接使用示例值，且注意不要泄露
+  const hmac = crypto.createHmac('sha256', secret);
+
+  let params = event.queryStringParameters
+  const sign = params.sign
+  delete params.sign
+  const signStr = Object.keys(params).sort().map(key => {
+    return `${key}=${params[key]}`
+  }).join('&')
+
+  hmac.update(signStr);
+
+  if(sign!==hmac.digest('hex')){
+    throw new Error('非法访问')
   }
+
+  const {
+    access_token,
+    openid
+  } = params
+  const res = await uniCloud.getPhoneNumber({
+  	provider: 'univerify',
+    appid: '__UNI__8F2F210', // DCloud appid，不同于callFunction方式调用，使用云函数Url化需要传递DCloud appid参数
+  	access_token: access_token,
+  	openid: openid
+  })
+  // 返回手机号给自己服务器
+  return res
 }

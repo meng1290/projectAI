@@ -1,0 +1,7 @@
+{
+  "name": "getPhoneSign",
+  "dependencies": {},
+  "extensions": {
+    "uni-cloud-jql": {}
+  }
+}

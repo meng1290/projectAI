@@ -8,10 +8,10 @@
       </view>
 			<view class="form">
         <up-form labelPosition="left" :model="form" :rules="rules" ref="formRef" errorType="toast">
-					<view class="phoneAuth" v-if="loginType === 1">
+					<!-- <view class="phoneAuth" v-if="loginType === 1">
 						<view class="phone">188****8888</view>
 						<view class="tips">首次验证通过即注册 童创AI账号</view>
-					</view>
+					</view> -->
 					<view class="WeChatAuth" v-if="loginType === 2">
 						<text class="iconfont icon-weixin"></text>
 						<text class="iconfont icon-shuangxiang"></text>
@@ -41,7 +41,7 @@
           
         </up-form>
 				<view class="btns">
-          <up-button type="primary" @click="login()" :loading="btnLoading" loadingText="请求中" color="#0166FE" :customStyle="{fontSize:'32rpx !important'}">{{['','本机号一键登录','微信授权登录','短信登录','账户密码登录'][loginType]}}</up-button>
+          <up-button type="primary" @click="login()" :loading="btnLoading" loadingText="请求中" color="#0166FE" :customStyle="{fontSize:'32rpx !important'}">{{['','本机号一键登录','微信授权登录','短信登录','账户密码登录'][loginType] || '登录'}}</up-button>
           <!-- <up-button type="primary" @click="login()" icon="heart" color="#ffffff" iconColor="#333" text="本机登录"></up-button> -->
         </view>
 			</view>
@@ -108,11 +108,22 @@
   //切换登录类型
   const loginType = ref(4)
   const changeLoginType = (type) => {
-    if(type === loginType.value)return
-    if([1].includes(type)){
+    if(type === 1){//手机号授权登录
+			if(!radiovalue.value.length){
+				return uni.showToast({
+					title: '请阅读并勾选服务协议',
+					icon: 'none'
+				});
+			}
+			phoneAuthLogin()
+		}else if(type === 5){//苹果授权登录
+			
       return uni.$u.toast('暂未开通')
-    }
-    loginType.value = type
+    }else{
+			if(type === loginType.value)return
+			loginType.value = type
+		}
+    
   }
 	//短信验证码
 	const tips = ref('');
@@ -160,15 +171,7 @@
 	const formRef = ref(null)
 	const btnLoading = ref(false)
 	const login = () => {
-		if(loginType.value === 1){
-			if(!radiovalue.value.length){
-				return uni.showToast({
-					title: '请阅读并勾选服务协议',
-					icon: 'none'
-				});
-			}
-			
-		}else if(loginType.value === 2){
+		if(loginType.value === 2){
 			if(!radiovalue.value.length){
 				return uni.showToast({
 					title: '请阅读并勾选服务协议',
@@ -226,7 +229,6 @@
 		}else{
 			
 		}
-		
 	}
 	//微信授权登录
 	const wechatLogin = () => {
@@ -237,7 +239,7 @@
 				const { code } = loginRes;
 				if (code) {
 					btnLoading.value = true
-					store.wechatLoain({code:code}).then(res => {
+					store.wechatLogin({code:code}).then(res => {
 						uni.showToast({
 							title: '登录成功',
 							icon: 'success'
@@ -254,6 +256,58 @@
 				uni.showToast({ title: '授权已取消', icon: 'none' });
 			}
 		});
+	}
+	//手机号授权登录
+	const phoneAuthLogin = () => {
+		//在这里写一键登录的代码
+		uni.preLogin({
+			provider: 'univerify',
+			success(){  //预登录成功
+				// 显示一键登录选项
+				uni.login({
+					provider: 'univerify',
+					univerifyStyle: { 
+					// 自定义登录框样式
+						//参考`univerifyStyle 数据结构`
+					//具体样式设计请去uni-app文档查看
+					//不填写任何自定义登录框样式的话就会采取默认样式
+					},
+					success(res){ // 登录成功
+						console.log(123,res.authResult)
+						const params = {
+							access_token:res.authResult.access_token,
+							openid:res.authResult.openid
+						}
+						store.phoneAuthLogin(params).then(result => {
+							uni.closeAuthView()
+							uni.showToast({
+								title: '登录成功',
+								icon: 'success'
+							});
+							navigateBackOrHome()
+						}).catch(err => {
+							uni.closeAuthView()
+						})
+					},
+					fail(err) {
+						uni.showToast({
+							title:"您已取消一键登录",
+							icon: "none"
+						})
+						setTimeout(() => {
+							uni.closeAuthView() //关闭一键登录弹出窗口
+						}, 500)
+					}
+				})
+			},
+			fail(res){  
+			// 预登录失败
+			// 不显示一键登录选项（或置灰）
+				// 根据错误信息判断失败原因，如有需要可将错误提交给统计服务器
+				console.log(res.errCode)
+				console.log(res.errMsg)
+			}
+		})
 	}
 	
 	

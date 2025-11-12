@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { passWordLogin, authSmslogin, authApp, userInfo } from '@/api/index.js'
+import { passWordLogin, authSmslogin, authApp, userInfo, authPhoneLogin  } from '@/api/index.js'
 
 // 定义 Store，第一个参数是 Store 的唯一标识
 export const useUserStore = defineStore('user', {
@@ -30,7 +30,7 @@ export const useUserStore = defineStore('user', {
 			})
     },
 		//微信登录
-		wechatLoain(data){
+		wechatLogin(data){
 			return new Promise((resolve,reject) => {
 				authApp(data).then(res => {
 				  this.token = res.token || ''
@@ -49,6 +49,21 @@ export const useUserStore = defineStore('user', {
 				  this.userInfo = res.user || {}
 				  resolve(true)
 				}).catch(err => {
+					reject(false)
+				})
+			})
+		},
+		//手机号授权登录
+		phoneAuthLogin(data) {
+			console.log(1234,data)
+			return new Promise((resolve,reject) => {
+				authPhoneLogin(data).then(res => {
+					console.log(res,123)
+					this.token = res.token || ''
+					this.userInfo = res.user || {}
+					resolve(true)
+				}).catch(err => {
+					console.log(12345,err)
 					reject(false)
 				})
 			})
