@@ -12,9 +12,12 @@
         },
         {
             "app" : {
-                "launchtype" : "local"
+                "launchtype" : "remote"
             },
             "default" : {
+                "launchtype" : "local"
+            },
+            "h5" : {
                 "launchtype" : "local"
             },
             "provider" : "aliyun",

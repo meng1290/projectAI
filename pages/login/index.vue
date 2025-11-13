@@ -47,10 +47,10 @@
 			</view>
 			
       <view class="loginType">
-				<view class="apple">
+				<view class="apple" v-if="isIOS13Plus">
 					<text @click="changeLoginType(5)" class="iconfont icon-iconfontapple"></text>
 				</view>
-        <text @click="changeLoginType(1)" class="iconfont icon-denglu-shoujidenglu"></text>
+        <text v-if="isShowPhoneAuthLonginBtn" @click="changeLoginType(1)" class="iconfont icon-denglu-shoujidenglu"></text>
         <text @click="changeLoginType(2)" class="iconfont icon-weixin"></text>
         <text @click="changeLoginType(3)" class="iconfont icon-duanxindenglu1"></text>
         <text @click="changeLoginType(4)" class="iconfont icon-mimadenglu"></text>
@@ -105,6 +105,32 @@
 	  }
 	})
 	const { form, rules } = toRefs(state)
+	const isShowPhoneAuthLonginBtn = ref(false)
+	const isIOS13Plus = ref(false)
+	onLoad(() => {
+		// #ifdef APP-PLUS
+		//判断是否满足手机号一键登录条件
+		uni.preLogin({
+			provider: 'univerify',
+			success(){
+				isShowPhoneAuthLonginBtn.value = true
+			},
+			fail() {
+				isShowPhoneAuthLonginBtn.value = false
+			}
+		})
+		// #endif
+		//判断是否满足苹果授权登录条件
+		uni.getSystemInfo({
+			success: (res) => {
+				// 判断是否为 iOS 且系统版本 >= 13
+				if (res.platform === 'ios') {
+					const iosVersion = parseFloat(res.system)
+					isIOS13Plus.value = iosVersion >= 13.0
+				}
+			}
+		})
+	})
   //切换登录类型
   const loginType = ref(4)
   const changeLoginType = (type) => {
@@ -117,8 +143,13 @@
 			}
 			phoneAuthLogin()
 		}else if(type === 5){//苹果授权登录
-			
-      return uni.$u.toast('暂未开通')
+			if(!radiovalue.value.length){
+				return uni.showToast({
+					title: '请阅读并勾选服务协议',
+					icon: 'none'
+				});
+			}
+			handleAppleLogin()
     }else{
 			if(type === loginType.value)return
 			loginType.value = type
@@ -309,7 +340,27 @@
 			}
 		})
 	}
-	
+	//苹果授权登录
+	const handleAppleLogin = () => {
+		uni.login({
+			provider: 'apple',
+			success: function (loginRes) {
+				// 登录成功
+				uni.getUserInfo({
+					provider: 'apple',
+					success: function(info) {
+							// 获取用户信息成功, info.authResult中保存登录认证数据
+					}
+				})
+			},
+			fail: function (err) {
+				// 登录授权失败
+				// err.code错误码参考`授权失败错误码(code)说明`
+				console.log(err)
+			}
+		});
+
+	}
 	
 	
 	//协议勾选
@@ -459,17 +510,18 @@
           margin: 0 24rpx;
         }
 				.apple{
-					width: 68rpx;
-					height: 68rpx;
-					border: 2rpx solid #666;
+					width: 70rpx;
+					height: 70rpx;
 					border-radius: 60rpx;
 					display: flex;
 					justify-content: center;
 					align-items: center;
 					margin: 0 24rpx;
+					background-color: #000;
 					.icon-iconfontapple{
 						font-size: 32rpx;
 						margin: 0;
+						color: #fff;
 					}
 				}
 				.icon-denglu-shoujidenglu{color: #636DF1;}
