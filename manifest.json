@@ -2,8 +2,8 @@
     "name" : "童创AI",
     "appid" : "__UNI__8F2F210",
     "description" : "一键换装应用",
-    "versionName" : "1.0.3",
-    "versionCode" : 103,
+    "versionName" : "1.0.4",
+    "versionCode" : 104,
     "transformPx" : false,
     /* 5+App特有相关 */
     "app-plus" : {
@@ -69,7 +69,8 @@
                         "appid" : "wx2a5b5fbd9281bc80",
                         "UniversalLinks" : "https://static-mp-d3a0d0df-cf2f-4083-a76f-531b4e7cbe85.next.bspapp.com/uni-universallinks/__UNI__8F2F210/"
                     },
-                    "apple" : {}
+                    "apple" : {},
+                    "univerify" : {}
                 },
                 "payment" : {
                     "alipay" : {
