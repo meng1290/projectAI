@@ -125,7 +125,7 @@
 			success: (res) => {
 				// 判断是否为 iOS 且系统版本 >= 13
 				if (res.platform === 'ios') {
-					const iosVersion = parseFloat(res.system)
+					const iosVersion = parseFloat(res.osVersion)
 					isIOS13Plus.value = iosVersion >= 13.0
 				}
 			}
@@ -337,11 +337,17 @@
 				// 根据错误信息判断失败原因，如有需要可将错误提交给统计服务器
 				console.log(res.errCode)
 				console.log(res.errMsg)
+				uni.showToast({
+					title:"登录环境不支持",
+					icon: "none"
+				})
 			}
 		})
 	}
 	//苹果授权登录
 	const handleAppleLogin = () => {
+		uni.showLoading({ title: '加载中' });
+		store.appleAuthLogout()
 		uni.login({
 			provider: 'apple',
 			success: function (loginRes) {
@@ -349,19 +355,46 @@
 				uni.getUserInfo({
 					provider: 'apple',
 					success: function(info) {
-							// 获取用户信息成功, info.authResult中保存登录认证数据
+						// 获取用户信息成功, info.authResult中保存登录认证数据
+						console.log('info',info)
+						const params = {
+							identityToken: info.userInfo.identityToken,
+							userIdentifier: info.userInfo.openId,
+							email: info.userInfo.email,
+							fullName: info.userInfo.fullName.familyName
+						}
+						store.appleAuthLogin(params).then(res => {
+							uni.hideLoading()
+							uni.showToast({
+								title: '登录成功',
+								icon: 'success'
+							});
+							navigateBackOrHome()
+						}).catch(err => {
+							uni.hideLoading()
+						})
+					},
+					fail: function (err){
+						uni.hideLoading()
+						uni.showToast({
+							title: '登录失败',
+							icon: 'none'
+						});
 					}
 				})
 			},
 			fail: function (err) {
+				uni.hideLoading()
 				// 登录授权失败
-				// err.code错误码参考`授权失败错误码(code)说明`
-				console.log(err)
+				console.log('err',err)
+				uni.showToast({
+					title:"您已取消一键登录",
+					icon: "none"
+				})
 			}
 		});
-
 	}
-	
+
 	
 	//协议勾选
 	const radiovalue = ref([])

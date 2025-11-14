@@ -80,3 +80,7 @@ export function changeUserInfo(data) {
 export function authPhoneLogin(data) {
 	return request.post('auth/local_phone_login',data,{needToken:false})
 }
+/* 苹果一键登录 */ 
+export function appleLoagin(data) {
+	return request.post('auth/appleLogin',data,{needToken:false})
+}

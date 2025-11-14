@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { passWordLogin, authSmslogin, authApp, userInfo, authPhoneLogin  } from '@/api/index.js'
+import { passWordLogin, authSmslogin, authApp, userInfo, authPhoneLogin, appleLoagin  } from '@/api/index.js'
 
 // 定义 Store，第一个参数是 Store 的唯一标识
 export const useUserStore = defineStore('user', {
@@ -68,12 +68,46 @@ export const useUserStore = defineStore('user', {
 				})
 			})
 		},
+		//苹果授权登录
+		appleAuthLogin(data) {
+			console.log('data',data)
+			return new Promise((resolve,reject) => {
+				appleLoagin(data).then(res => {
+					this.token = res.token || ''
+					this.userInfo = res.user || {}
+					resolve(true)
+				}).catch(err => {
+					console.log(12345,err)
+					reject(false)
+				})
+			})
+		},
+		//苹果授权清除
+		appleAuthLogout() {
+			if(typeof plus === 'undefined')return
+			plus.oauth.getServices((services) => {
+				const appleService = services.find((item) => item.id === 'apple');
+				if (!appleService) {
+					console.log('未找到苹果授权服务')
+					return;
+				}
+				// 调用退出登录（清除本地授权状态）
+				appleService.logout(() => {
+					console.log('苹果登录退出成功');
+				},(error) => {
+					console.log(`苹果登录退出失败：${error.message}`);
+				});
+			},(error) => {
+				console.log(`获取授权服务失败：${error.message}`);
+			});
+		},
     // 退出登录
     logout() {
 			return new Promise((resolve,reject) => {
 				setTimeout(()=>{
 					this.token = ''
 					this.userInfo = {}
+					this.appleAuthLogout()
 					resolve(true)
 				},100)
       })
