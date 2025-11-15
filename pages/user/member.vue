@@ -37,7 +37,14 @@
 			
 			<view class="btn">
 				<up-button type="primary" @click="handlePaySubmit" color="#0166FE" shape="circle" :customStyle="{height:'100rpx',fontSize:'32rpx'}">立即开通</up-button>
-				<view class="agreement">已阅读并同意<text class="link" @click="handlePayAgreement">《童创AI付费协议》</text>（含自动续费条款）</view>
+				<up-checkbox-group v-model="radioValue">
+					<up-checkbox shape="square">
+						<template #label>
+							<view class="agreement">已阅读并同意<text class="link" @click="handlePayAgreement">《童创AI付费协议》</text></view>
+						</template>
+					</up-checkbox>
+				</up-checkbox-group>
+				
 			</view>
 			
 		</view>
@@ -58,8 +65,9 @@
 	  dataList: [],
 		radioVipValue: 0,
 		amount:'0',
+		radioValue: false,
 	})
-	const { memberRightList, dataList, radioVipValue, amount } = toRefs(state)
+	const { memberRightList, dataList, radioVipValue, amount, radioValue } = toRefs(state)
 	
 	
 	onLoad(() => {
@@ -91,6 +99,12 @@
 		if(!radioVipValue.value){
 			return uni.showToast({
 				title: '请选择会员类型',
+				icon: 'none'
+			});
+		}
+		if(!radioValue.value){
+			return uni.showToast({
+				title: '请阅读并同意支付协议',
 				icon: 'none'
 			});
 		}
@@ -224,10 +238,14 @@
 				bottom: 0;
 				left: 0;
 				right: 0;
+				.u-checkbox{
+					width: 100%;
+					justify-content: center;
+				}
 				.agreement{
 					font-size: 28rpx;
 					text-align: center;
-					margin-top: 20rpx;
+					
 					color: #333;
 					.link{
 						color: #249afa;

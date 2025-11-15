@@ -96,7 +96,8 @@
 		}
 		btnLoading.value = true
 		createTask({submitimgs:fileList.value[0].url,aiproduct_id:id.value}).then( async (res) => {
-			const result = await pollTaskResult(res.id,6)
+			uni.showLoading({ title: '生成中' });
+			const result = await pollTaskResult(res.id,5)
 			uni.hideLoading()
 			if (result) {
 				console.log('获取到任务结果:', result)
@@ -106,28 +107,18 @@
 				})
 			} else {
 				console.log('未获取到有效任务结果')
-				uni.showToast({
-					title: '生成失败',
-					icon: 'none',
-				});
+				uni.showModal({
+					title:'提示',
+					content:'任务已提交，可在创作记录中查看',
+					showCancel:false,
+					success(res) {
+						if(res.confirm){
+							fileList.value = []
+							store.getUserInfo()
+						}
+					}
+				})
 			}
-			
-			// getTaskResult({id:res.id}).then(res2 => {
-			// 	if(!res2.images.length){
-			// 		btnLoading.value = false
-			// 		return uni.showToast({
-			// 			title: '生成失败',
-			// 			icon: 'none',
-			// 		});
-			// 	}
-			// 	uni.setStorageSync('creationResults',res2.images)
-			// 	uni.navigateTo({
-			// 		url:"/pages/creation/creationResults"
-			// 	})
-			// 	btnLoading.value = false
-			// }).catch(err => {
-			// 	btnLoading.value = false
-			// })
 		}).catch(err => {
 			btnLoading.value = false
 		})
@@ -140,7 +131,6 @@
 	  for (let i = 0; i < maxRetries; i++) {
 	    try {
 	      const result = await getTaskResult({id})
-				uni.showLoading({ title: '加载中' });
 	      // 检查是否有图片数据
 	      if (result.images && result.images.length > 0) {
 	        btnLoading.value = false

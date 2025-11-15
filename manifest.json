@@ -147,7 +147,23 @@
                     "signAlg" : "SHA256withECDSA",
                     "storeFile" : "c:\\Users\\mcz15\\AppData\\Roaming\\HBuilder X\\extensions\\launcher\\agc-certs\\1761362428829.p12",
                     "storePassword" : "0000001BD3C6BE4BC405424859D81A7B3F2F1C2EA41B92ADE8F9AF3F39C640307A9FED4893A9003E2A9790"
+                },
+                "release" : {
+                    "certpath" : "C:\\Users\\mcz15\\Desktop\\AI\\harmony-configs\\tongchuangai.cer",
+                    "keyAlias" : "tongchuangAI",
+                    "keyPassword" : "0000001C4749B96EC0BEB05CFF407CD63EEF815A0B261807D23D1F3AECCA187B4E10A9396631A18CFB6A4DD9",
+                    "profile" : "C:\\Users\\mcz15\\Desktop\\AI\\harmony-configs\\profile_fabuRelease.p7b",
+                    "signAlg" : "SHA256withECDSA",
+                    "storeFile" : "C:\\Users\\mcz15\\Desktop\\AI\\harmony-configs\\p12.p12",
+                    "storePassword" : "0000001C0E9D9B08DA402A29FCAF6DC8CA72179C86F2FAE94FD3569CE9C8DCA842EAD1765108F7826915315C"
                 }
+            },
+            "icons" : {
+                "foreground" : "static/image/avatar.png",
+                "background" : "static/image/avatar.png"
+            },
+            "splashScreens" : {
+                "startWindowIcon" : "static/image/avatar.png"
             }
         }
     },

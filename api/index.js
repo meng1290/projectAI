@@ -30,7 +30,7 @@ export function createTask(data) {
 }
 /* 获取执行结果 */
 export function getTaskResult(data) {
-	return request.get('aitask/getresult',data)
+	return request.get('aitask/getresult',data,{isLoading:false})
 }
 /* 会员权益 */
 export function memberRight(data) {

@@ -34,13 +34,14 @@
 			</view>
 			<up-empty v-if="!dataList.length" text=" " mode="data" :icon="'/static/image/data.png'" />
 			<up-loadmore line :status="loadStatus" />
+			<up-back-top :scroll-top="scrollTop"></up-back-top>
 		</view>	
 	</view>
 </template>
 
 <script setup>
 	import { reactive, ref, toRefs, unref, inject} from 'vue'
-	import { onLoad, onPullDownRefresh, onReachBottom } from '@dcloudio/uni-app'
+	import { onLoad, onPullDownRefresh, onReachBottom, onPageScroll } from '@dcloudio/uni-app'
 	import { zuopinlist } from '@/api/index.js'
 	import { useLoginRefresh } from '@/utils/useLoginRefresh.js';
 	import { useUserStore } from '@/stores/index'
@@ -112,6 +113,11 @@
 			url:"/pages/creation/creationResults"
 		})
 	}
+	
+	const scrollTop = ref(0);  
+	onPageScroll((e) => {
+		scrollTop.value = e.scrollTop;
+	});
 </script>
 
 <style lang="scss" scoped>

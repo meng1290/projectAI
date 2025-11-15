@@ -13,6 +13,12 @@
 
 <script setup>
 	import { reactive, ref, toRefs, unref, inject} from 'vue'
+	import { onLoad } from '@dcloudio/uni-app'
+	import { useUserStore } from '@/stores/index'
+	const store = useUserStore()
+	onLoad(() => {
+		store.getUserInfo()
+	})
 	const handleBackHome = () => {
 		uni.switchTab({
 		  url: "/pages/index/index"

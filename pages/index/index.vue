@@ -59,6 +59,7 @@
 		//下拉刷新
 		onPullDownRefresh(() => {
 			uni.stopPullDownRefresh()
+			getCategoryList()
       resetList()
 		})
 		//滚动触底

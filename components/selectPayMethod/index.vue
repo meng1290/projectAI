@@ -85,8 +85,6 @@
 								"orderInfo": orderInfo, //此处为服务器返回的订单信息字符串
 								success: function (res) {
 									var rawdata = JSON.parse(res.rawdata);
-									console.log(1,res.rawdata)
-									console.log(2,JSON.stringify(res.rawdata))
 									console.log('支付成功',rawdata)
 									payResult(true)
 								},

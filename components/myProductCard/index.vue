@@ -10,7 +10,9 @@
 		    </up-image>
 			</view>
 			<view class="info">
-				<view class="store_name">{{item.store_name}}</view>
+				<view class="name">
+					<view class="store_name">{{item.store_name}}</view>
+				</view>
 				<view class="btns">
 					<view class="collect">
 						<view>
@@ -114,14 +116,18 @@
 			}
 			.info{
 				padding: 10rpx 20rpx 20rpx;
-				.store_name{
-					font-size: 28rpx;
-					text-overflow: ellipsis;
-					display: -webkit-box;
-					-webkit-line-clamp: 2;
-					-webkit-box-orient: vertical;
-					overflow: hidden;
-					word-break: break-all;
+				.name{
+					width: 100%;
+					height: 80rpx;
+					.store_name{
+						font-size: 28rpx;
+						text-overflow: ellipsis;
+						display: -webkit-box;
+						-webkit-line-clamp: 2;
+						-webkit-box-orient: vertical;
+						overflow: hidden;
+						word-break: break-all;
+					}
 				}
 				.btns{
 					width: 100%;

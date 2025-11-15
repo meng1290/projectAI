@@ -12,8 +12,8 @@ const getToken = async () => {
 }
 
 
-async function baseRequest(url, method, data,opt = {needToken:true},params) {
-	const { needToken = true } = opt;
+async function baseRequest(url, method, data,opt = {needToken:true,isLoading:true}) {
+	const { needToken = true, isLoading = true } = opt;
 	let HEADER = {
 		'content-type': 'application/json',
 	}
@@ -32,7 +32,7 @@ async function baseRequest(url, method, data,opt = {needToken:true},params) {
 			msg:'未登录'
 		})
 	}
-	Loading.show()
+	isLoading?Loading.show():null
 	if(token) HEADER['X-Token'] = token;
 	return new Promise((reslove, reject) => {
 		uni.request({
@@ -41,7 +41,7 @@ async function baseRequest(url, method, data,opt = {needToken:true},params) {
 			header: HEADER,
 			data: data || {},
 			success: (data) => {
-				Loading.hide()
+				isLoading?Loading.hide():null
 				let res = data.data
 			  if ([200].indexOf(res.code)!=-1) {
 					reslove(res.result);
@@ -85,7 +85,7 @@ async function baseRequest(url, method, data,opt = {needToken:true},params) {
 const request = {};
 
 ['options', 'get', 'post', 'put', 'head', 'delete', 'trace', 'connect'].forEach((method) => {
-	request[method] = (api, data, opt, params) => baseRequest(api, method, data, opt || {}, params)
+	request[method] = (api, data, opt) => baseRequest(api, method, data, opt || {})
 });
 
 export default request;
