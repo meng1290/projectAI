@@ -1,0 +1,13 @@
+// uni_modules/your-plugin-name/utssdk/app-harmony/index.uts
+import { MyApiSync1 } from '../interface.uts';
+import promptAction from '@ohos.prompt';
+
+interface ShowToastOptions {
+  message: string;
+}
+
+export const myApiSync1: MyApiSync1 = function (paramA: string): string {
+  let options: ShowToastOptions = { message: paramA };
+  promptAction.showToast(options);
+  return paramA;
+}

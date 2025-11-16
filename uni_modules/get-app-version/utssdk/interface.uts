@@ -1,0 +1,19 @@
+// interface.uts
+// 定义异步方法的参数类型
+export type GetVersionOptions = {
+  success?: (res: GetVersionResult) => void
+  fail?: (err: Error) => void
+  complete?: () => void
+}
+
+// 定义返回结果的类型
+export type GetVersionResult = {
+  versionName: string
+  versionCode: number
+}
+
+// 定义同步方法类型
+export type GetVersionSync = () => GetVersionResult
+
+// 定义异步方法类型
+export type GetVersion = (options: GetVersionOptions) => void

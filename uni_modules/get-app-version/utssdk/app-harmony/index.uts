@@ -1,0 +1,37 @@
+// utssdk/app-harmony/index.uts
+// 导入鸿蒙原生API
+import bundleManager from '@ohos.bundle.bundleManager'
+// 从接口文件导入定义的类型
+import { GetVersionOptions, GetVersionResult, GetVersionSync, GetVersion } from "../interface.uts"
+
+// 实现异步获取版本信息方法
+export const getAppVersion: GetVersion = (options: GetVersionOptions) => {
+  bundleManager.getBundleInfoForSelf(bundleManager.BundleFlag.GET_BUNDLE_INFO_WITH_APPLICATION)
+    .then((bundleInfo: bundleManager.BundleInfo) => {
+      const result: GetVersionResult = {
+        versionName: bundleInfo.versionName,
+        versionCode: bundleInfo.versionCode
+      }
+      options.success?.(result)
+    }).catch((err: Error) => {
+      options.fail?.(err)
+    }).finally(() => {
+      options.complete?.()
+    })
+}
+
+// 实现同步获取版本信息方法
+export const getAppVersionSync: GetVersionSync = (): GetVersionResult => {
+  try {
+    // 注意：鸿蒙API通常是异步的，这里假设在同步上下文中能够可靠获取。
+    // 在实际开发中，请根据鸿蒙API的实际情况和UTS的约束进行调整。
+    let bundleInfo = bundleManager.getBundleInfoForSelfSync(bundleManager.BundleFlag.GET_BUNDLE_INFO_WITH_APPLICATION)
+    return {
+      versionName: bundleInfo.versionName,
+      versionCode: bundleInfo.versionCode
+    }
+  } catch (error) {
+    // 处理错误，这里简单抛出一个错误示例
+    throw new Error(`Failed to get version synchronously: ${error.message}`)
+  }
+}

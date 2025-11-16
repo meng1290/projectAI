@@ -1,0 +1,2 @@
+// uni_modules/your-plugin-name/utssdk/interface.uts
+export type MyApiSync1 = (paramA: string) => string;

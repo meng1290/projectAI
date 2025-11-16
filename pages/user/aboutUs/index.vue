@@ -46,17 +46,34 @@
 
 <script setup>
 	import { reactive, ref, onMounted, toRefs, unref, inject} from 'vue'
+	// #ifdef APP-HARMONY
+	import { myApiSync1 } from '@/uni_modules/mark-battery'
+	import { getAppVersionSync } from '@/uni_modules/get-app-version'
+	// #endif
 	import avatar from '@/static/image/avatar.png';
 	import config from "@/config/index.js"
 	const name = config.appName
 	const version = ref('0.0.0')
 	
 	onMounted(() => {
-	  if (typeof plus !== 'undefined') {
-	    version.value = plus.runtime.version;
-	  }
+		getAppVersionInfo()
+	  
 	});
-	
+	const getAppVersionInfo = () => {
+		// #ifdef APP-PLUS
+		if (typeof plus !== 'undefined') {
+		  version.value = plus.runtime.version;
+		}
+		// #endif
+		// #ifdef APP-HARMONY
+		const msg = 'Hello Harmony!';
+		const result = myApiSync1(msg);
+		console.log(result); // 输出: Hello Harmony!
+		const versionInfo = getAppVersionSync()
+		console.log('应用版本号:', versionInfo)
+		version.value = versionInfo.versionCode
+		 // #endif
+	}
 	const toAgreement = (type) => {
 		if(type === 1){
 			uni.setStorageSync('webViewObj',{url:config.userAgreement,title:'用户协议'})
