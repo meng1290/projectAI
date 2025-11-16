@@ -126,7 +126,7 @@
 		}
 		.list{
 			width:100%;
-			padding: 0 32rpx;
+			padding: 0 32rpx 32rpx;
 			box-sizing: border-box;
 		}
 	}

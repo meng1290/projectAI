@@ -84,3 +84,7 @@ export function authPhoneLogin(data) {
 export function appleLoagin(data) {
 	return request.post('auth/appleLogin',data,{needToken:false})
 }
+/* 注销账户 */
+export function userCancel(dat) {
+	return request.post('user/cancel',data)
+}

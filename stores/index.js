@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { passWordLogin, authSmslogin, authApp, userInfo, authPhoneLogin, appleLoagin  } from '@/api/index.js'
+import { passWordLogin, authSmslogin, authApp, userInfo, authPhoneLogin, appleLoagin, userCancel  } from '@/api/index.js'
 
 // 定义 Store，第一个参数是 Store 的唯一标识
 export const useUserStore = defineStore('user', {
@@ -84,6 +84,7 @@ export const useUserStore = defineStore('user', {
 		},
 		//苹果授权清除
 		appleAuthLogout() {
+			// #ifdef IOS
 			if(typeof plus === 'undefined')return
 			plus.oauth.getServices((services) => {
 				const appleService = services.find((item) => item.id === 'apple');
@@ -100,6 +101,7 @@ export const useUserStore = defineStore('user', {
 			},(error) => {
 				console.log(`获取授权服务失败：${error.message}`);
 			});
+			// #endif
 		},
     // 退出登录
     logout() {
@@ -112,6 +114,19 @@ export const useUserStore = defineStore('user', {
 				},100)
       })
     },
+		// 注销登录
+		userLogOff() {
+			return new Promise((resolve,reject) => {
+				userCancel().then(res => {
+					this.token = ''
+					this.userInfo = {}
+					this.appleAuthLogout()
+					resolve(true)
+				}).catch(err => {
+					reject(false)
+				})
+		  })
+		},
 		//获取用户信息
 		getUserInfo() {
 			return new Promise((resolve,reject) => {

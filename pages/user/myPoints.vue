@@ -92,7 +92,7 @@
 				font-size: 28rpx;
 				display: flex;
 				justify-content: space-between;
-				color: #ccc;
+				color: #ddd;
 			}
 			.points{
 				width: 100%;
@@ -107,7 +107,7 @@
 				width: 100%;
 				text-align: center;
 				font-size: 28rpx;
-				color: #ccc;
+				color: #ddd;
 			}
 		}
 		.list{

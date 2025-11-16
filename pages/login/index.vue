@@ -572,6 +572,7 @@
 			text-align: center;
 			.u-checkbox-group--row{
 				justify-content: center;
+				align-items: center;
 				.u-checkbox{
 					margin: 0;
 				}

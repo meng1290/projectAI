@@ -13,6 +13,10 @@
 				<view class="name">
 					<view class="store_name">{{item.store_name}}</view>
 				</view>
+				<view class="price">
+					<text>消耗算力</text>
+					<text>{{item.price}}</text>
+				</view>
 				<view class="btns">
 					<view class="collect">
 						<view>
@@ -49,7 +53,8 @@
 			image: item.image,
 			store_name: item.store_name,
 			userCollect: item.userCollect,
-			userCollectNums: item.userCollectNums
+			userCollectNums: item.userCollectNums,
+			price: item.price
 		}
 		// uni.setStorageSync('creationResults',[item.image])
 		// uni.navigateTo({
@@ -85,7 +90,7 @@
 	
 	const handleCreation = (item) => {
 		uni.navigateTo({
-			url:`/pages/creation/creation?id=${item.id}`
+			url:`/pages/creation/creation?id=${item.id}&price=${item.price}`
 		})
 	}
 </script>
@@ -128,6 +133,13 @@
 						overflow: hidden;
 						word-break: break-all;
 					}
+				}
+				.price{
+					display: flex;
+					justify-content: space-between;
+					font-size: 26rpx;
+					color: #666;
+					padding-right: 14rpx;
 				}
 				.btns{
 					width: 100%;

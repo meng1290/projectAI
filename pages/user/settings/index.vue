@@ -70,7 +70,7 @@
 			content:'您在该平台所有的信息将被清空且无法恢复，请确认是否注销。',
 			success(res) {
 				if(res.confirm){
-					store.logout().then(res => {
+					store.userLogOff().then(res => {
 						uni.reLaunch({
 							url:'/pages/index/index'
 						})

@@ -10,6 +10,10 @@
 				</up-image>
 				<view class="info">
 					<view class="store_name">{{productDetail.store_name}}</view>
+					<view class="price">
+						<text>消耗算力：</text>
+						<text>{{productDetail.price}}</text>
+					</view>
 				</view>
 			</view>
 		</view>
@@ -30,7 +34,7 @@
 	
 	const handleCreation = (item) => {
 		uni.navigateTo({
-			url:`/pages/creation/creation?id=${item.id}`
+			url:`/pages/creation/creation?id=${item.id}&price=${item.price}`
 		})
 	}
 </script>
@@ -53,6 +57,9 @@
 			.info{
 				padding: 32rpx;
 				box-sizing: border-box;
+				.price{
+					
+				}
 			}
 			
 		}

@@ -36,7 +36,7 @@
 		</view>
 		<view class="footer">
 			<view class="points">
-				<view class="text">本次消耗算力：50</view>
+				<view class="text">本次消耗算力：{{price}}</view>
 				<view class="text">我的算力余额：{{store.isLogin?store.userInfo.now_money:0}}</view>
 			</view>
 			<view class="btns">
@@ -51,7 +51,7 @@
 	import { reactive, ref, unref, inject} from 'vue'
 	import { useUserStore } from '@/stores/index'
 	import { createTask, getTaskResult } from "@/api/index.js"
-	import { onLoad } from '@dcloudio/uni-app'
+	import { onLoad, onShow } from '@dcloudio/uni-app'
 	const store = useUserStore()
 	import config from "@/config/index.js"
 	
@@ -61,10 +61,14 @@
 	import checkSquareUrl from "@/static/image/checkSquare.png"
 	
 	const id = ref('')
+	const price = ref(null)
 	onLoad((query) => {
 	  id.value = query.id;
+		price.value = query.price
 	});
-	
+	onShow(() => {
+		store.getUserInfo()
+	})
 	const fileList = ref([])
 	
 	const afterAutoUpload = (res) => {
@@ -96,65 +100,24 @@
 		}
 		btnLoading.value = true
 		createTask({submitimgs:fileList.value[0].url,aiproduct_id:id.value}).then( async (res) => {
-			uni.showLoading({ title: '生成中' });
-			const result = await pollTaskResult(res.id,5)
-			uni.hideLoading()
-			if (result) {
-				console.log('获取到任务结果:', result)
-				uni.setStorageSync('creationResults',result.images)
+			if(res.id){
+				fileList.value = []
 				uni.navigateTo({
-					url:"/pages/creation/creationResults"
+					url:`/pages/creation/creationResults?id=${res.id}`
 				})
-			} else {
-				console.log('未获取到有效任务结果')
-				uni.showModal({
-					title:'提示',
-					content:'任务已提交，可在创作记录中查看',
-					showCancel:false,
-					success(res) {
-						if(res.confirm){
-							fileList.value = []
-							store.getUserInfo()
-						}
-					}
-				})
+				btnLoading.value = false
+			}else{
+				btnLoading.value = false
+				uni.showToast({
+					title: '任务创建失败',
+					icon: 'none',
+				});
 			}
 		}).catch(err => {
 			btnLoading.value = false
 		})
 	} 
-	//延迟函数
-	const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms))
-	//轮询获取任务结果
-	const pollTaskResult = async (id, maxRetries = 5, interval = 5000) => {
-	  btnLoading.value = true
-	  for (let i = 0; i < maxRetries; i++) {
-	    try {
-	      const result = await getTaskResult({id})
-	      // 检查是否有图片数据
-	      if (result.images && result.images.length > 0) {
-	        btnLoading.value = false
-	        return result // 返回结果并结束轮询
-	      }
-	      console.log(`第 ${i + 1} 次请求，images为空，${interval/1000}秒后重试`)
-	      // 如果不是最后一次重试，则等待5秒
-	      if (i < maxRetries - 1) {
-	        await delay(interval)
-	      }
-	    } catch (error) {
-	      console.error(`第 ${i + 1} 次请求失败:`, error)
-	      // 如果不是最后一次重试，则等待5秒
-	      if (i < maxRetries - 1) {
-	        await delay(interval)
-	      }
-	    }
-	  }
-	  
-	  // 达到最大重试次数仍未获取到数据
-	  btnLoading.value = false
-	  console.log('已达到最大重试次数，未获取到有效数据')
-	  return null
-	}
+	
 	
 	const handleCharging = () => {
 		if(btnLoading.value)return

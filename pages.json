@@ -122,6 +122,12 @@
 			}
 		},
 		{
+			"path": "pages/creation/creationDetail",
+			"style": {
+				"navigationBarTitleText": "创作结果"
+			}
+		},
+		{
 		  "path": "pages/user/member",
 		  "style": {
 		    "navigationBarTitleText": "开通会员",

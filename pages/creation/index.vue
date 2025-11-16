@@ -110,7 +110,7 @@
 		}
 		uni.setStorageSync('creationResults',image)
 		uni.navigateTo({
-			url:"/pages/creation/creationResults"
+			url:"/pages/creation/creationDetail"
 		})
 	}
 	
@@ -125,6 +125,7 @@
 		padding: 0 32rpx;
 		box-sizing: border-box;
 		.list{
+			padding-bottom: 32rpx;
 			.box{
 				padding: 20rpx 0;
 				box-sizing: border-box;
