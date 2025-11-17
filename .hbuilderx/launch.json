@@ -2,11 +2,12 @@
     "version" : "1.0",
     "configurations" : [
         {
-            "playground" : "custom",
+            "customPlaygroundType" : "device",
+            "playground" : "standard",
             "type" : "uni-app:app-ios"
         },
         {
-            "customPlaygroundType" : "device",
+            "customPlaygroundType" : "local",
             "packageName" : "uni.UNI77F37B4",
             "playground" : "custom",
             "type" : "uni-app:app-android"

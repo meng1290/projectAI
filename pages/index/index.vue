@@ -27,10 +27,11 @@
 
 <script setup>
 	import { reactive, ref, toRefs, unref, inject} from 'vue'
-	import { onLoad, onPullDownRefresh, onReachBottom } from '@dcloudio/uni-app'
+	import { onLoad, onReady, onPullDownRefresh, onReachBottom } from '@dcloudio/uni-app'
 	import { getModelList, getCategory } from '@/api/index.js'
 	import { useLoginRefresh } from '@/utils/useLoginRefresh.js';
 	import myProductCard from "@/components/myProductCard/index.vue"
+	import checkUpdate from '@/uni_modules/uni-upgrade-center-app/utils/check-update'
 
 	import banner from '@/static/image/banner.png';
 	const statusBarHeight = uni.getSystemInfoSync().statusBarHeight
@@ -56,6 +57,9 @@
       getCategoryList()
       getList()
     })
+		onReady(() => {
+			checkUpdate()
+		})
 		//下拉刷新
 		onPullDownRefresh(() => {
 			uni.stopPullDownRefresh()
