@@ -58,7 +58,7 @@
     loadStatus: 'loading',//loadmore/ loading / nomore
   })
 	const { list, bannerList, dataList, queryParams, loadStatus } = toRefs(state)
-		
+	const upgradePopup = ref(null)	
 		//
 		onLoad(() => {
       getCategoryList()
@@ -69,7 +69,6 @@
 			checkUpdate()
 			// #endif
 			// #ifdef APP-HARMONY
-			const upgradePopup = ref(null)
 			checkUpdate(upgradePopup.value)
 			// #endif
 		})

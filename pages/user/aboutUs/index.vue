@@ -60,10 +60,10 @@
 	import config from "@/config/index.js"
 	const name = config.appName
 	const version = ref('0.0.0')
+	const upgradePopup = ref(null)
 	
 	onMounted(() => {
 		getAppVersionInfo()
-	  
 	});
 	const getAppVersionInfo = () => {
 		// #ifdef APP-PLUS
@@ -89,7 +89,6 @@
 		});
 		// #endif
 		// #ifdef APP-HARMONY
-		const upgradePopup = ref(null)
 		checkUpdate(upgradePopup.value).then((res) => {
 			console.log('res: ', JSON.stringify(res));
 		}).catch((e) => {
