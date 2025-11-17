@@ -20,6 +20,10 @@
 			<up-empty v-if="!dataList.length" text=" " mode="data" :icon="'/static/image/data.png'" />
 			<!-- 分页加载提示 -->
 			<up-loadmore line :status="loadStatus" />
+			
+			<!-- #ifdef APP-HARMONY -->
+				<upgradePopupVue ref="upgradePopup" />
+			<!-- #endif -->
 		</view>
 		
 	</view>
@@ -32,6 +36,9 @@
 	import { useLoginRefresh } from '@/utils/useLoginRefresh.js';
 	import myProductCard from "@/components/myProductCard/index.vue"
 	import checkUpdate from '@/uni_modules/uni-upgrade-center-app/utils/check-update'
+	// #ifdef APP-HARMONY
+	import upgradePopupVue from '@/uni_modules/uni-upgrade-center-app/pages/upgrade-popup.vue';
+	// #endif
 
 	import banner from '@/static/image/banner.png';
 	const statusBarHeight = uni.getSystemInfoSync().statusBarHeight
@@ -58,7 +65,13 @@
       getList()
     })
 		onReady(() => {
+			// #ifdef APP-PLUS
 			checkUpdate()
+			// #endif
+			// #ifdef APP-HARMONY
+			const upgradePopup = ref(null)
+			checkUpdate(upgradePopup.value)
+			// #endif
 		})
 		//下拉刷新
 		onPullDownRefresh(() => {

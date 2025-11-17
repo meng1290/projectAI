@@ -18,7 +18,7 @@
 						检查更新
 					</view>
 					<view class="">
-						已是最新版本
+						<up-button type="primary" @click="checkVersion" color="#0166FE" text="检查新版本" size="mini"></up-button>
 					</view>
 				</view>
 				<view class="detail_item" @click="toUpdateDetails()">
@@ -41,14 +41,20 @@
 				</view>
 			</view>
 		</view>
+		
+		<!-- #ifdef APP-HARMONY -->
+			<upgradePopupVue ref="upgradePopup" />
+		<!-- #endif -->
 	</view>
 </template>
 
 <script setup>
 	import { reactive, ref, onMounted, toRefs, unref, inject} from 'vue'
+	import checkUpdate from '@/uni_modules/uni-upgrade-center-app/utils/check-update';
 	// #ifdef APP-HARMONY
 	import { myApiSync1 } from '@/uni_modules/mark-battery'
 	import { getAppVersionSync } from '@/uni_modules/get-app-version'
+	import upgradePopupVue from '@/uni_modules/uni-upgrade-center-app/pages/upgrade-popup.vue';
 	// #endif
 	import avatar from '@/static/image/avatar.png';
 	import config from "@/config/index.js"
@@ -73,6 +79,24 @@
 		console.log('应用版本号:', versionInfo)
 		version.value = versionInfo.versionCode
 		 // #endif
+	}
+	const checkVersion = () => {
+		// #ifdef APP-PLUS
+		checkUpdate().then((res) => {
+			console.log('res: ', JSON.stringify(res));
+		}).catch((e) => {
+			console.log('e: ', JSON.stringify(e), e);
+		});
+		// #endif
+		// #ifdef APP-HARMONY
+		const upgradePopup = ref(null)
+		checkUpdate(upgradePopup.value).then((res) => {
+			console.log('res: ', JSON.stringify(res));
+		}).catch((e) => {
+			console.log('e: ', JSON.stringify(e), e);
+		});
+		// #endif
+			
 	}
 	const toAgreement = (type) => {
 		if(type === 1){
@@ -127,6 +151,7 @@
 					padding: 26rpx 0;
 					display: flex;
 					justify-content: space-between;
+					align-items: center;
 					border-bottom: 2rpx solid rgb(214, 215, 217);
 				}
 			}
