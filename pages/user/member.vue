@@ -183,6 +183,7 @@
 					background-color: #5C5C5C;
 					padding: 30rpx;
 					box-sizing: border-box;
+					margin-bottom: 20rpx;
 					.li_box{
 						display: flex;
 						justify-content: space-between;
@@ -226,6 +227,9 @@
 							text-decoration: line-through;
 						}
 					}
+				}
+				::v-deep .u-radio-group{
+					gap: 0 !important;
 				}
 			}
 			

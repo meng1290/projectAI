@@ -83,19 +83,40 @@
 	const checkVersion = () => {
 		// #ifdef APP-PLUS
 		checkUpdate().then((res) => {
-			console.log('res: ', JSON.stringify(res));
+			console.log('res: ', res);
+			toastFun(res.code)
 		}).catch((e) => {
-			console.log('e: ', JSON.stringify(e), e);
+			console.log('e: ', e);
+			toastFun(-10001)
 		});
 		// #endif
 		// #ifdef APP-HARMONY
 		checkUpdate(upgradePopup.value).then((res) => {
-			console.log('res: ', JSON.stringify(res));
+			console.log('res: ', res);
+			toastFun(res.code)
 		}).catch((e) => {
-			console.log('e: ', JSON.stringify(e), e);
+			console.log('e: ', e);
+			toastFun(-10001)
 		});
 		// #endif
-			
+	}
+	const toastFun = (code) => {
+		if(code === 0){
+			uni.showToast({
+				title: '已经是最新版本，无需更新',
+				icon: 'none'
+			});
+		}else if(code === -101){
+			uni.showToast({
+				title: '暂无更新',
+				icon: 'none'
+			});
+		}else if(code === -10001){
+			uni.showToast({
+				title: '暂无更新!',
+				icon: 'none'
+			});
+		}
 	}
 	const toAgreement = (type) => {
 		if(type === 1){

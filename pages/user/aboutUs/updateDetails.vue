@@ -6,7 +6,7 @@
 </template>
 
 <script setup>
-	import { reactive, ref, onMounted, toRefs, unref, inject} from 'vue'
+	import { reactive, ref, onMounted} from 'vue'
 	import config from "@/config/index.js"
 	const version = ref('0.0.0')
 	

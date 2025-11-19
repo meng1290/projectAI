@@ -2,13 +2,11 @@
 import config from '@/config/index.js'
 import Loading from '@/utils/loading.js'
 import { pinia } from '@/main.js'
+import { useUserStore } from '@/stores/index'
 
-const getToken = async () => {
-  // 在这里动态导入 useUserStore
-  const userModule = await import('@/stores/index')
-  const userStore = userModule.useUserStore(pinia)
+const getToken = () => {
+  const userStore = useUserStore(pinia)
   return userStore.token
-  // return ""
 }
 
 

@@ -40,7 +40,7 @@
 </template>
 
 <script setup>
-	import { reactive, ref, toRefs, unref, inject} from 'vue'
+	import { reactive, ref, toRefs } from 'vue'
 	import { onLoad, onPullDownRefresh, onReachBottom, onPageScroll } from '@dcloudio/uni-app'
 	import { zuopinlist } from '@/api/index.js'
 	import { useLoginRefresh } from '@/utils/useLoginRefresh.js';
@@ -64,7 +64,11 @@
 	//下拉刷新
 	onPullDownRefresh(() => {
 		uni.stopPullDownRefresh()
-		resetList()
+		if(store.isLogin){
+			resetList()
+		}else{
+			uni.stopPullDownRefresh()
+		}
 	})
 	//滚动触底
 	onReachBottom(() => {
