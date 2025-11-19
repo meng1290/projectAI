@@ -7,13 +7,22 @@
 
 <script setup>
 	import { reactive, ref, onMounted} from 'vue'
+	// #ifdef APP-HARMONY
+	import { getAppVersionSync } from '@/uni_modules/get-app-version'
+	// #endif
 	import config from "@/config/index.js"
 	const version = ref('0.0.0')
 	
 	onMounted(() => {
+	  // #ifdef APP-PLUS
 	  if (typeof plus !== 'undefined') {
 	    version.value = plus.runtime.version;
 	  }
+	  // #endif
+	  // #ifdef APP-HARMONY
+	  const versionInfo = getAppVersionSync()
+	  version.value = versionInfo.versionCode
+	   // #endif
 	});
 </script>
 

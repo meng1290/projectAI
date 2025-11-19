@@ -67,7 +67,10 @@
 	}
 	
 	const weChatPay = () => {
-		
+		uni.showToast({
+			title: '暂未开通',
+			icon: 'none'
+		});
 	}
 	const alipayPayment = () => {
 		svipPay(typeId.value,{pay_type:'alipayApp'}).then(res => {
