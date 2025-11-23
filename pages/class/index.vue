@@ -59,7 +59,7 @@
     getCategory().then(res => {
       let typeList = []
       res.map(item => {
-        if(item.name === '类别'){
+        if(item.code === 'cate'){
           typeList = item.children
         }
       })
@@ -103,7 +103,6 @@
   }
 
 	const handleSearch = () => {
-    console.log('123')
     uni.navigateTo({
       url:'/pages/class/filter'
     })

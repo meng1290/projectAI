@@ -6,7 +6,9 @@
 				<!-- <text>算力明细</text> -->
 			</view>
 			<view class="points">{{store.userInfo.now_money}}</view>
-			<view class="times" v-if="store.userInfo.now_money>0">算力将于{{store.userInfo.overdue_time}}过期</view>
+			<view class="times">
+				<text v-if="store.userInfo.overdue_time && !['非会员'].includes(store.userInfo.overdue_time)">算力将于{{store.userInfo.overdue_time}}过期</text>
+			</view>
 		</view>
 		<view class="list">
 			<view class="tit">算力明细</view>
@@ -104,9 +106,11 @@
 				
 			}
 			.times{
+				height: 40rpx;
 				width: 100%;
 				text-align: center;
 				font-size: 28rpx;
+				line-height: 28rpx;
 				color: #ddd;
 			}
 		}

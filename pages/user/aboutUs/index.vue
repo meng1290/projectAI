@@ -21,12 +21,12 @@
 						<up-button type="primary" @click="checkVersion" color="#0166FE" text="检查新版本" size="mini"></up-button>
 					</view>
 				</view>
-				<view class="detail_item" @click="toUpdateDetails()">
+				<!-- <view class="detail_item" @click="toUpdateDetails()">
 					<view class="">
 						更新内容
 					</view>
 					<up-icon name="arrow-right" color="#909399" size="28rpx"></up-icon>
-				</view>
+				</view> -->
 				<view class="detail_item" @click="toAgreement(1)">
 					<view class="">
 						协议

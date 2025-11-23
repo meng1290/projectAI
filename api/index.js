@@ -8,6 +8,10 @@ export function passWordLogin(data) {
 export function getModelList(data) {
 	return request.get("aiproduct/list",data,{needToken:false});
 }
+/* 模型详情 */
+export function aiproductDetail(data){
+	return request.get(`aiproduct/detail/${data}`)
+}
 /* 分类列表 */
 export function getCategory(data) {
 	return request.get("getCategory",data,{needToken:false});
@@ -87,4 +91,12 @@ export function appleLoagin(data) {
 /* 注销账户 */
 export function userCancel(dat) {
 	return request.post('user/cancel',data)
+}
+/* 绑定手机号 */
+export function bindPhone(data) {
+	return request.post('user/bindPhone',data)
+}
+/* 支付方式 */
+export function payconfig(data) {
+	return request.get('payconfig',data)
 }

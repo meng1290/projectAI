@@ -87,7 +87,7 @@
       getCategory().then(res => {
         let typeList = []
         res.map(item => {
-          if(item.name === '类别'){
+          if(item.code === 'cate'){
             typeList = item.children
           }
         })

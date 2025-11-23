@@ -36,6 +36,8 @@
 <script setup>
 	import { reactive, ref, toRefs, unref, inject} from 'vue'
 	import { addCollect, delCollect } from "@/api/index.js"
+	import { useUserStore } from '@/stores/index'
+	const store = useUserStore()
 	const props = defineProps({
 	  dataList: {
 	    type: Array,
@@ -48,21 +50,8 @@
 	})
 	
 	const handleDetail = (item) => {
-		let productDetail = {
-			id: item.id,
-			image: item.image,
-			store_name: item.store_name,
-			userCollect: item.userCollect,
-			userCollectNums: item.userCollectNums,
-			price: item.price
-		}
-		// uni.setStorageSync('creationResults',[item.image])
-		// uni.navigateTo({
-		// 	url:"/pages/creation/creationResults"
-		// })
-		uni.setStorageSync('productDetail',productDetail)
 		uni.navigateTo({
-			url:"/pages/index/product"
+			url:`/pages/index/product?id=${item.id}`
 		})
 	}
 	
@@ -89,8 +78,9 @@
 	}
 	
 	const handleCreation = (item) => {
+		store.setProductDetailParams(item)
 		uni.navigateTo({
-			url:`/pages/creation/creation?id=${item.id}&price=${item.price}`
+			url:`/pages/creation/creation`
 		})
 	}
 </script>

@@ -8,23 +8,15 @@
 					<view class="tips">选择支付方式</view>
 					<view class="payType">
 						<up-radio-group v-model="radioPay" placement="column">
-							<view class="li" @click="handleRadioPay(1)">
+							<view class="li" @click="handleRadioPay(item.value)" v-for="item in payTypeList" :key="item.value">
 								<view class="li_l">
 									<view class="img">
-										<text class="iconfont icon-zhifu-weixinzhifu"></text>
+										<text v-if="item.value === 'weixin'" class="iconfont icon-zhifu-weixinzhifu"></text>
+										<text v-else-if="item.value === 'alipay'" class="iconfont icon-zhifubaozhifu"></text>
 									</view>
-									<view class="text">微信支付</view>
+									<view class="text">{{item.name}}</view>
 								</view>
-								<up-radio shape="square" :name="1"></up-radio>
-							</view>
-							<view class="li" @click="handleRadioPay(2)">
-								<view class="li_l">
-									<view class="img">
-										<text class="iconfont icon-zhifubaozhifu"></text>
-									</view>
-									<view class="text">支付宝</view>
-								</view>
-								<up-radio shape="square" :name="2"></up-radio>
+								<up-radio shape="square" :name="item.value"></up-radio>
 							</view>
 						</up-radio-group>
 					</view>
@@ -37,17 +29,27 @@
 
 <script setup>
 	import { reactive, ref, toRefs, unref, inject} from 'vue'
-	import { svipPay } from "@/api/index.js"
+	import { svipPay,payconfig } from "@/api/index.js"
 	import utils from "@/utils/index.js"
 	const showModal = ref(false)
-	const radioPay = ref(1)
+	const radioPay = ref('')
 	const amount = ref("0")
 	const typeId = ref('')
+	const payTypeList = ref([])
 	
 	const show = (id,prize) => {
 		typeId.value = id
 		amount.value = prize
 		showModal.value = true
+		getPayConfig()
+	}
+	const getPayConfig = () => {
+		payconfig().then(res => {
+			payTypeList.value = res || []
+			if(res.length){
+				radioPay.value = res[0].value
+			}
+		})
 	}
 	const handleRadioPay = (id) => {
 		radioPay.value = id
@@ -59,9 +61,9 @@
 				icon: 'none'
 			});
 		}
-		if(radioPay.value === 1){//微信
+		if(radioPay.value === 'weixin'){//微信
 			weChatPay()
-		}else if(radioPay.value === 2){//支付宝
+		}else if(radioPay.value === 'alipay'){//支付宝
 			alipayPayment()
 		}
 	}

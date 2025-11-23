@@ -8,6 +8,7 @@ export const useUserStore = defineStore('user', {
     token: '',
     userInfo:{},
 		filterPageParams:null,//搜索页面跳转传递参数
+		productDetailParams:null,//商品详情跳转页参数
   }),
 
   // 计算属性（类似 Vuex 的 getters）
@@ -145,6 +146,9 @@ export const useUserStore = defineStore('user', {
 		//搜索页面存储参数
 		setFilterPageParams(params) {
 			this.filterPageParams = params;
+		},
+		setProductDetailParams(params) {
+			this.productDetailParams = params
 		}
   },
 	persist: {

@@ -8,7 +8,7 @@
 						<view style="font-size: 28rpx;">加载失败</view>
 					</template>
 				</up-image>
-				<view class="info">
+				<view class="info" v-if="productDetail.store_name">
 					<view class="store_name">{{productDetail.store_name}}</view>
 					<view class="price">
 						<text>消耗算力：</text>
@@ -26,15 +26,26 @@
 <script setup>
 	import { reactive, ref, toRefs, unref, inject} from 'vue'
 	import { onLoad } from '@dcloudio/uni-app'
+	import { aiproductDetail } from "@/api/index.js"
+	import { useUserStore } from '@/stores/index'
+	const store = useUserStore()
 	
-	let productDetail = {}
-	onLoad(() => {
-		productDetail = uni.getStorageSync('productDetail')
+	const productDetail = ref({})
+	const id = ref(null)
+	onLoad((query) => {
+		id.value = query.id
+		getAiproductDetail()
 	})
-	
+	const getAiproductDetail = () => {
+		aiproductDetail(id.value).then(res => {
+			console.log(res)
+			productDetail.value = res || {}
+		})
+	}
 	const handleCreation = (item) => {
+		store.setProductDetailParams(item)
 		uni.navigateTo({
-			url:`/pages/creation/creation?id=${item.id}&price=${item.price}`
+			url:`/pages/creation/creation`
 		})
 	}
 </script>

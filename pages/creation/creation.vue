@@ -21,15 +21,25 @@
 			</up-upload>
 		</view>
 		<view class="example">
-			<view class="tips">温馨提示：上传白底平拍产品图，示例如下</view>
+			<view v-if="tips" class="tips">温馨提示：{{tips}}</view>
 			<view class="imgs">
 				<view class="imgBox">
-					<image class="image" :src="exampleUrl"></image>
-					<image class="checkSquare" :src="checkSquareUrl"></image>
+					<up-image :src="exampleUrl1" width="100%" height="100%" mode="aspectFill"></up-image>
+					<!-- <view class="checkSquare">
+						<up-image :src="checkSquareUrl" width="100%" height="100%"></up-image>
+					</view> -->
+				</view>
+				<view class="line">
+					<view style="width: 100%;">
+						<view class="text">生成</view>
+						<view class="arrow"></view>
+					</view>
 				</view>
 				<view class="imgBox">
-					<image class="image" :src="exampleUrl"></image>
-					<image class="checkSquare" :src="checkSquareUrl"></image>
+					<up-image class="image" :src="exampleUrl2" width="100%" height="100%" mode="aspectFill"></up-image>
+					<!-- <view class="checkSquare">
+						<up-image :src="checkSquareUrl" width="100%" height="100%"></up-image>
+					</view> -->
 				</view>
 			</view>
 			
@@ -57,14 +67,25 @@
 	
 	
 	import uploadUrl from "@/static/image/upload.png"
-	import exampleUrl from "@/static/image/example.png"
 	import checkSquareUrl from "@/static/image/checkSquare.png"
 	
 	const id = ref('')
 	const price = ref(null)
-	onLoad((query) => {
-	  id.value = query.id;
-		price.value = query.price
+	let exampleUrl1 = ''
+	let exampleUrl2 = ''
+	let tips = ''
+	onLoad(() => {
+		const productDetailParams = store.productDetailParams;
+		if(productDetailParams){
+			uni.setNavigationBarTitle({
+				title: productDetailParams.store_name
+			});
+			id.value = productDetailParams.id;
+			price.value = productDetailParams.price
+			exampleUrl1 = productDetailParams.cloth_image
+			exampleUrl2 = productDetailParams.image
+			tips = productDetailParams.store_info
+		}
 	});
 	onShow(() => {
 		store.getUserInfo()
@@ -176,30 +197,70 @@
 		.example{
 			width: 100%;
 			.tips{
-				font-size: 32rpx;
+				font-size: 30rpx;
 				color: #333;
-				text-align: center;
-				margin: 40rpx 0;
+				text-align: left;
+				margin-top: 40rpx;
 			}
 			.imgs{
 				width: 100%;
 				display: flex;
 				justify-content: space-between;
-				padding: 0 40rpx;
 				box-sizing: border-box;
+				margin-top: 40rpx;
 				.imgBox{
 					position: relative;
-					.image{
-						width: 260rpx;
-						height: 260rpx;
-						border: 6rpx solid #59D677;
-					}
+					width: 240rpx;
+					height: 240rpx;
+					border: 6rpx solid #59D677;
+					overflow: hidden;
 					.checkSquare{
 						width: 48rpx;
 						height: 48rpx;
 						position: absolute;
 						right: 10rpx;
 						top: 6rpx;
+					}
+				}
+				.line{
+					flex: 1;
+					padding: 0 30rpx;
+					display: flex;
+					flex-wrap: wrap;
+					align-items: center;
+					.text{
+						width: 100%;
+						text-align: center;
+						color: #999;
+						font-size: 28rpx;
+					}
+					.arrow{
+						height: 4rpx;
+						width: 100%;
+						background: #999;
+						position: relative;
+						&::after{
+							content: ''; 
+							width: 20rpx;
+							height: 4rpx;
+							position: absolute;
+							right: 0;
+							bottom: 0;
+							background: #999;
+							transform-origin: right bottom; 
+							transform: rotate(30deg); 
+						}
+						&::before{
+							content: ''; 
+							width: 20rpx;
+							height: 4rpx;
+							position: absolute;
+							right: 0;
+							bottom: 0;
+							background: #999;
+							transform-origin: right top; 
+							transform: rotate(330deg); 
+						}
 					}
 				}
 			}

@@ -41,8 +41,10 @@
 			let len = res.records.length
 			if(len > 0){
 				res.records.map(item => {
-					item.userCollect = true
-					item.id = item.product.id
+					item.userCollect = true,
+					item.id = item.product.id,
+					item.cloth_image = item.product.cloth_image,
+					item.store_info = item.product.store_info
 				})
 			  dataList.value = [...dataList.value,...res.records]
 			  queryParams.value.page++
