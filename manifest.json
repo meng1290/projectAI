@@ -2,8 +2,8 @@
     "name" : "童创AI",
     "appid" : "__UNI__8F2F210",
     "description" : "一键换装应用",
-    "versionName" : "1.0.7",
-    "versionCode" : 107,
+    "versionName" : "1.0.8",
+    "versionCode" : 108,
     "transformPx" : false,
     /* 5+App特有相关 */
     "app-plus" : {

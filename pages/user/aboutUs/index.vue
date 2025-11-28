@@ -21,12 +21,12 @@
 						<up-button type="primary" @click="checkVersion" color="#0166FE" text="检查新版本" size="mini"></up-button>
 					</view>
 				</view>
-				<!-- <view class="detail_item" @click="toUpdateDetails()">
+				<view class="detail_item" @click="toUpdateDetails()">
 					<view class="">
 						更新内容
 					</view>
 					<up-icon name="arrow-right" color="#909399" size="28rpx"></up-icon>
-				</view> -->
+				</view>
 				<view class="detail_item" @click="toAgreement(1)">
 					<view class="">
 						协议
@@ -52,8 +52,8 @@
 	import { reactive, ref, onMounted, toRefs, unref, inject} from 'vue'
 	import checkUpdate from '@/uni_modules/uni-upgrade-center-app/utils/check-update';
 	// #ifdef APP-HARMONY
-	import { myApiSync1 } from '@/uni_modules/mark-battery'
-	import { getAppVersionSync } from '@/uni_modules/get-app-version'
+	// import { myApiSync1 } from '@/uni_modules/mark-battery'
+	// import { getAppVersionSync } from '@/uni_modules/get-app-version'
 	import upgradePopupVue from '@/uni_modules/uni-upgrade-center-app/pages/upgrade-popup.vue';
 	// #endif
 	import avatar from '@/static/image/avatar.png';
@@ -66,18 +66,19 @@
 		getAppVersionInfo()
 	});
 	const getAppVersionInfo = () => {
+		version.value = config.version
 		// #ifdef APP-PLUS
-		if (typeof plus !== 'undefined') {
-		  version.value = plus.runtime.version;
-		}
+		// if (typeof plus !== 'undefined') {
+		//   version.value = plus.runtime.version;
+		// }
 		// #endif
 		// #ifdef APP-HARMONY
-		const msg = 'Hello Harmony!';
-		const result = myApiSync1(msg);
-		console.log(result); // 输出: Hello Harmony!
-		const versionInfo = getAppVersionSync()
-		console.log('应用版本号:', versionInfo)
-		version.value = versionInfo.versionCode
+		// const msg = 'Hello Harmony!';
+		// const result = myApiSync1(msg);
+		// console.log(result); // 输出: Hello Harmony!
+		// const versionInfo = getAppVersionSync()
+		// console.log('应用版本号:', versionInfo)
+		// version.value = versionInfo.versionCode
 		 // #endif
 	}
 	const checkVersion = () => {

@@ -2,6 +2,8 @@
 	<view class="update_details">
 		<p class="title">v{{version}}更新内容</p>
 		<text class="text">{{config.versionUpdateContent}}</text>
+		
+		<view class="version_system">{{version_system}}</view>
 	</view>
 </template>
 
@@ -12,16 +14,17 @@
 	// #endif
 	import config from "@/config/index.js"
 	const version = ref('0.0.0')
-	
+	const version_system = ref('0.0.0')
 	onMounted(() => {
+		version.value = config.version
 	  // #ifdef APP-PLUS
 	  if (typeof plus !== 'undefined') {
-	    version.value = plus.runtime.version;
+	    version_system.value = plus.runtime.version;
 	  }
 	  // #endif
 	  // #ifdef APP-HARMONY
 	  const versionInfo = getAppVersionSync()
-	  version.value = versionInfo.versionCode
+	  version_system.value = versionInfo.versionCode
 	   // #endif
 	});
 </script>
@@ -32,6 +35,7 @@
 		padding: 16px;
 		box-sizing: border-box;
 		background-color: #f5f5f5;
+		position: relative;
 	}
 	.title{
 		width: 100%;
@@ -43,5 +47,12 @@
 		width: 100%;
 		margin: 10px 0;
 		color: #666;
+	}
+	.version_system{
+		position: fixed;
+		right: 32rpx;
+		bottom: 32rpx;
+		color: #efefef;
+		font-size: 28rpx;
 	}
 </style>
