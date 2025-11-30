@@ -11,6 +11,18 @@
 			padding: 16px;
 			font-size: 14px;
 		}
+		.sdk-item {
+			margin: 12px 0;
+			line-height: 1.6;
+		}
+		.sdk-title {
+			font-weight: bold;
+			color: #333;
+		}
+		.sdk-link {
+			color: #0066CC;
+			text-decoration: underline;
+		}
 	</style>
 </head>
 <body>
@@ -72,17 +84,71 @@
 			<p>如您为未成年人（18周岁以下），应在监护人同意下使用本服务。我们不会主动收集未成年人的个人信息，如监护人发现未成年人信息被收集，可联系我们删除。对于经监护人同意收集的未成年人信息，我们将采取额外保护措施。</p>
 			<br/><b>第7条 隐私政策的更新</b><br/><br/>
 			<p>因法律法规及监管政策变化或业务发展需要，我们可能会更新本隐私政策。更新后，我们将通过APP内弹窗、公告等方式通知您，如您在更新后继续使用服务，即视为同意更新后的政策。如您不同意，应停止使用服务并注销账号。</p>
-			<br/><b>第8条 联系我们</b><br/><br/>
+			
+			<br/><br/><b>第8条 SDK相关信息公示</b><br/><br/>
+			<p>为向您提供更完善的服务，我们的APP集成了以下第三方SDK。这些SDK可能会收集您的部分信息以实现其功能，我们已要求第三方SDK服务商严格遵守相关法律法规，保护您的个人信息安全。您可通过以下链接查看各SDK的隐私政策，了解其信息收集和使用的详细规则：</p>
+			
+			<div class="sdk-item">
+				<p class="sdk-title">1. SDK名称：APP支付客户端SDK</p>
+				<p>开发者：支付宝(杭州)信息技术有限公司</p>
+				<p>收集信息范围：设备信息（如设备型号、系统版本、设备识别码）、网络信息、支付相关信息（如支付账号、交易金额）</p>
+				<p>使用目的：为您提供APP内支付功能，支持订单支付、交易结算等服务</p>
+				<p>SDK隐私政策链接：<a href="https://opendocs.alipay.com/open/54/01g6qm#%E6%94%AF%E4%BB%98%E5%AE%9D%20App%20%E6%94%AF%E4%BB%98%E5%AE%A2%E6%88%B7%E7%AB%AF%20SDK%20%E9%9A%90%E7%A7%81%E6%94%BF%E7%AD%96" class="sdk-link" target="_blank">https://opendocs.alipay.com/open/54/01g6qm#支付宝 App 支付客户端 SDK 隐私政策</a></p>
+			</div>
+
+			<div class="sdk-item">
+				<p class="sdk-title">2. SDK名称：一键认证 SDK Android</p>
+				<p>开发者：每日互动股份有限公司</p>
+				<p>收集信息范围：设备信息（如设备型号、系统版本、OAID）、手机号码、网络信息</p>
+				<p>使用目的：为您提供手机号一键登录、身份验证服务，简化登录流程</p>
+				<p>SDK隐私政策链接：<a href="https://docs.getui.com/privacy/" class="sdk-link" target="_blank">https://docs.getui.com/privacy/</a></p>
+			</div>
+
+			<div class="sdk-item">
+				<p class="sdk-title">3. SDK名称：号码认证</p>
+				<p>开发者：中移互联网有限公司</p>
+				<p>收集信息范围：手机号码、设备信息（如设备型号、系统版本）、网络信息（如运营商信息）</p>
+				<p>使用目的：为您提供手机号验证、账号安全校验服务</p>
+				<p>SDK隐私政策链接：<a href="https://wap.cmpassport.com/resources/html/contract2.html" class="sdk-link" target="_blank">https://wap.cmpassport.com/resources/html/contract2.html</a></p>
+			</div>
+
+			<div class="sdk-item">
+				<p class="sdk-title">4. SDK名称：微信OpenSDK Android</p>
+				<p>开发者：深圳市腾讯计算机系统有限公司</p>
+				<p>收集信息范围：设备信息（如设备型号、系统版本、设备识别码）、微信账号信息（如OpenID、昵称）、网络信息</p>
+				<p>使用目的：为您提供微信登录、微信分享功能，支持通过微信账号快速登录APP及分享内容至微信</p>
+				<p>SDK隐私政策链接：<a href="https://support.weixin.qq.com/cgi-bin/mmsupportacctnodeweb-bin/pages/RYiYJkLOrQwu0nb8" class="sdk-link" target="_blank">https://support.weixin.qq.com/cgi-bin/mmsupportacctnodeweb-bin/pages/RYiYJkLOrQwu0nb8</a></p>
+			</div>
+
+			<div class="sdk-item">
+				<p class="sdk-title">5. SDK名称：移动智能终端补充设备标识体系统一调用SDK</p>
+				<p>开发者：中国信息通信研究院</p>
+				<p>收集信息范围：设备标识信息（如OAID、AAID）、设备基础信息（如设备型号、系统版本）</p>
+				<p>使用目的：为APP提供合规的设备标识服务，用于统计分析、设备绑定、安全验证等</p>
+				<p>SDK隐私政策链接：<a href="https://www.msa-alliance.cn/col.jsp?id=122" class="sdk-link" target="_blank">https://www.msa-alliance.cn/col.jsp?id=122</a></p>
+			</div>
+
+			<div class="sdk-item">
+				<p class="sdk-title">6. SDK名称：联通认证SDK</p>
+				<p>开发者：联通在线信息科技有限公司</p>
+				<p>收集信息范围：手机号码、设备信息（如设备型号、系统版本）、网络信息（如运营商信息、IP地址）</p>
+				<p>使用目的：为联通用户提供手机号一键登录、身份验证服务，简化登录流程</p>
+				<p>SDK隐私政策链接：<a href="https://msv6.wosms.cn/html/oauth/protocol2.html" class="sdk-link" target="_blank">https://msv6.wosms.cn/html/oauth/protocol2.html</a></p>
+			</div>
+
+			<p>注：如您不想使用上述SDK相关功能，可通过关闭对应权限或不使用该功能的方式拒绝SDK收集您的信息。部分SDK可能因功能依赖无法单独卸载，您可联系我们获取更多退订指引。</p>
+			<br/><b>第9条 联系我们</b><br/><br/>
 			<p>如您对本隐私政策有任何疑问或需行使个人信息权利，可通过以下方式联系我们：</p>
 			<!-- <p>客服电话：【XXX-XXXXXXX】</p> -->
 			<p>客服邮箱：【privacy@example.com】</p>
 			<!-- <p>联系地址：【XX省XX市XX区XX路XX号】</p> -->
 			<p>我们将在15个工作日内回复您的咨询或请求。</p>
-			<br/><b>第9条 其他</b><br/><br/>
+			<br/><b>第10条 其他</b><br/><br/>
 			<p>本隐私政策未涉及条款以《用户服务协议》及相关法律法规为准。本政策自您同意之日起生效。</p>
-			<br/><br/><b>第10条 应用及开发者信息</b><br/><br/>
+			<br/><br/><b>第11条 应用及开发者信息</b><br/><br/>
 			<p>应用名称：童创AI</p>
 			<p>应用主体名称：【北京九驹网络科技有限责任公司】</p>
+			<p>协议发布日期：【2025年11月01日】</p>
 			<!-- <p>统一社会信用代码：【XXXXXXXXXXXXXXXXXX】</p> -->
 		</div>
 	</div>
