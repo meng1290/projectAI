@@ -1,12 +1,16 @@
 <template>
 	<view class="page">
 		<view class="content">
-			<up-image class="image" v-for="(item,i) in creationResultsList" :key="i" :src="item" width="100%" mode="widthFix">
-			  <template #loading><up-loading-icon></up-loading-icon></template>
-				<template #error>
-					<view style="font-size: 28rpx;">加载失败</view>
-				</template>
-			</up-image>
+			<view class="image_box">
+				<up-image class="image" v-for="(item,i) in creationResultsList" :key="i" :src="item" @load="imageload" width="100%" mode="widthFix">
+				  <template #loading><up-loading-icon></up-loading-icon></template>
+					<template #error>
+						<view style="font-size: 28rpx;">加载失败</view>
+					</template>
+				</up-image>
+				<view class="watermark">AI生成</view>
+			</view>
+			
 		</view>
 		
 		<view class="btns">
@@ -88,6 +92,10 @@
 			}
 		});
 	}
+	
+	const imageload = (e) => {
+		console.log(e,12)
+	}
 </script>
 
 <style lang="scss" scoped>
@@ -98,13 +106,29 @@
 		.content{
 			padding-bottom: 80rpx;
 			width: 100%;
-			.image {
-				display: block;
-			  width: 100%; 
-			  height: auto;
-			  margin: 0 auto;
-				background-color: rgb(243, 244, 246);
+			.image_box{
+				width: 100%;
+				position: relative;
+				.image {
+					display: block;
+				  width: 100%; 
+				  height: auto;
+				  margin: 0 auto;
+					background-color: rgb(243, 244, 246);
+				}
+				.watermark{
+					display: inline-block;
+					font-size: 28rpx;
+					padding: 0rpx 12rpx;
+					border-radius: 8rpx;
+					border: 2rpx solid rgba(255,255,255,0.5);
+					color: rgba(255,255,255,0.5);
+					position: absolute;
+					right: 20rpx;
+					bottom: 20rpx;
+				}
 			}
+			
 		}
 		.btns{
 			position: fixed;

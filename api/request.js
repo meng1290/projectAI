@@ -50,7 +50,7 @@ async function baseRequest(url, method, data,opt = {needToken:true,isLoading:tru
 					})
 					setTimeout(()=>{
 						uni.navigateTo({
-							url:'/pages/index/login'
+							url:'/pages/login/index'
 						})
 					},
 					1000)
