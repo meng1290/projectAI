@@ -24,10 +24,12 @@
 			<view v-if="tips" class="tips">温馨提示：{{tips}}</view>
 			<view class="imgs">
 				<view class="imgBox">
-					<up-image :src="exampleUrl1" width="100%" height="100%" mode="aspectFill"></up-image>
-					<!-- <view class="checkSquare">
-						<up-image :src="checkSquareUrl" width="100%" height="100%"></up-image>
-					</view> -->
+					<up-image :src="exampleUrl1" width="100%" height="100%" mode="aspectFill">
+						<template #loading><up-loading-icon></up-loading-icon></template>
+						<template #error>
+							<view style="font-size: 28rpx;">加载失败</view>
+						</template>
+					</up-image>
 				</view>
 				<view class="line">
 					<view style="width: 100%;">
@@ -36,10 +38,12 @@
 					</view>
 				</view>
 				<view class="imgBox">
-					<up-image class="image" :src="exampleUrl2" width="100%" height="100%" mode="aspectFill"></up-image>
-					<!-- <view class="checkSquare">
-						<up-image :src="checkSquareUrl" width="100%" height="100%"></up-image>
-					</view> -->
+					<up-image class="image" :src="exampleUrl2" width="100%" height="100%" mode="aspectFill">
+						<template #loading><up-loading-icon></up-loading-icon></template>
+						<template #error>
+							<view style="font-size: 28rpx;">加载失败</view>
+						</template>
+					</up-image>
 				</view>
 			</view>
 			

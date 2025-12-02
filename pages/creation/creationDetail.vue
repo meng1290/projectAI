@@ -8,7 +8,7 @@
 						<view style="font-size: 28rpx;">加载失败</view>
 					</template>
 				</up-image>
-				<view class="watermark">AI生成</view>
+				<view class="watermark" v-if="isAiImage && isShowWatermark">AI生成</view>
 			</view>
 			
 		</view>
@@ -25,6 +25,11 @@
 	import { permissionCheck, phonePermissionSetting } from "@/utils/phonePermissionCheck.js"
 	
 	const creationResultsList = uni.getStorageSync('creationResults') || []
+	
+	const isAiImage = ref(false)
+	onLoad((opsion) => {
+		isAiImage.value = opsion.isAiImage ? Boolean(opsion.isAiImage) : false
+	})
 	
 	const handleSaveImage = () => {
 		if(!creationResultsList.length){
@@ -92,9 +97,10 @@
 			}
 		});
 	}
-	
+	const isShowWatermark = ref(false)
 	const imageload = (e) => {
 		console.log(e,12)
+		isShowWatermark.value = true
 	}
 </script>
 
@@ -117,6 +123,7 @@
 					background-color: rgb(243, 244, 246);
 				}
 				.watermark{
+					font-family: "Microsoft YaHei", "微软雅黑", SimHei, sans-serif;
 					display: inline-block;
 					font-size: 28rpx;
 					padding: 0rpx 12rpx;

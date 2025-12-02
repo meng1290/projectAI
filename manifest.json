@@ -50,9 +50,9 @@
             "ios" : {
                 "dSYMs" : false,
                 "privacyDescription" : {
-                    "NSPhotoLibraryUsageDescription" : "该应用需要读取你的相册，以便为你上传图片操作",
-                    "NSPhotoLibraryAddUsageDescription" : "该应用需要读取你的相册，以便为你保存图片到相册",
-                    "NSCameraUsageDescription" : "该应用需要你的相机，以便你拍摄上传个人信息"
+                    "NSPhotoLibraryUsageDescription" : "为了让您能够上传照片作为个人头像、通过 AI 分析照片场景，需要访问您的照片库。",
+                    "NSPhotoLibraryAddUsageDescription" : "为了将您在应用中生成 / 编辑的图片保存到手机相册，我们需要相册写入权限。",
+                    "NSCameraUsageDescription" : "为了方便使用您拍摄的物体作为个人头像、通过 AI 分析照片场景，需要访问访问摄像头。"
                 },
                 "capabilities" : {
                     "entitlements" : {

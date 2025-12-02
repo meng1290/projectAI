@@ -14,7 +14,7 @@
 						</up-image>
 					</view>
 				</view>
-				<view class="grid" @click="handleDetail(item.images)">
+				<view class="grid" @click="handleDetail(item.images,1)">
 					<view class="grid-title">生成图</view>
 					<view class="img-box">
 						<up-image class="image" width="100%" height="100%" :src="item.images.length?item.images[0]:''" mode="aspectFill">
@@ -105,7 +105,7 @@
 	//监听到登录状态变化触发
 	useLoginRefresh(resetList)
 	
-	const handleDetail = (image) => {
+	const handleDetail = (image,isAiImage = '') => {
 		if(!image.length){
 			return uni.showToast({
 				title: '生成中，请稍后',
@@ -114,7 +114,7 @@
 		}
 		uni.setStorageSync('creationResults',image)
 		uni.navigateTo({
-			url:"/pages/creation/creationDetail"
+			url:`/pages/creation/creationDetail?isAiImage=${isAiImage}`
 		})
 	}
 	

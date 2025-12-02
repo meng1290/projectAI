@@ -8,16 +8,18 @@
 					<view class="tips">选择支付方式</view>
 					<view class="payType">
 						<up-radio-group v-model="radioPay" placement="column">
-							<view class="li" @click="handleRadioPay(item.value)" v-for="item in payTypeList" :key="item.value">
-								<view class="li_l">
-									<view class="img">
-										<text v-if="item.value === 'weixin'" class="iconfont icon-zhifu-weixinzhifu"></text>
-										<text v-else-if="item.value === 'alipay'" class="iconfont icon-zhifubaozhifu"></text>
+							<template v-for="item in payTypeList" :key="item.value">
+								<view class="li" @click="handleRadioPay(item.value)" v-if="item.payStatus">
+									<view class="li_l">
+										<view class="img">
+											<text v-if="item.value === 'weixin'" class="iconfont icon-zhifu-weixinzhifu"></text>
+											<text v-else-if="item.value === 'alipay'" class="iconfont icon-zhifubaozhifu"></text>
+										</view>
+										<view class="text">{{item.name}}</view>
 									</view>
-									<view class="text">{{item.name}}</view>
+									<up-radio shape="square" :name="item.value"></up-radio>
 								</view>
-								<up-radio shape="square" :name="item.value"></up-radio>
-							</view>
+							</template>
 						</up-radio-group>
 					</view>
 					<up-button type="primary" @click="handleSubmit" color="#0166FE" shape="circle" :customStyle="{height:'80rpx',fontSize:'30rpx'}">确认支付</up-button>
