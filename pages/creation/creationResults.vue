@@ -1,15 +1,12 @@
 <template>
 	<view class="page">
 		<view class="content">
-			<view class="image_box">
-				<up-image class="image" v-for="(item,i) in creationResultsList" :key="i" :src="item" @load="imageload" width="100%" mode="widthFix">
-				  <template #loading><up-loading-icon></up-loading-icon></template>
-					<template #error>
-						<view style="font-size: 28rpx;">加载失败</view>
-					</template>
-				</up-image>
-				<view class="watermark" v-if="isShowWatermark">AI生成</view>
-			</view>
+			<up-image class="image" v-for="(item,i) in creationResultsList" :key="i" :src="item" width="100%" mode="widthFix">
+				<template #loading><up-loading-icon></up-loading-icon></template>
+				<template #error>
+					<view style="font-size: 28rpx;">加载失败</view>
+				</template>
+			</up-image>
 			
 			<view class="empty" v-if="!creationResultsList.length">
 				<up-loading-icon color="#666" size="40"></up-loading-icon>
@@ -94,11 +91,6 @@
 	  // 达到最大重试次数仍未获取到数据
 	  return {code: false,msg: "任务创作超时，稍后可在创作记录中查看",}
 	}
-	const isShowWatermark = ref(false)
-	const imageload = (e) => {
-		console.log(e,12)
-		isShowWatermark.value = true
-	}
 	const handleSaveImage = () => {
 		if(!creationResultsList.length){
 			return uni.showToast({
@@ -175,28 +167,12 @@
 		.content{
 			padding-bottom: 80rpx;
 			width: 100%;
-			.image_box{
-				width: 100%;
-				position: relative;
-				.image {
-					display: block;
-				  width: 100%; 
-				  height: auto;
-				  margin: 0 auto;
-					background-color: rgb(243, 244, 246);
-				}
-				.watermark{
-					font-family: "Microsoft YaHei", "微软雅黑", SimHei, sans-serif;
-					display: inline-block;
-					font-size: 28rpx;
-					padding: 0rpx 12rpx;
-					border-radius: 8rpx;
-					border: 2rpx solid rgba(255,255,255,0.5);
-					color: rgba(255,255,255,0.5);
-					position: absolute;
-					right: 20rpx;
-					bottom: 20rpx;
-				}
+			.image {
+				display: block;
+			  width: 100%; 
+			  height: auto;
+			  margin: 0 auto;
+				background-color: rgb(243, 244, 246);
 			}
 			
 			.empty{

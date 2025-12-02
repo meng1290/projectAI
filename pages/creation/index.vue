@@ -2,7 +2,9 @@
 	<view class="page">
 		<view class="list">
 			<view class="box" v-for="(item,index) in dataList" :key="index">
-				<view class="list-time">生成时间：{{item.create_time}}</view>
+				<view class="list-header">
+					<view class="list-time">生成时间：{{item.create_time}}</view>
+				</view>
 				<view class="grid" @click="handleDetail([item.submitimgs])">
 					<view class="grid-title">参考图</view>
 					<view class="img-box">
@@ -14,7 +16,7 @@
 						</up-image>
 					</view>
 				</view>
-				<view class="grid" @click="handleDetail(item.images,1)">
+				<view class="grid" @click="handleDetail(item.images)">
 					<view class="grid-title">生成图</view>
 					<view class="img-box">
 						<up-image class="image" width="100%" height="100%" :src="item.images.length?item.images[0]:''" mode="aspectFill">
@@ -30,7 +32,6 @@
 						</up-image>
 					</view>
 				</view>
-				<view class="border" v-show="index + 1 !== dataList.length" ></view>
 			</view>
 			<up-empty v-if="!dataList.length" text=" " mode="data" :icon="'/static/image/data.png'" />
 			<up-loadmore line :status="loadStatus" />
@@ -105,7 +106,7 @@
 	//监听到登录状态变化触发
 	useLoginRefresh(resetList)
 	
-	const handleDetail = (image,isAiImage = '') => {
+	const handleDetail = (image) => {
 		if(!image.length){
 			return uni.showToast({
 				title: '生成中，请稍后',
@@ -114,7 +115,7 @@
 		}
 		uni.setStorageSync('creationResults',image)
 		uni.navigateTo({
-			url:`/pages/creation/creationDetail?isAiImage=${isAiImage}`
+			url:`/pages/creation/creationDetail`
 		})
 	}
 	
@@ -126,45 +127,64 @@
 
 <style lang="scss" scoped>
 	.page{
-		padding: 0 32rpx;
+		padding: 0 32rpx 32rpx;
 		box-sizing: border-box;
+		background: #f4f6fa;
+    min-height: 100vh;
 		.list{
-			padding-bottom: 32rpx;
+			padding: 24rpx 0 32rpx;
+
 			.box{
-				padding: 20rpx 0;
+				margin-bottom: 24rpx;
+				padding: 24rpx 24rpx 28rpx;
 				box-sizing: border-box;
-				.list-time{
-					font-size: 28rpx;
-					color: #000;
-					padding: 10rpx 0 40rpx;
-					box-sizing: border-box;
+				border-radius: 24rpx;
+				background: #fff;
+				box-shadow: 0 10rpx 32rpx rgba(15, 23, 42, 0.08);
+
+				.list-header{
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+					margin-bottom: 16rpx;
 				}
+
+				.list-time{
+					font-size: 26rpx;
+					color: #6b7280;
+				}
+
 				.grid{
 					display:inline-block;
-					width:calc((100% - 80rpx) / 2);
-					padding: 0 20rpx;
+					width:calc((100% - 32rpx) / 2);
+					padding: 0 8rpx;
 					text-align: center;
+					vertical-align: top;
+
+					&:first-of-type{
+						margin-right: 16rpx;
+					}
+
 					.grid-title{
-						font-size: 28rpx;
-						padding: 10rpx 0;
+						font-size: 26rpx;
+						color: #4b5563;
+						padding: 8rpx 0 16rpx;
 						box-sizing: border-box;
 					}
+
 					.img-box{
 						width: 100%;
-						height: 400rpx;
-						border-radius: 16rpx;
+						height: 320rpx;
+						border-radius: 20rpx;
 						overflow: hidden;
-						background-color: #f5f5f5;
-						box-shadow: 4rpx 4rpx 12rpx rgba(0, 0, 0, 0.08);
+						background-color: #f3f4f6;
+						box-shadow: 0 8rpx 24rpx rgba(15, 23, 42, 0.12);
+
 						.image{
 							width:100%;
 							height: 100%;
 						}
 					}
-				}
-				.border{
-					border-top: 2rpx solid #000;
-					margin-top: 10rpx;
 				}
 			}
 		}

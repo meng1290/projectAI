@@ -136,6 +136,8 @@
 <style lang="scss" scoped>
 	.page{
 		padding-top: var(--status-bar-height) !important;
+    background: #f4f6fa;
+    min-height: 100vh;
 		.sticky{
 			padding: 30rpx 32rpx 0;
 			box-sizing: border-box;

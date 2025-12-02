@@ -138,42 +138,81 @@
 
 <style lang="scss" scoped>
 	.page{
-		.img_box{
-			.img_center_box{
-				padding-top: 140rpx;
-				width: 160rpx;
-				height: 160rpx;
-				margin: 0 auto 10rpx;
+		min-height: 100vh;
+		padding: 40rpx 32rpx 80rpx;
+		box-sizing: border-box;
+		background: #f5f7fb;
+
+		.hero-card{
+			width: 100%;
+			padding: 60rpx 32rpx;
+			border-radius: 32rpx;
+			background: linear-gradient(135deg, #3a7bff, #5ac8fa);
+			box-shadow: 0 20rpx 40rpx rgba(58, 123, 255, 0.28);
+			text-align: center;
+			color: #fff;
+			box-sizing: border-box;
+
+			.logo-box{
+				width: 150rpx;
+				height: 150rpx;
+				margin: 0 auto 24rpx;
+				border-radius: 32rpx;
+				overflow: hidden;
+				background: rgba(255,255,255,0.25);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+
 				image{
-					width: 160rpx;
-					border-radius: 16rpx;
+					width: 120rpx;
+					border-radius: 24rpx;
 				}
 			}
+
+			.version{
+				font-size: 36rpx;
+				font-weight: 600;
+				margin-bottom: 8rpx;
+			}
+
+			.versionNum{
+				font-size: 26rpx;
+				color: rgba(255,255,255,0.9);
+			}
 		}
-		.version{
-			text-align: center;
-		}
-		.versionNum{
-			text-align: center;
-			color: #bbb;
-		}
+
 		.body{
-			padding-top: 30rpx;
+			padding-top: 40rpx;
+
 			.detail_box{
-				padding: 0 20rpx;
-				margin: 30rpx;
-				background-color: #FFFFFF;
-				border-radius: 12rpx;
+				margin: 0;
+				width: 100%;
+				background-color: #fff;
+				border-radius: 24rpx;
 				font-size: 28rpx;
-				.detail_item:last-child{
-					// border-bottom: 0;
-				}
+				box-shadow: 0 12rpx 30rpx rgba(15, 23, 42, 0.08);
+				overflow: hidden;
+				box-sizing: border-box;
+
 				.detail_item{
-					padding: 26rpx 0;
+					padding: 32rpx;
 					display: flex;
 					justify-content: space-between;
 					align-items: center;
-					border-bottom: 2rpx solid rgb(214, 215, 217);
+					column-gap: 24rpx;
+					border-bottom: 1px solid #f0f1f5;
+
+					&:last-child{
+						border-bottom: none;
+					}
+
+					.item-title{
+						font-size: 30rpx;
+						color: #111827;
+						flex: 1;
+						white-space: nowrap;
+					}
 				}
 			}
 		}

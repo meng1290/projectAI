@@ -91,54 +91,100 @@
 
 <style lang="scss" scoped>
 	.user::v-deep{
-		padding: 52rpx 32rpx;
-		padding-top: calc(var(--status-bar-height) + 52rpx) !important;
+		padding: 48rpx 32rpx 80rpx;
+		padding-top: calc(var(--status-bar-height) + 48rpx) !important;
 		box-sizing: border-box;
+		min-height: 100vh;
+		background: #f6f8fc;
+
 		.header{
-			line-height: 128rpx;
 			display:flex;
 			justify-content: space-between;
+			align-items: center;
+
 			.avatar-text{
 				flex: 1;
 				width: 0;
 				display: flex;
+				align-items: center;
+
 				.userName{
-					font-size: 50rpx;
+					font-size: 46rpx;
 					font-weight: 600;
-					margin-left: 30rpx;
+					margin-left: 24rpx;
 					margin-right: 20rpx;
 					white-space:nowrap;
 					text-overflow:ellipsis; overflow:hidden;
+					color: #0f172a;
 				}
 			}
+
+			.u-icon{
+				background: #fff;
+				border-radius: 50%;
+				padding: 16rpx;
+				box-shadow: 0 6rpx 20rpx rgba(15, 23, 42, 0.12);
+			}
 		}
+
 		.vip{
-			height:192rpx;
 			width:100%;
-			background: conic-gradient(from -62.37deg at 72.89% 11.98%, #2F703E -93.46deg, #59D677 25.96deg, #2F703E 266.54deg, #59D677 385.96deg);
-			border-radius: 40rpx;
-			margin-top:40rpx;
-			padding: 32rpx;
+			margin-top:36rpx;
+			padding: 32rpx 36rpx;
 			box-sizing: border-box;
+			border-radius: 36rpx;
+			background: radial-gradient(circle at top right, rgba(255,255,255,0.2), transparent 55%), linear-gradient(120deg, #20c997, #11998e);
+			box-shadow: 0 20rpx 40rpx rgba(17, 153, 142, 0.35);
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
-			.toptext{
-				color:#fff;
-				font-size: 40rpx;
-				font-weight: 600;
-				margin-bottom:10rpx;
+			color:#fff;
+
+			.left{
+				display: flex;
+				flex-direction: column;
+				row-gap: 12rpx;
 			}
+
+			.toptext{
+				font-size: 38rpx;
+				font-weight: 700;
+			}
+
 			.bottomtext{
-				color:#fff;
-				font-size: 32rpx;
+				font-size: 28rpx;
+				opacity: 0.9;
+			}
+
+			.right{
+				.up-button{
+					border-radius: 999rpx !important;
+					padding: 0 28rpx;
+				}
 			}
 		}
+
 		.cell-box{
-			margin-top: 30rpx;
+			margin-top: 40rpx;
+			background: #fff;
+			border-radius: 28rpx;
+			box-shadow: 0 12rpx 32rpx rgba(15, 23, 42, 0.08);
+
 			.u-cell__body{
-				padding-left:0rpx;
-				padding-right:0rpx;
+				padding-left:24rpx;
+				padding-right:24rpx;
+				min-height: 110rpx;
+			}
+
+			.u-cell__title-text{
+				font-size: 30rpx;
+				color: #111827;
+			}
+
+			.u-cell__value{
+				font-size: 30rpx;
+				font-weight: 600;
+				color: #0f70ff;
 			}
 		}
 		

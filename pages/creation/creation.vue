@@ -1,26 +1,31 @@
 <template>
 	<view class="page">
-		<view class="upload">
-			<up-upload
-			  :fileList="fileList"
-				autoDelete
-				autoUpload
-			  :autoUploadApi="config.baseUrl+'/upload/image/file'"
-				:multiple="false"
-			  :maxCount="1"
-				:previewFullImage="true"
-				accept="image"
-				:maxSize="16 * 1024 * 1024"
-				customAfterAutoUpload
-				@afterAutoUpload="afterAutoUpload"
-			>
-			  <view class="box">
-			  	<image class="image" :src="uploadUrl"></image>
-					<view class="text">上传图片</view>
-			  </view>
-			</up-upload>
+		<view class="section-card upload">
+      <view class="upload-title">上传参考图片</view>
+      <view class="upload-desc">请选择参考照片，避免遮挡、模糊、强烈背光，便于 AI 更好识别。</view>
+      <view class="upload-box">
+        <up-upload
+          :fileList="fileList"
+          autoDelete
+          autoUpload
+          :autoUploadApi="config.baseUrl+'/upload/image/file'"
+          :multiple="false"
+          :maxCount="1"
+          :previewFullImage="true"
+          accept="image"
+          :maxSize="16 * 1024 * 1024"
+          customAfterAutoUpload
+          @afterAutoUpload="afterAutoUpload"
+        >
+          <view class="box">
+            <image class="image" :src="uploadUrl"></image>
+            <view class="text">上传图片</view>
+          </view>
+        </up-upload>
+      </view>
 		</view>
-		<view class="example">
+		<view class="section-card example">
+      <view class="section-title">效果示例</view>
 			<view v-if="tips" class="tips">温馨提示：{{tips}}</view>
 			<view class="imgs">
 				<view class="imgBox">
@@ -154,14 +159,56 @@
 
 <style lang="scss" scoped>
 	.page{
-		padding: 20rpx 32rpx 194rpx;
+		min-height: 100vh;
+		padding: 32rpx 32rpx 226rpx;
 		box-sizing: border-box;
 		position: relative;
+		background: #f4f6fa;
+
+		.section-card{
+			width: 100%;
+			background: #fff;
+			border-radius: 24rpx;
+			padding: 32rpx;
+			box-sizing: border-box;
+			box-shadow: 0 12rpx 40rpx rgba(15, 23, 42, 0.08);
+			margin-bottom: 32rpx;
+		}
+
 		.upload{
-			width: 600rpx;
-			height: 600rpx;
-			background-color: #D9D9D9;
-			margin: auto;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+
+			.upload-title{
+				width: 100%;
+				font-size: 32rpx;
+				font-weight: 600;
+				color: #111827;
+				margin-bottom: 16rpx;
+			}
+
+			.upload-desc{
+				width: 100%;
+				font-size: 26rpx;
+				color: #6b7280;
+				line-height: 1.5;
+				margin-bottom: 28rpx;
+			}
+
+			.upload-box{
+        width: 460rpx;
+        height: 460rpx;
+        border-radius: 32rpx;
+        padding: 10rpx;
+        box-sizing: border-box;
+        background: #f8f9ff;
+        border: 2rpx solid rgba(1, 102, 254, 0.08);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+			}
+
 			::v-deep .u-upload{
 				width: 100%;
 				height: 100%;
@@ -169,55 +216,75 @@
 					width: 100%;
 					height: 100%;
 					.box{
-						width: 600rpx;
-						height: 600rpx;
+						width: 440rpx;
+						height: 440rpx;
 						display: flex;
 						flex-direction: column;
 						justify-content: center;
 						align-items: center;
+						background: #fff;
+						border-radius: 24rpx;
+						box-shadow: inset 0 0 0 2rpx rgba(1, 102, 254, 0.04);
 						.image{
 							width: 192rpx;
 							height: 192rpx;
+						}
+						.text{
+							margin-top: 24rpx;
+							font-size: 30rpx;
+							font-weight: 600;
+							color: #111827;
 						}
 					}
 				}
 				.u-upload__wrap__preview{
 					margin: 0;
 					.u-upload__wrap__preview__image{
-						width: 600rpx !important;
-						height: 600rpx !important;
+						width: 440rpx !important;
+						height: 440rpx !important;
+						border-radius: 24rpx;
 					}
 				}
 			}
-			.text{
-				width: 100%;
-				height: 48rpx;
-				line-height: 48rpx;
-				font-size: 32rpx;
-				text-align: center;
-				font-weight: bold;
-			}
 		}
+
 		.example{
 			width: 100%;
-			.tips{
+
+			.section-title{
 				font-size: 30rpx;
-				color: #333;
-				text-align: left;
-				margin-top: 40rpx;
+				font-weight: 600;
+				color: #111827;
+				margin-bottom: 16rpx;
 			}
+
+			.tips{
+				font-size: 26rpx;
+				color: #6b7280;
+				text-align: left;
+				margin-bottom: 28rpx;
+				padding: 24rpx;
+				border-radius: 20rpx;
+				background-color: #fafdff;
+			}
+
 			.imgs{
 				width: 100%;
 				display: flex;
 				justify-content: space-between;
 				box-sizing: border-box;
-				margin-top: 40rpx;
+				align-items: center;
+        flex-wrap: nowrap;
+        column-gap: 24rpx;
+        padding: 0 8rpx;
 				.imgBox{
 					position: relative;
-					width: 240rpx;
-					height: 240rpx;
-					border: 6rpx solid #59D677;
+					width: 210rpx;
+					height: 210rpx;
+					border: 6rpx solid rgba(34, 197, 94, 0.6);
+					border-radius: 24rpx;
 					overflow: hidden;
+					box-shadow: 0 10rpx 30rpx rgba(34, 197, 94, 0.14);
 					.checkSquare{
 						width: 48rpx;
 						height: 48rpx;
@@ -228,21 +295,25 @@
 				}
 				.line{
 					flex: 1;
-					padding: 0 30rpx;
+          min-width: 110rpx;
+          padding: 0 20rpx;
 					display: flex;
-					flex-wrap: wrap;
+					flex-direction: column;
 					align-items: center;
+					gap: 12rpx;
 					.text{
 						width: 100%;
 						text-align: center;
-						color: #999;
+						color: #6b7280;
 						font-size: 28rpx;
 					}
 					.arrow{
 						height: 4rpx;
 						width: 100%;
-						background: #999;
+						max-width: 260rpx;
+						background: #9ca3af;
 						position: relative;
+						border-radius: 4rpx;
 						&::after{
 							content: ''; 
 							width: 20rpx;
@@ -250,7 +321,7 @@
 							position: absolute;
 							right: 0;
 							bottom: 0;
-							background: #999;
+							background: #9ca3af;
 							transform-origin: right bottom; 
 							transform: rotate(30deg); 
 						}
@@ -261,7 +332,7 @@
 							position: absolute;
 							right: 0;
 							bottom: 0;
-							background: #999;
+							background: #9ca3af;
 							transform-origin: right top; 
 							transform: rotate(330deg); 
 						}
@@ -269,25 +340,29 @@
 				}
 			}
 		}
+
 		.footer{
 			width: 100%;
-			padding: 20rpx 32rpx;
+			padding: 24rpx 32rpx 32rpx;
 			box-sizing: border-box;
 			position: fixed;
 			left: 0;
 			right: 0;
 			bottom: 0;
 			background-color: #fff;
+			box-shadow: 0 -8rpx 40rpx rgba(15, 23, 42, 0.12);
 			.points{
 				width: 100%;
 				display: flex;
 				justify-content: flex-start;
-				margin-bottom: 10rpx;
+				margin-bottom: 16rpx;
+				padding: 0 4rpx;
 				.text{
 					flex: 1;
 					font-size: 28rpx;
 					height: 48rpx;
 					line-height: 48rpx;
+					color: #374151;
 					&:nth-of-type(2){
 						text-align: right;
 					}
@@ -296,9 +371,7 @@
 			.btns{
 				width: 100%;
 				display: flex;
-				.u-button:nth-child(odd) {
-					margin-right: 40rpx;
-				}
+				gap: 32rpx;
 			}
 		}
 		

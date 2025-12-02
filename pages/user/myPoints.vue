@@ -80,83 +80,106 @@
 		padding: 32rpx;
 		box-sizing: border-box;
 		min-height: 100vh;
-		background-color: #f5f5f5;
+		background-color: #f5f6fa;
+
 		.banner{
 			width: 100%;
-			padding: 20rpx;
+			padding: 26rpx 28rpx;
 			box-sizing: border-box;
-			border-radius: 16rpx;
-			background-color: #0166FE;
-			overflow: hidden;
+			border-radius: 26rpx;
+			background: linear-gradient(135deg, #2f7df6, #145ff3);
 			color: #fff;
+			box-shadow: 0 20rpx 40rpx rgba(20, 95, 243, 0.3);
+
 			.tit{
 				width: 100%;
-				font-size: 28rpx;
+				font-size: 30rpx;
 				display: flex;
 				justify-content: space-between;
-				color: #ddd;
+				color: rgba(255,255,255,0.75);
 			}
+
 			.points{
 				width: 100%;
-				height: 140rpx;
-				line-height: 140rpx;
+				margin-top: 18rpx;
+				margin-bottom: 6rpx;
 				text-align: center;
-				font-size: 60rpx;
-				font-weight: bold;
-				
+				font-size: 56rpx;
+				font-weight: 700;
+				letter-spacing: 2rpx;
 			}
+
 			.times{
-				height: 40rpx;
 				width: 100%;
 				text-align: center;
-				font-size: 28rpx;
-				line-height: 28rpx;
-				color: #ddd;
+				font-size: 24rpx;
+				color: rgba(255,255,255,0.8);
 			}
 		}
+
 		.list{
 			width: 100%;
+			margin-top: 32rpx;
+
 			.tit{
-				font-size: 32rpx;
-				font-weight: bold;
-				height: 90rpx;
-				line-height: 90rpx;
+				font-size: 30rpx;
+				font-weight: 600;
+				height: 64rpx;
+				line-height: 64rpx;
+				color: #111827;
 			}
+
 			.ul{
 				width: 100%;
+
 				.li{
 					display: flex;
 					justify-content: space-between;
 					align-items: center;
 					background-color: #fff;
-					border-radius: 16rpx;
-					padding: 20rpx;
+					border-radius: 24rpx;
+					padding: 24rpx 28rpx;
 					box-sizing: border-box;
-					margin-bottom: 20rpx;
+					margin-bottom: 16rpx;
+					box-shadow: 0 12rpx 32rpx rgba(15, 23, 42, 0.08);
+
 					.li_l{
 						display: flex;
-						flex-wrap: wrap;
+						flex-direction: column;
+						row-gap: 8rpx;
+
 						.name{
-							width: 100%;
-							font-size: 28rpx;
+							font-size: 30rpx;
+							color: #0f172a;
+							font-weight: 600;
 						}
+
 						.time{
-							width: 100%;
 							font-size: 24rpx;
-							margin-top: 4rpx;
+							color: #6b7280;
 						}
 					}
+
 					.li_r{
 						text-align: right;
-						font-size: 32rpx;
+
+						.num{
+							font-size: 34rpx;
+							font-weight: 600;
+						}
+
 						.balance{
 							font-size: 24rpx;
+							color: #6b7280;
+							margin-top: 8rpx;
 						}
+
 						.add{
-							color: green;
+							color: #10b981;
 						}
+
 						.subtract{
-							color: red;
+							color: #ef4444;
 						}
 					}
 				}

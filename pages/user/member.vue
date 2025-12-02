@@ -11,7 +11,13 @@
 			</view>
 			<view class="list">
 				<up-radio-group v-model="radioVipValue" placement="column">
-					<view class="li" v-for="item in dataList" :key="item.mc_id" @click="handleRadio(item.mc_id)">
+					<view
+            class="li"
+            :class="{ active: radioVipValue === item.mc_id }"
+            v-for="item in dataList"
+            :key="item.mc_id"
+            @click="handleRadio(item.mc_id)"
+          >
 						<view class="li_box">
 							<view class="li_l">
 								<up-radio shape="square" :name="item.mc_id"></up-radio>
@@ -128,131 +134,166 @@
 
 <style lang="scss" scoped>
 	.page{
-		padding-bottom: 200rpx;
+		padding-bottom: 220rpx;
 		box-sizing: border-box;
 		position: relative;
+		background: #f4f6fa;
+
 		::v-deep .u-navbar__content__right{
 			.u-icon__icon{
 				color: #ADAFB2 !important;
 			}
 		}
+
 		.content{
 			width: 100%;
+
 			.main{
 				width: 100%;
-				padding: 20rpx 60rpx;
+				padding: 40rpx 48rpx;
 				box-sizing: border-box;
-				background-color: #0166FE;
+				background: #1f6bff;
 				color: #fff;
 				border-radius: 0 0 40rpx 40rpx;
-				.points{
-					text{
-						font-size: 32rpx;
-						&:nth-of-type(1){
-							font-size: 64rpx;
-							font-weight: bold;
-							margin-right: 10rpx;
-						}
-					}
-				}
-				.tips{
-					font-size: 28rpx;
-					margin-top: 10rpx;
-				}
+				box-shadow: 0 16rpx 40rpx rgba(15, 23, 42, 0.2);
+
 				.ul{
 					width: 100%;
+					display: grid;
+					grid-template-columns: repeat(2, minmax(0, 1fr));
+					grid-row-gap: 24rpx;
+					grid-column-gap: 12rpx;
+
 					.li{
-						width: 100%;
-						height: 48rpx;
-						font-size: 28rpx;
 						display: flex;
-						justify-content: flex-start;
 						align-items: center;
+						font-size: 28rpx;
+						column-gap: 12rpx;
+						opacity: 0.95;
 					}
 				}
 			}
+
 			.list{
 				width: 100%;
-				padding: 40rpx 32rpx 10rpx 32rpx;
+				padding: 40rpx 32rpx 24rpx;
 				box-sizing: border-box;
-				color: #fff;
-				font-size: 32rpx;
+
 				.li{
 					width: 100%;
-					border-radius: 40rpx;
-					background-color: #5C5C5C;
-					padding: 30rpx;
+					border-radius: 28rpx;
+					background-color: #fff;
+					padding: 32rpx;
 					box-sizing: border-box;
-					margin-bottom: 20rpx;
+					margin-bottom: 24rpx;
+					color: #111827;
+					box-shadow: 0 10rpx 32rpx rgba(15, 23, 42, 0.08);
+					border: 2rpx solid transparent;
+					transition: all 0.2s ease;
+
+					&.active{
+						border-color: #0f8bff;
+						box-shadow: 0 16rpx 40rpx rgba(15, 118, 255, 0.2);
+					}
+
 					.li_box{
 						display: flex;
 						justify-content: space-between;
+						align-items: center;
+						column-gap: 24rpx;
+
 						.li_l{
 							flex: 1;
-							width: 100%;
 							display: flex;
-							justify-content: flex-start;
 							align-items: center;
+
 							.text{
-								margin-left: 10rpx;
+								margin-left: 12rpx;
 								display: flex;
-								align-items: flex-end;
+								align-items: baseline;
+								column-gap: 8rpx;
+								font-size: 34rpx;
+								font-weight: 600;
+
 								.day{
 									font-size: 24rpx;
+									color: #6b7280;
 								}
 							}
 						}
+
 						.li_r{
-							flex: 1;
+							min-width: 220rpx;
+
 							.pre_price{
 								width: 100%;
-								font-size: 64rpx;
-								font-weight: bold;
+								font-size: 52rpx;
+								font-weight: 700;
 								text-align: right;
+								color: #0f8bff;
 							}
-							
 						}
 					}
+
 					.li_fotter{
+						margin-top: 28rpx;
 						width: 100%;
 						display: flex;
 						justify-content: space-between;
-						align-items: center;
+						align-items: flex-end;
+
 						.tips{
-							padding-left: 56rpx;
-							font-size: 24rpx;
+							font-size: 26rpx;
+							color: #4b5563;
+							line-height: 1.5;
 						}
+
 						.price{
 							text-align: right;
+							font-size: 26rpx;
+							color: #9ca3af;
 							text-decoration: line-through;
 						}
 					}
 				}
+
 				::v-deep .u-radio-group{
 					gap: 0 !important;
 				}
+
+				::v-deep .u-radio{
+					.u-radio__icon-wrap{
+						width: 44rpx;
+						height: 44rpx;
+						border-radius: 12rpx !important;
+					}
+				}
 			}
-			
+
 			.btn{
 				width: 100%;
-				padding: 20rpx 32rpx;
+				padding: 24rpx 32rpx 32rpx;
 				box-sizing: border-box;
 				background-color: #fff;
 				position: fixed;
 				bottom: 0;
 				left: 0;
 				right: 0;
+				box-shadow: 0 -8rpx 32rpx rgba(15, 23, 42, 0.15);
+
 				.u-checkbox{
 					width: 100%;
 					justify-content: center;
+					margin-top: 16rpx;
 				}
+
 				.agreement{
-					font-size: 28rpx;
+					font-size: 26rpx;
 					text-align: center;
-					
-					color: #333;
+					color: #4b5563;
+
 					.link{
-						color: #249afa;
+						color: #0f8bff;
 					}
 				}
 			}
