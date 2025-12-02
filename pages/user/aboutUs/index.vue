@@ -138,42 +138,62 @@
 
 <style lang="scss" scoped>
 	.page{
+		min-height: 100vh;
+		background-color: #f4f6fa;
+		padding: 80rpx 40rpx 40rpx;
+		box-sizing: border-box;
 		.img_box{
+			text-align: center;
+
 			.img_center_box{
-				padding-top: 140rpx;
-				width: 160rpx;
-				height: 160rpx;
-				margin: 0 auto 10rpx;
+				padding-top: 0;
+				width: 176rpx;
+				height: 176rpx;
+				margin: 0 auto 16rpx;
+
 				image{
-					width: 160rpx;
-					border-radius: 16rpx;
+					width: 176rpx;
+					height: 176rpx;
+					border-radius: 32rpx;
+					box-shadow: 0 8rpx 24rpx rgba(0,0,0,0.08);
 				}
 			}
 		}
+
 		.version{
 			text-align: center;
+			font-size: 32rpx;
+			font-weight: 600;
+			color: #333;
+			margin-top: 8rpx;
 		}
 		.versionNum{
 			text-align: center;
-			color: #bbb;
+			color: #999;
+			font-size: 26rpx;
+			margin-top: 6rpx;
 		}
 		.body{
-			padding-top: 30rpx;
+			padding-top: 40rpx;
+
 			.detail_box{
-				padding: 0 20rpx;
-				margin: 30rpx;
+				padding: 0 24rpx;
+				margin: 0;
 				background-color: #FFFFFF;
-				border-radius: 12rpx;
+				border-radius: 16rpx;
+				box-shadow: 0 8rpx 24rpx rgba(0,0,0,0.06);
 				font-size: 28rpx;
-				.detail_item:last-child{
-					// border-bottom: 0;
-				}
+
 				.detail_item{
 					padding: 26rpx 0;
 					display: flex;
 					justify-content: space-between;
 					align-items: center;
-					border-bottom: 2rpx solid rgb(214, 215, 217);
+					border-bottom: 2rpx solid #f0f0f0;
+
+					&:last-child{
+						border-bottom: 0;
+					}
 				}
 			}
 		}

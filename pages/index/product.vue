@@ -15,7 +15,7 @@
           <view class="store_info" v-if="productDetail.store_info">{{ productDetail.store_info }}</view>
           <view class="store_tags">
             <view class="store_tag" v-for="(tag, index) in productDetail.cate_id" :key="index">
-              <text class="store_tag_text">{{ tag }}</text>
+              <text class="store_tag_text">{{ utils.formatListLabel(store.categoryList,tag,'name','code') }}</text>
             </view>
           </view>
           <view class="sub_title" v-if="productDetail.desc">{{ productDetail.desc }}</view>
@@ -38,7 +38,7 @@
 	import { aiproductDetail } from "@/api/index.js"
 	import { useUserStore } from '@/stores/index'
 	const store = useUserStore()
-	
+	import utils from '@/utils/index.js'
 	const productDetail = ref({})
 	const id = ref(null)
 	onLoad((query) => {
@@ -47,7 +47,6 @@
 	})
 	const getAiproductDetail = () => {
 		aiproductDetail(id.value).then(res => {
-			console.log(res)
 			productDetail.value = res || {}
 		})
 	}

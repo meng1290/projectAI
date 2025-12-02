@@ -37,4 +37,13 @@
 		  // 转换为数字并保留两位小数，再格式化补零
 		  return Number(num).toFixed(2);
 		},
+		formatListLabel(list,code,name='name',value='value') {
+			let label = ''
+			list.forEach(item => {
+				if(item[value] === code){
+					label = item[name]
+				}
+			})
+			return label
+		}
 	}

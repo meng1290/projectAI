@@ -7,9 +7,9 @@
             "type" : "uni-app:app-ios"
         },
         {
-            "customPlaygroundType" : "local",
+            "customPlaygroundType" : "device",
             "packageName" : "uni.UNI77F37B4",
-            "playground" : "custom",
+            "playground" : "standard",
             "type" : "uni-app:app-android"
         },
         {

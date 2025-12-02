@@ -47,7 +47,7 @@
   const getCategoryList = () => {
     getCategory().then(res => {
       dataList.value = res
-      console.log(res)
+			store.setCategoryList(res)
     })
   }
 	

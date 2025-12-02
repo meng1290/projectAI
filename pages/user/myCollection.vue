@@ -75,6 +75,8 @@
 	.page{
 		padding: 32rpx 32rpx;
 		box-sizing: border-box;
+		background: #f4f6fa;
+		min-height: 100vh;
 		.list{
 			width:100%;
 			padding: 0 12rpx;

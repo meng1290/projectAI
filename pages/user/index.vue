@@ -28,7 +28,7 @@
 			</u-cell>
 			<!-- <u-cell title="我的创作" @click="handleCell(1)" :isLink="true" arrow-direction="right" color="#000"></u-cell> -->
 			<u-cell title="我的收藏" @click="handleCell(2)" :isLink="true" arrow-direction="right" color="#000"></u-cell>
-			<u-cell title="关于我们" @click="handleCell(3)" :isLink="true" arrow-direction="right" color="#000"></u-cell>
+			<u-cell title="关于我们" @click="handleCell(3)" :isLink="true" arrow-direction="right" color="#000" :border="false"></u-cell>
 		</view>
 	</view>
 </template>

@@ -12,7 +12,7 @@
 		
 		<view class="swiper">
 			<up-swiper :list="bannerList" height="380rpx" radius="0" :autoplay="false"></up-swiper>
-			<up-button type="primary" color="#FF9500">开始学习</up-button>
+			<!-- <up-button type="primary" color="#FF9500">开始学习</up-button> -->
 		</view>
 		<view class="list">
 			<myProductCard :dataList="dataList"></myProductCard>
@@ -39,7 +39,8 @@
 	// #ifdef APP-HARMONY
 	import upgradePopupVue from '@/uni_modules/uni-upgrade-center-app/pages/upgrade-popup.vue';
 	// #endif
-
+	import { useUserStore } from '@/stores/index'
+	const store = useUserStore()
 	import banner from '@/static/image/banner.png';
 	const statusBarHeight = uni.getSystemInfoSync().statusBarHeight
 
@@ -93,6 +94,7 @@
         })
         typeList.unshift({name:'全部',code:''})
         list.value = typeList
+        store.setCategoryList(res)
       })
     }
     /* 切换分类 */
@@ -136,14 +138,14 @@
 <style lang="scss" scoped>
 	.page{
 		padding-top: var(--status-bar-height) !important;
-    background: #f4f6fa;
-    min-height: 100vh;
+		background: #f4f6fa;
+		min-height: 100vh;
 		.sticky{
 			padding: 30rpx 32rpx 0;
 			box-sizing: border-box;
-      .tabs{
-        height: 92rpx;
-      }
+			.tabs{
+				height: 92rpx;
+			}
 		}
 		::v-deep .u-tabs__wrapper__nav__line{
 			bottom: 12rpx !important;

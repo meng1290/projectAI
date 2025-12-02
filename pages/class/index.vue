@@ -22,7 +22,9 @@
 	import { reactive, ref, toRefs, unref, inject} from 'vue'
 	import { onLoad, onPullDownRefresh, onReachBottom } from '@dcloudio/uni-app'
   import { getModelList, getCategory } from '@/api/index.js'
-		import { useLoginRefresh } from '@/utils/useLoginRefresh.js';
+	import { useLoginRefresh } from '@/utils/useLoginRefresh.js';
+	import { useUserStore } from '@/stores/index'
+	const store = useUserStore()
 	import myProductCard from "@/components/myProductCard/index.vue"
 
 	const statusBarHeight = uni.getSystemInfoSync().statusBarHeight
@@ -65,6 +67,7 @@
       })
       typeList.unshift({name:'全部',code:''})
       list.value = typeList
+			store.setCategoryList(res)
     })
   }
   /* 切换分类 */

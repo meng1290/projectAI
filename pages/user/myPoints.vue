@@ -27,6 +27,7 @@
 			</view>
 			<up-empty v-if="!dataList.length" text=" " mode="data" :icon="'/static/image/data.png'" />
 			<up-loadmore line :status="loadStatus" />
+			<up-back-top :scroll-top="scrollTop"></up-back-top>
 		</view>
 		
 	</view>
@@ -34,7 +35,7 @@
 
 <script setup>
 	import { reactive, ref, toRefs, unref, inject} from 'vue'
-	import { onLoad, onReachBottom } from '@dcloudio/uni-app'
+	import { onLoad, onReachBottom, onPageScroll } from '@dcloudio/uni-app'
 	import { billList } from "@/api/index.js"
 	import { useUserStore } from '@/stores/index'
 	const store = useUserStore()
@@ -42,7 +43,7 @@
 	  dataList: [],
 	  queryParams:{
 	    page: 1,
-	    limit: 10,
+	    limit: 20,
 	  },
 	  loadStatus: 'nomore',//loadmore/ loading / nomore
 	})
@@ -73,6 +74,10 @@
 			loadStatus.value = 'nomore'
 		})
 	}
+	const scrollTop = ref(0);
+	onPageScroll((e) => {
+		scrollTop.value = e.scrollTop;
+	});
 </script>
 
 <style lang="scss" scoped>
