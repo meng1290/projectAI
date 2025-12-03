@@ -65,7 +65,7 @@
 	const getImageResult = async() => {
 		uni.showLoading({ title: '生成中' });
 		btnLoading.value = true
-		const result = await pollTaskResult(id.value,16)
+		const result = await pollTaskResult(id.value,6)
 		uni.hideLoading()
 		btnLoading.value = false
 		if (result.code) {
