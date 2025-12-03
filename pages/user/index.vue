@@ -17,7 +17,21 @@
 				<view class="bottomtext">开通会员享受全部权益</view>
 			</view>
 			<view class="right">
-				<up-button type="primary" color="#0166FE" style="border-radius: 10px;" @click="handleMember">立即开通</up-button>
+				<up-button 
+					type="primary" 
+					color="#0166FE" 
+					@click="handleMember"
+					:customStyle="{
+						borderRadius: '48rpx',
+						padding: '0 32rpx',
+						height: '64rpx',
+						fontSize: '28rpx',
+						fontWeight: '500',
+						boxShadow: '0 6rpx 20rpx rgba(1, 102, 254, 0.3)'
+					}"
+				>
+					立即开通
+				</up-button>
 			</view>
 		</view>
 		<view class="cell-box">
@@ -90,103 +104,147 @@
 </script>
 
 <style lang="scss" scoped>
-	.user::v-deep{
+	.user::v-deep {
 		padding: 48rpx 32rpx 80rpx;
 		padding-top: calc(var(--status-bar-height) + 48rpx) !important;
 		box-sizing: border-box;
 		min-height: 100vh;
-		background: #f6f8fc;
+		background: linear-gradient(180deg, #f5f7fa 0%, #ffffff 100%);
 
-		.header{
-			display:flex;
+		.header {
+			display: flex;
 			justify-content: space-between;
 			align-items: center;
 
-			.avatar-text{
+			.avatar-text {
 				flex: 1;
 				width: 0;
 				display: flex;
 				align-items: center;
+				transition: opacity 0.3s ease;
+				
+				&:active {
+					opacity: 0.7;
+				}
 
-				.userName{
+				.userName {
 					font-size: 46rpx;
 					font-weight: 600;
 					margin-left: 24rpx;
 					margin-right: 20rpx;
-					white-space:nowrap;
-					text-overflow:ellipsis; overflow:hidden;
-					color: #0f172a;
+					white-space: nowrap;
+					text-overflow: ellipsis;
+					overflow: hidden;
+					color: #111827;
+					line-height: 1.4;
 				}
 			}
 
-			.u-icon{
+			.u-icon {
 				background: #fff;
 				border-radius: 50%;
 				padding: 16rpx;
-				box-shadow: 0 6rpx 20rpx rgba(15, 23, 42, 0.12);
-			}
-		}
-
-		.vip{
-			width:100%;
-			margin-top:36rpx;
-			padding: 32rpx 36rpx;
-			box-sizing: border-box;
-			border-radius: 36rpx;
-			background: radial-gradient(circle at top right, rgba(255,255,255,0.2), transparent 55%), linear-gradient(120deg, #20c997, #11998e);
-			box-shadow: 0 20rpx 40rpx rgba(17, 153, 142, 0.35);
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-			color:#fff;
-
-			.left{
-				display: flex;
-				flex-direction: column;
-				row-gap: 12rpx;
-			}
-
-			.toptext{
-				font-size: 38rpx;
-				font-weight: 700;
-			}
-
-			.bottomtext{
-				font-size: 28rpx;
-				opacity: 0.9;
-			}
-
-			.right{
-				.up-button{
-					border-radius: 999rpx !important;
-					padding: 0 28rpx;
+				box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.1);
+				transition: all 0.3s ease;
+				
+				&:active {
+					transform: scale(0.95);
+					box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.15);
 				}
 			}
 		}
 
-		.cell-box{
+		.vip {
+			width: 100%;
 			margin-top: 40rpx;
-			background: #fff;
-			border-radius: 28rpx;
-			box-shadow: 0 12rpx 32rpx rgba(15, 23, 42, 0.08);
-
-			.u-cell__body{
-				padding-left:24rpx;
-				padding-right:24rpx;
-				min-height: 110rpx;
+			padding: 40rpx 36rpx;
+			box-sizing: border-box;
+			border-radius: 32rpx;
+			background: linear-gradient(135deg, #0166FE 0%, #2f7df6 50%, #145ff3 100%);
+			box-shadow: 0 12rpx 40rpx rgba(1, 102, 254, 0.25);
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			color: #fff;
+			position: relative;
+			overflow: hidden;
+			transition: all 0.3s ease;
+			
+			&::before {
+				content: '';
+				position: absolute;
+				top: -50%;
+				right: -20%;
+				width: 200%;
+				height: 200%;
+				background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+				pointer-events: none;
+			}
+			
+			&:active {
+				transform: scale(0.98);
 			}
 
-			.u-cell__title-text{
-				font-size: 30rpx;
-				color: #111827;
+			.left {
+				display: flex;
+				flex-direction: column;
+				row-gap: 12rpx;
+				position: relative;
+				z-index: 1;
+				flex: 1;
 			}
 
-			.u-cell__value{
-				font-size: 30rpx;
-				font-weight: 600;
-				color: #0f70ff;
+			.toptext {
+				font-size: 38rpx;
+				font-weight: 700;
+				line-height: 1.3;
+			}
+
+			.bottomtext {
+				font-size: 28rpx;
+				opacity: 0.95;
+				line-height: 1.4;
+			}
+
+			.right {
+				position: relative;
+				z-index: 1;
+				flex-shrink: 0;
 			}
 		}
-		
+
+		.cell-box {
+			margin-top: 40rpx;
+			background: #fff;
+			border-radius: 24rpx;
+			box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.08);
+			overflow: hidden;
+			border: 1rpx solid rgba(0, 0, 0, 0.04);
+
+			.u-cell__body {
+				padding-left: 28rpx;
+				padding-right: 28rpx;
+				min-height: 110rpx;
+				transition: background-color 0.2s ease;
+			}
+			
+			.u-cell {
+				&:active .u-cell__body {
+					background-color: #f9fafb;
+				}
+			}
+
+			.u-cell__title-text {
+				font-size: 30rpx;
+				color: #111827;
+				font-weight: 500;
+			}
+
+			.u-cell__value {
+				font-size: 30rpx;
+				font-weight: 600;
+				color: #0166FE;
+			}
+		}
 	}
 </style>

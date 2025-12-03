@@ -18,8 +18,38 @@
 				</view>
 			</view>
 			<view class="btns">
-				<up-button type="primary" @click="handleReset" color="#FF9500" shape="circle" :customStyle="{height:'96rpx',fontSize:'32rpx',flex:'1'}">重置</up-button>
-				<up-button type="primary" @click="handleSearch" color="#0166FE" shape="circle" :customStyle="{height:'96rpx',fontSize:'32rpx',flex:'1'}">开始搜索</up-button>
+				<view class="btn-container">
+					<up-button 
+						type="primary" 
+						@click="handleReset" 
+						color="#FF9500" 
+						:customStyle="{
+							height:'96rpx',
+							fontSize:'32rpx',
+							flex:'1',
+							borderRadius: '48rpx',
+							fontWeight: '500',
+							boxShadow: '0 8rpx 24rpx rgba(255, 149, 0, 0.3)'
+						}"
+					>
+						重置
+					</up-button>
+					<up-button 
+						type="primary" 
+						@click="handleSearch" 
+						color="#0166FE" 
+						:customStyle="{
+							height:'96rpx',
+							fontSize:'32rpx',
+							flex:'1',
+							borderRadius: '48rpx',
+							fontWeight: '500',
+							boxShadow: '0 8rpx 24rpx rgba(1, 102, 254, 0.3)'
+						}"
+					>
+						开始搜索
+					</up-button>
+				</view>
 			</view>
 		</view>
 	</view>
@@ -74,70 +104,95 @@
 </script>
 
 <style lang="scss" scoped>
-	.page{
+	.page {
 		font-size: 30rpx;
 		color: #1f2937;
 		min-height: 100vh;
-		background: #f5f7fb;
+		background: linear-gradient(180deg, #f5f7fa 0%, #ffffff 100%);
 
-		.content{
-			padding-bottom: 200rpx;
+		.content {
+			padding-bottom: 240rpx;
 
-			.list{
-				padding: 24rpx;
+			.list {
+				padding: 32rpx 24rpx;
 				box-sizing: border-box;
 
-				.type{
+				.type {
 					width: 100%;
-					padding: 26rpx 24rpx;
+					padding: 32rpx 28rpx;
 					box-sizing: border-box;
 					border-radius: 24rpx;
 					background: #fff;
-					box-shadow: 0 8rpx 32rpx rgba(15, 23, 42, 0.08);
+					box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.08);
 					margin-bottom: 24rpx;
-
-					.type_l{
-						font-weight: 600;
-						margin-bottom: 14rpx;
-						color: #0f172a;
+					transition: all 0.3s ease;
+					border: 1rpx solid rgba(0, 0, 0, 0.04);
+					
+					&:last-child {
+						margin-bottom: 0;
 					}
 
-					.type_r{
+					.type_l {
+						font-weight: 600;
+						font-size: 30rpx;
+						margin-bottom: 20rpx;
+						color: #111827;
+						line-height: 1.4;
+					}
+
+					.type_r {
 						display: flex;
 						flex-wrap: wrap;
-						gap: 12rpx;
+						gap: 16rpx;
 
-						.li{
-							padding: 12rpx 22rpx;
+						.li {
+							padding: 14rpx 24rpx;
 							border-radius: 999rpx;
-							background: #f5f6fb;
+							background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf0 100%);
 							color: #4b5563;
 							border: 2rpx solid transparent;
-							transition: all .2s ease;
+							transition: all 0.3s ease;
+							font-size: 28rpx;
+							font-weight: 400;
+							cursor: pointer;
+							
+							&:active {
+								transform: scale(0.95);
+							}
 
-							&.active{
-								color: #0f70ff;
-								background: rgba(15, 112, 255, 0.08);
-								border-color: #0f70ff;
+							&.active {
+								color: #0166FE;
+								background: linear-gradient(135deg, rgba(1, 102, 254, 0.1) 0%, rgba(1, 102, 254, 0.08) 100%);
+								border-color: #0166FE;
 								font-weight: 600;
+								box-shadow: 0 4rpx 12rpx rgba(1, 102, 254, 0.15);
 							}
 						}
 					}
 				}
 			}
 
-			.btns{
+			.btns {
 				width: 100%;
 				position: fixed;
 				bottom: 0;
 				left: 0;
 				right: 0;
-				padding: 24rpx 32rpx 36rpx;
-				display: flex;
-				gap: 32rpx;
+				padding: 24rpx 32rpx;
+				padding-bottom: calc(24rpx + env(safe-area-inset-bottom));
 				box-sizing: border-box;
-				background: #fff;
-				box-shadow: 0 -8rpx 30rpx rgba(15, 23, 42, 0.12);
+				background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.95) 20%, #ffffff 100%);
+				backdrop-filter: blur(20rpx);
+				box-shadow: 0 -4rpx 20rpx rgba(0, 0, 0, 0.08);
+				z-index: 100;
+				
+				.btn-container {
+					width: 100%;
+					max-width: 750rpx;
+					margin: 0 auto;
+					display: flex;
+					gap: 24rpx;
+				}
 			}
 		}
 	}

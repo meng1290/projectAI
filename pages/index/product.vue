@@ -4,9 +4,16 @@
       <view class="card">
         <view class="media">
           <up-image class="image" width="100%" :src="productDetail.image" mode="widthFix">
-            <template #loading><up-loading-icon></up-loading-icon></template>
+            <template #loading>
+              <view class="loading-wrapper">
+                <up-loading-icon></up-loading-icon>
+              </view>
+            </template>
             <template #error>
-              <view class="image-error">加载失败</view>
+              <view class="image-error">
+                <view class="error-icon">⚠️</view>
+                <view class="error-text">加载失败</view>
+              </view>
             </template>
           </up-image>
         </view>
@@ -27,7 +34,23 @@
       </view>
 		</view>
 		<view class="btns">
-			<up-button type="primary" @click="handleCreation(productDetail)" color="#0166FE" :customStyle="{width: '100%',height:'96rpx',fontSize:'32rpx'}">做同款</up-button>
+			<view class="btn-container">
+				<up-button 
+					type="primary" 
+					@click="handleCreation(productDetail)" 
+					color="#0166FE" 
+					:customStyle="{
+						width: '100%',
+						height:'96rpx',
+						fontSize:'32rpx',
+						borderRadius: '48rpx',
+						fontWeight: '500',
+						boxShadow: '0 8rpx 24rpx rgba(1, 102, 254, 0.3)'
+					}"
+				>
+					做同款
+				</up-button>
+			</view>
 		</view>
 	</view>
 </template>
@@ -59,116 +82,165 @@
 </script>
 
 <style lang="scss" scoped>
-	.page{
+	.page {
 		min-height: 100vh;
-		padding-bottom: 180rpx; // 预留底部按钮空间
+		padding-bottom: 200rpx;
 		box-sizing: border-box;
 		position: relative;
-		.content{
+		background: linear-gradient(180deg, #f5f7fa 0%, #ffffff 100%);
+		
+		.content {
 			width: 100%;
-      padding: 24rpx 24rpx 0;
-      box-sizing: border-box;
+			padding: 32rpx 24rpx;
+			box-sizing: border-box;
 
-      .card {
-        background-color: #fff;
-        border-radius: 24rpx;
-        overflow: hidden;
-        box-shadow: 0 8rpx 32rpx rgba(15, 23, 42, 0.08);
-      }
+			.card {
+				background-color: #fff;
+				border-radius: 24rpx;
+				overflow: hidden;
+				box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.08);
+				transition: all 0.3s ease;
+			}
 
-      .media {
-        background-color: #f3f4f6;
-      }
+			.media {
+				background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf0 100%);
+				overflow: hidden;
+			}
 
-      .image {
-        display: block;
-        width: 100%;
-        height: auto;
-        margin: 0 auto;
-      }
+			.image {
+				display: block;
+				width: 100%;
+				height: auto;
+				margin: 0 auto;
+				
+				:deep(img) {
+					border-radius: 24rpx 24rpx 0 0;
+				}
+			}
 
-      .image-error {
-        padding: 40rpx 0;
-        text-align: center;
-        font-size: 26rpx;
-        color: #999;
-      }
+			.loading-wrapper {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				min-height: 400rpx;
+				background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf0 100%);
+			}
 
-      .info{
-        padding: 32rpx;
-        box-sizing: border-box;
-      }
+			.image-error {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				padding: 80rpx 40rpx;
+				background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf0 100%);
+				
+				.error-icon {
+					font-size: 64rpx;
+					margin-bottom: 16rpx;
+					opacity: 0.7;
+				}
+				
+				.error-text {
+					font-size: 28rpx;
+					color: #909399;
+					font-weight: 400;
+				}
+			}
 
-      .store_name{
-        font-size: 34rpx;
-        font-weight: 600;
-        color: #111827;
-        line-height: 1.4;
-      }
+			.info {
+				padding: 32rpx;
+				box-sizing: border-box;
+			}
 
-      .store_info{
-        margin-top: 12rpx;
-        font-size: 26rpx;
-        color: #4b5563;
-        line-height: 1.5;
-      }
+			.store_name {
+				font-size: 34rpx;
+				font-weight: 600;
+				color: #111827;
+				line-height: 1.4;
+			}
 
-      .store_tags{
-        margin-top: 20rpx;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12rpx 12rpx;
-      }
+			.store_info {
+				margin-top: 12rpx;
+				font-size: 26rpx;
+				color: #4b5563;
+				line-height: 1.5;
+			}
 
-      .store_tag{
-        padding: 6rpx 18rpx;
-        border-radius: 999rpx;
-        background: #eff6ff;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-      }
+			.store_tags {
+				margin-top: 20rpx;
+				display: flex;
+				flex-wrap: wrap;
+				gap: 12rpx 12rpx;
+			}
 
-      .store_tag_text{
-        font-size: 22rpx;
-        color: #1d4ed8;
-      }
+			.store_tag {
+				padding: 6rpx 18rpx;
+				border-radius: 999rpx;
+				background: #eff6ff;
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				transition: all 0.2s ease;
+				
+				&:active {
+					transform: scale(0.95);
+					background: #dbeafe;
+				}
+			}
 
-      .sub_title{
-        margin-top: 8rpx;
-        font-size: 26rpx;
-        color: #6b7280;
-        line-height: 1.5;
-      }
+			.store_tag_text {
+				font-size: 22rpx;
+				color: #1d4ed8;
+				font-weight: 500;
+			}
 
-      .price-row{
-        margin-top: 32rpx;
-        display: flex;
-        align-items: baseline;
-        justify-content: space-between;
-      }
+			.sub_title {
+				margin-top: 16rpx;
+				font-size: 26rpx;
+				color: #6b7280;
+				line-height: 1.6;
+			}
 
-      .price-label{
-        font-size: 26rpx;
-        color: #6b7280;
-      }
+			.price-row {
+				margin-top: 32rpx;
+				padding-top: 24rpx;
+				border-top: 1rpx solid #f3f4f6;
+				display: flex;
+				align-items: baseline;
+				justify-content: space-between;
+			}
 
-      .price-value{
-        font-size: 34rpx;
-        font-weight: 600;
-        color: #0166FE;
-      }
+			.price-label {
+				font-size: 28rpx;
+				color: #6b7280;
+				font-weight: 400;
+			}
+
+			.price-value {
+				font-size: 36rpx;
+				font-weight: 600;
+				color: #0166FE;
+			}
 		}
-		.btns{
-			background-color: #fff;
+		
+		.btns {
 			position: fixed;
 			left: 0;
 			right: 0;
 			bottom: 0;
-			margin: auto;
-			padding: 32rpx;
+			padding: 24rpx 32rpx;
+			padding-bottom: calc(24rpx + env(safe-area-inset-bottom));
 			box-sizing: border-box;
-      box-shadow: 0 -4rpx 20rpx rgba(15, 23, 42, 0.06);
+			background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.95) 20%, #ffffff 100%);
+			backdrop-filter: blur(20rpx);
+			box-shadow: 0 -4rpx 20rpx rgba(0, 0, 0, 0.06);
+			z-index: 100;
+			
+			.btn-container {
+				width: 100%;
+				max-width: 750rpx;
+				margin: 0 auto;
+			}
 		}
 	}
 </style>

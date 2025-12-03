@@ -10,7 +10,7 @@ export function getModelList(data) {
 }
 /* 模型详情 */
 export function aiproductDetail(data){
-	return request.get(`aiproduct/detail/${data}`)
+	return request.get(`aiproduct/detail/${data}`,{},{needToken:false})
 }
 /* 分类列表 */
 export function getCategory(data) {

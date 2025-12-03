@@ -131,7 +131,7 @@
 		  "path": "pages/user/member",
 		  "style": {
 		    "navigationBarTitleText": "开通会员",
-		    "navigationBarBackgroundColor": "#1f6bff",
+		    "navigationBarBackgroundColor": "#0166FE",
 		    "navigationBarTextStyle": "white"
 		   //  "app-plus": {
 					// //导航栏右侧按钮

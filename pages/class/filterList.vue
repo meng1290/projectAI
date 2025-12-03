@@ -2,8 +2,10 @@
 	<view class="page">
 		<view class="list">
 			<myProductCard :dataList="dataList"></myProductCard>
-			<up-empty v-if="!dataList.length" text=" " mode="data" :icon="'/static/image/data.png'" />
-		  <up-loadmore line :status="loadStatus" />
+			<view v-if="!dataList.length && loadStatus === 'nomore'" class="empty-wrapper">
+				<up-empty text=" " mode="data" :icon="'/static/image/data.png'" />
+			</view>
+			<up-loadmore line :status="loadStatus" />
 		</view>
 	</view>
 </template>
@@ -75,11 +77,22 @@
 </script>
 
 <style lang="scss" scoped>
-	.page{
-		padding: 20rpx 32rpx;
-		.list{
+	.page {
+		min-height: 100vh;
+		padding: 32rpx 24rpx;
+		box-sizing: border-box;
+		background: linear-gradient(180deg, #f5f7fa 0%, #ffffff 100%);
+		
+		.list {
 			box-sizing: border-box;
-			margin-bottom: 20px;
+			margin-bottom: 40rpx;
+			
+			.empty-wrapper {
+				padding: 120rpx 0;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
 		}
 	}
 </style>

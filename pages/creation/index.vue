@@ -16,10 +16,10 @@
 						</up-image>
 					</view>
 				</view>
-				<view class="grid" @click="handleDetail(item.images)">
+				<view class="grid" @click="handleDetail(item.waterimgs)">
 					<view class="grid-title">生成图</view>
 					<view class="img-box">
-						<up-image class="image" width="100%" height="100%" :src="item.images.length?item.images[0]:''" mode="aspectFill">
+						<up-image class="image" width="100%" height="100%" :src="item.waterimgs.length?item.waterimgs[0]:''" mode="aspectFill">
 						  <template #loading>
 								<view class="loadingImg">
 									<up-loading-icon></up-loading-icon>

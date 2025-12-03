@@ -30,9 +30,16 @@
 			<view class="imgs">
 				<view class="imgBox">
 					<up-image :src="exampleUrl1" width="100%" height="100%" mode="aspectFill">
-						<template #loading><up-loading-icon></up-loading-icon></template>
+						<template #loading>
+							<view class="loading-wrapper">
+								<up-loading-icon></up-loading-icon>
+							</view>
+						</template>
 						<template #error>
-							<view style="font-size: 28rpx;">加载失败</view>
+							<view class="error-wrapper">
+								<view class="error-icon">⚠️</view>
+								<view class="error-text">加载失败</view>
+							</view>
 						</template>
 					</up-image>
 				</view>
@@ -44,9 +51,16 @@
 				</view>
 				<view class="imgBox">
 					<up-image class="image" :src="exampleUrl2" width="100%" height="100%" mode="aspectFill">
-						<template #loading><up-loading-icon></up-loading-icon></template>
+						<template #loading>
+							<view class="loading-wrapper">
+								<up-loading-icon></up-loading-icon>
+							</view>
+						</template>
 						<template #error>
-							<view style="font-size: 28rpx;">加载失败</view>
+							<view class="error-wrapper">
+								<view class="error-icon">⚠️</view>
+								<view class="error-text">加载失败</view>
+							</view>
 						</template>
 					</up-image>
 				</view>
@@ -59,8 +73,38 @@
 				<view class="text">我的算力余额：{{store.isLogin?store.userInfo.now_money:0}}</view>
 			</view>
 			<view class="btns">
-				<up-button type="primary" @click="handleCharging()" color="#FF9500" shape="circle" :customStyle="{height:'96rpx',fontSize:'32rpx',flex:'1'}">充值</up-button>
-				<up-button type="primary" @click="handleCreateTask()" :loading="btnLoading" loadingText="生成中" color="#0166FE" shape="circle" :customStyle="{height:'96rpx',fontSize:'32rpx',flex:'2'}">生成</up-button>
+				<up-button 
+					type="primary" 
+					@click="handleCharging()" 
+					color="#FF9500" 
+					:customStyle="{
+						height:'96rpx',
+						fontSize:'32rpx',
+						flex:'1',
+						borderRadius: '48rpx',
+						fontWeight: '500',
+						boxShadow: '0 8rpx 24rpx rgba(255, 149, 0, 0.3)'
+					}"
+				>
+					充值
+				</up-button>
+				<up-button 
+					type="primary" 
+					@click="handleCreateTask()" 
+					:loading="btnLoading" 
+					loadingText="生成中" 
+					color="#0166FE" 
+					:customStyle="{
+						height:'96rpx',
+						fontSize:'32rpx',
+						flex:'2',
+						borderRadius: '48rpx',
+						fontWeight: '500',
+						boxShadow: '0 8rpx 24rpx rgba(1, 102, 254, 0.3)'
+					}"
+				>
+					生成
+				</up-button>
 			</view>
 		</view>
 	</view>
@@ -97,7 +141,9 @@
 		}
 	});
 	onShow(() => {
-		store.getUserInfo()
+    if(store.isLogin){
+      store.getUserInfo()
+    }
 	})
 	const fileList = ref([])
 	
@@ -150,6 +196,11 @@
 	
 	
 	const handleCharging = () => {
+    if(!store.isLogin){
+			return uni.navigateTo({
+				url:"/pages/login/index"
+			})
+		}
 		if(btnLoading.value)return
 		uni.navigateTo({
 			url:"/pages/user/member"
@@ -158,29 +209,30 @@
 </script>
 
 <style lang="scss" scoped>
-	.page{
+	.page {
 		min-height: 100vh;
-		padding: 32rpx 32rpx 226rpx;
+		padding: 32rpx 32rpx 240rpx;
 		box-sizing: border-box;
 		position: relative;
-		background: #f4f6fa;
+		background: linear-gradient(180deg, #f5f7fa 0%, #ffffff 100%);
 
-		.section-card{
+		.section-card {
 			width: 100%;
 			background: #fff;
 			border-radius: 24rpx;
 			padding: 32rpx;
 			box-sizing: border-box;
-			box-shadow: 0 12rpx 40rpx rgba(15, 23, 42, 0.08);
+			box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.08);
 			margin-bottom: 32rpx;
+			transition: all 0.3s ease;
 		}
 
-		.upload{
+		.upload {
 			display: flex;
 			flex-direction: column;
 			align-items: center;
 
-			.upload-title{
+			.upload-title {
 				width: 100%;
 				font-size: 32rpx;
 				font-weight: 600;
@@ -188,34 +240,35 @@
 				margin-bottom: 16rpx;
 			}
 
-			.upload-desc{
+			.upload-desc {
 				width: 100%;
 				font-size: 26rpx;
 				color: #6b7280;
-				line-height: 1.5;
+				line-height: 1.6;
 				margin-bottom: 28rpx;
 			}
 
-			.upload-box{
-        width: 460rpx;
-        height: 460rpx;
-        border-radius: 32rpx;
-        padding: 10rpx;
-        box-sizing: border-box;
-        background: #f8f9ff;
-        border: 2rpx solid rgba(1, 102, 254, 0.08);
-        display: flex;
-        justify-content: center;
-        align-items: center;
+			.upload-box {
+				width: 460rpx;
+				height: 460rpx;
+				border-radius: 32rpx;
+				padding: 10rpx;
+				box-sizing: border-box;
+				background: linear-gradient(135deg, #f8f9ff 0%, #eef2ff 100%);
+				border: 2rpx solid rgba(1, 102, 254, 0.12);
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				transition: all 0.3s ease;
 			}
 
-			::v-deep .u-upload{
+			::v-deep .u-upload {
 				width: 100%;
 				height: 100%;
-				.u-upload__wrap{
+				.u-upload__wrap {
 					width: 100%;
 					height: 100%;
-					.box{
+					.box {
 						width: 440rpx;
 						height: 440rpx;
 						display: flex;
@@ -224,12 +277,19 @@
 						align-items: center;
 						background: #fff;
 						border-radius: 24rpx;
-						box-shadow: inset 0 0 0 2rpx rgba(1, 102, 254, 0.04);
-						.image{
+						box-shadow: inset 0 0 0 2rpx rgba(1, 102, 254, 0.06);
+						transition: all 0.3s ease;
+						
+						&:active {
+							transform: scale(0.98);
+						}
+						
+						.image {
 							width: 192rpx;
 							height: 192rpx;
+							opacity: 0.8;
 						}
-						.text{
+						.text {
 							margin-top: 24rpx;
 							font-size: 30rpx;
 							font-weight: 600;
@@ -237,9 +297,9 @@
 						}
 					}
 				}
-				.u-upload__wrap__preview{
+				.u-upload__wrap__preview {
 					margin: 0;
-					.u-upload__wrap__preview__image{
+					.u-upload__wrap__preview__image {
 						width: 440rpx !important;
 						height: 440rpx !important;
 						border-radius: 24rpx;
@@ -248,36 +308,39 @@
 			}
 		}
 
-		.example{
+		.example {
 			width: 100%;
 
-			.section-title{
+			.section-title {
 				font-size: 30rpx;
 				font-weight: 600;
 				color: #111827;
 				margin-bottom: 16rpx;
 			}
 
-			.tips{
+			.tips {
 				font-size: 26rpx;
 				color: #6b7280;
 				text-align: left;
 				margin-bottom: 28rpx;
 				padding: 24rpx;
 				border-radius: 20rpx;
-				background-color: #fafdff;
+				background: linear-gradient(135deg, #fafdff 0%, #f0f9ff 100%);
+				border: 1rpx solid rgba(1, 102, 254, 0.08);
+				line-height: 1.6;
 			}
 
-			.imgs{
+			.imgs {
 				width: 100%;
 				display: flex;
 				justify-content: space-between;
 				box-sizing: border-box;
 				align-items: center;
-        flex-wrap: nowrap;
-        column-gap: 24rpx;
-        padding: 0 8rpx;
-				.imgBox{
+				flex-wrap: nowrap;
+				column-gap: 24rpx;
+				padding: 0 8rpx;
+				
+				.imgBox {
 					position: relative;
 					width: 210rpx;
 					height: 210rpx;
@@ -285,36 +348,80 @@
 					border-radius: 24rpx;
 					overflow: hidden;
 					box-shadow: 0 10rpx 30rpx rgba(34, 197, 94, 0.14);
-					.checkSquare{
+					transition: all 0.3s ease;
+					
+					&:active {
+						transform: scale(0.95);
+					}
+					
+					.checkSquare {
 						width: 48rpx;
 						height: 48rpx;
 						position: absolute;
 						right: 10rpx;
 						top: 6rpx;
 					}
+					
+					.loading-wrapper {
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						width: 100%;
+						height: 100%;
+						background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf0 100%);
+					}
+					
+					.error-wrapper {
+            width: 100%;
+						display: flex;
+						flex-direction: column;
+						align-items: center;
+						justify-content: center;
+						width: 100%;
+						height: 100%;
+						background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf0 100%);
+						padding: 20rpx;
+						
+						.error-icon {
+							font-size: 48rpx;
+							margin-bottom: 12rpx;
+							opacity: 0.7;
+						}
+						
+						.error-text {
+							font-size: 24rpx;
+							color: #909399;
+							font-weight: 400;
+						}
+					}
 				}
-				.line{
+				
+				.line {
 					flex: 1;
-          min-width: 110rpx;
-          padding: 0 20rpx;
+					min-width: 110rpx;
+					padding: 0 20rpx;
 					display: flex;
 					flex-direction: column;
 					align-items: center;
 					gap: 12rpx;
-					.text{
+					
+					.text {
 						width: 100%;
 						text-align: center;
 						color: #6b7280;
 						font-size: 28rpx;
+						font-weight: 500;
 					}
-					.arrow{
+					
+					.arrow {
 						height: 4rpx;
 						width: 100%;
 						max-width: 260rpx;
-						background: #9ca3af;
+						background: linear-gradient(90deg, #9ca3af 0%, #d1d5db 100%);
 						position: relative;
 						border-radius: 4rpx;
-						&::after{
+						
+						&::after {
 							content: ''; 
 							width: 20rpx;
 							height: 4rpx;
@@ -324,8 +431,9 @@
 							background: #9ca3af;
 							transform-origin: right bottom; 
 							transform: rotate(30deg); 
+							border-radius: 4rpx;
 						}
-						&::before{
+						&::before {
 							content: ''; 
 							width: 20rpx;
 							height: 4rpx;
@@ -335,45 +443,54 @@
 							background: #9ca3af;
 							transform-origin: right top; 
 							transform: rotate(330deg); 
+							border-radius: 4rpx;
 						}
 					}
 				}
 			}
 		}
 
-		.footer{
+		.footer {
 			width: 100%;
-			padding: 24rpx 32rpx 32rpx;
+			padding: 24rpx 32rpx;
+			padding-bottom: calc(24rpx + env(safe-area-inset-bottom));
 			box-sizing: border-box;
 			position: fixed;
 			left: 0;
 			right: 0;
 			bottom: 0;
-			background-color: #fff;
-			box-shadow: 0 -8rpx 40rpx rgba(15, 23, 42, 0.12);
-			.points{
+			background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.95) 20%, #ffffff 100%);
+			backdrop-filter: blur(20rpx);
+			box-shadow: 0 -4rpx 20rpx rgba(0, 0, 0, 0.08);
+			z-index: 100;
+			
+			.points {
 				width: 100%;
 				display: flex;
 				justify-content: flex-start;
-				margin-bottom: 16rpx;
+				margin-bottom: 20rpx;
 				padding: 0 4rpx;
-				.text{
+				
+				.text {
 					flex: 1;
 					font-size: 28rpx;
 					height: 48rpx;
 					line-height: 48rpx;
 					color: #374151;
-					&:nth-of-type(2){
+					font-weight: 400;
+					
+					&:nth-of-type(2) {
 						text-align: right;
+						font-weight: 500;
 					}
 				}
 			}
-			.btns{
+			
+			.btns {
 				width: 100%;
 				display: flex;
-				gap: 32rpx;
+				gap: 24rpx;
 			}
 		}
-		
 	}
 </style>

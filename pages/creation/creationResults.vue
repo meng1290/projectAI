@@ -1,21 +1,49 @@
 <template>
 	<view class="page">
 		<view class="content">
-			<up-image class="image" v-for="(item,i) in creationResultsList" :key="i" :src="item" width="100%" mode="widthFix">
-				<template #loading><up-loading-icon></up-loading-icon></template>
-				<template #error>
-					<view style="font-size: 28rpx;">加载失败</view>
-				</template>
-			</up-image>
+			<view class="image-wrapper" v-for="(item,i) in creationResultsList" :key="i">
+				<up-image class="image" :src="item" width="100%" mode="widthFix">
+					<template #loading>
+						<view class="loading-wrapper">
+							<up-loading-icon></up-loading-icon>
+						</view>
+					</template>
+					<template #error>
+						<view class="error-wrapper">
+							<view class="error-icon">⚠️</view>
+							<view class="error-text">加载失败</view>
+						</view>
+					</template>
+				</up-image>
+			</view>
 			
 			<view class="empty" v-if="!creationResultsList.length">
-				<up-loading-icon color="#666" size="40"></up-loading-icon>
-				<view class="text">正在生成中，请稍后</view>
+				<view class="empty-content">
+					<up-loading-icon color="#0166FE" size="48"></up-loading-icon>
+					<!-- <view class="text">正在生成中，请稍后</view> -->
+					<view class="sub-text">AI正在为您创作，请耐心等待</view>
+				</view>
 			</view>
 		</view>
 		
 		<view class="btns" v-if="creationResultsList.length">
-			<up-button type="primary" @click="handleSaveImage" color="#0166FE" :customStyle="{width: '100%',height:'96rpx',fontSize:'32rpx'}">保存图片</up-button>
+			<view class="btn-container">
+				<up-button 
+					type="primary" 
+					@click="handleSaveImage" 
+					color="#0166FE" 
+					:customStyle="{
+						width: '100%',
+						height:'96rpx',
+						fontSize:'32rpx',
+						borderRadius: '48rpx',
+						fontWeight: '500',
+						boxShadow: '0 8rpx 24rpx rgba(1, 102, 254, 0.3)'
+					}"
+				>
+					保存图片
+				</up-button>
+			</view>
 		</view>
 	</view>
 </template>
@@ -32,16 +60,17 @@
 	onLoad((query) =>{
 		id.value = query.id;
 		getImageResult()
+    // creationResultsList.value = uni.getStorageSync('creationResults') || []
 	})
 	const getImageResult = async() => {
 		uni.showLoading({ title: '生成中' });
 		btnLoading.value = true
-		const result = await pollTaskResult(id.value,6)
+		const result = await pollTaskResult(id.value,16)
 		uni.hideLoading()
 		btnLoading.value = false
 		if (result.code) {
 			console.log('获取到任务结果:', result)
-			creationResultsList.value = result.images
+			creationResultsList.value = result.waterimgs
 		}else{
 			uni.showModal({
 				title:'提示',
@@ -92,14 +121,14 @@
 	  return {code: false,msg: "任务创作超时，稍后可在创作记录中查看",}
 	}
 	const handleSaveImage = () => {
-		if(!creationResultsList.length){
+		if(!creationResultsList.value.length){
 			return uni.showToast({
 				title: '保存失败',
 				icon: 'none',
 			});
 		}
 		uni.showLoading()
-		let imgSrc = creationResultsList[0]
+		let imgSrc = creationResultsList.value[0]
 		uni.downloadFile({
 			url: imgSrc,
 			success: (res) => {
@@ -160,47 +189,133 @@
 </script>
 
 <style lang="scss" scoped>
-	.page{
+	.page {
 		position: relative;
-		padding-bottom: 160rpx;
+		min-height: 100vh;
+		padding-bottom: 200rpx;
 		box-sizing: border-box;
-		.content{
-			padding-bottom: 80rpx;
+		background: linear-gradient(180deg, #f5f7fa 0%, #ffffff 100%);
+		
+		.content {
+			padding: 32rpx 24rpx;
 			width: 100%;
-			.image {
-				display: block;
-			  width: 100%; 
-			  height: auto;
-			  margin: 0 auto;
-				background-color: rgb(243, 244, 246);
+			box-sizing: border-box;
+			
+			.image-wrapper {
+				margin-bottom: 32rpx;
+				border-radius: 24rpx;
+				overflow: hidden;
+				background: #ffffff;
+				box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.08);
+				transition: all 0.3s ease;
+				
+				&:last-child {
+					margin-bottom: 0;
+				}
+				
+				&:active {
+					transform: scale(0.98);
+					box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.12);
+				}
+				
+				.image {
+					display: block;
+					width: 100%;
+					height: auto;
+					margin: 0 auto;
+					background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf0 100%);
+					border-radius: 24rpx;
+					
+					:deep(img) {
+						border-radius: 24rpx;
+					}
+				}
+				
+				.loading-wrapper {
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					min-height: 400rpx;
+					background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf0 100%);
+				}
+				
+				.error-wrapper {
+          width: 100%;
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					justify-content: center;
+					min-height: 400rpx;
+					background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf0 100%);
+					padding: 40rpx;
+					
+					.error-icon {
+						font-size: 64rpx;
+						margin-bottom: 16rpx;
+						opacity: 0.7;
+					}
+					
+					.error-text {
+						font-size: 28rpx;
+						color: #909399;
+						font-weight: 400;
+					}
+				}
 			}
 			
-			.empty{
+			.empty {
 				width: 100%;
-				height: 60vh;
-				background: rgb(243, 244, 246);
+				min-height: 60vh;
 				display: flex;
-				flex-wrap: wrap;
 				justify-content: center;
 				align-items: center;
-				padding: 30% 0 50%;
+				padding: 120rpx 40rpx;
 				box-sizing: border-box;
-				.text{
-					width: 100%;
-					text-align: center;
-					font-size: 36rpx;
-					margin-top: 20rpx;
-					color: #666;
+				
+				.empty-content {
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					justify-content: center;
+					
+					.text {
+						width: 100%;
+						text-align: center;
+						font-size: 32rpx;
+						margin-top: 32rpx;
+						color: #111827;
+						font-weight: 600;
+					}
+					
+					.sub-text {
+						width: 100%;
+						text-align: center;
+						font-size: 26rpx;
+						margin-top: 12rpx;
+						color: #6b7280;
+						font-weight: 400;
+					}
 				}
 			}
 		}
-		.btns{
+		
+		.btns {
 			position: fixed;
 			left: 0;
 			right: 0;
 			bottom: 0;
-			padding: 32rpx;
+			padding: 24rpx 32rpx;
+			padding-bottom: calc(24rpx + env(safe-area-inset-bottom));
 			box-sizing: border-box;
+			background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.95) 20%, #ffffff 100%);
+			backdrop-filter: blur(20rpx);
+			z-index: 100;
+			
+			.btn-container {
+				width: 100%;
+				max-width: 750rpx;
+				margin: 0 auto;
+			}
 		}
 	}
 </style>
