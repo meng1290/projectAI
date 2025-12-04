@@ -54,6 +54,7 @@
 	import { permissionCheck, phonePermissionSetting } from "@/utils/phonePermissionCheck.js"
 	import { getTaskResult } from "@/api/index.js"
 	const creationResultsList = ref([])
+  const creationResultsDownloadimg = ref([])
 	const id = ref(null)
 	const btnLoading = ref(false)
 	
@@ -71,6 +72,7 @@
 		if (result.code) {
 			console.log('获取到任务结果:', result)
 			creationResultsList.value = result.waterimgs
+			creationResultsDownloadimg.value = result.downloadimg
 		}else{
 			uni.showModal({
 				title:'提示',
@@ -97,7 +99,9 @@
 					const obj = {
 						code: true,
 						msg: null,
-						images: result.images
+						images: result.images || [],
+            waterimgs: result.waterimgs || [],
+            downloadimg: result.downloadimg || []
 					}
 	        return obj // 返回结果并结束轮询
 	      }
@@ -128,7 +132,7 @@
 			});
 		}
 		uni.showLoading()
-		let imgSrc = creationResultsList.value[0]
+		let imgSrc = creationResultsDownloadimg.value.length ? creationResultsDownloadimg.value[0] : creationResultsList.value[0]
 		uni.downloadFile({
 			url: imgSrc,
 			success: (res) => {

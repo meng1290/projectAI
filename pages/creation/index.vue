@@ -5,7 +5,7 @@
 				<view class="list-header">
 					<view class="list-time">生成时间：{{item.create_time}}</view>
 				</view>
-				<view class="grid" @click="handleDetail([item.submitimgs])">
+				<view class="grid" @click="handleDetail([item.submitimgs],[])">
 					<view class="grid-title">参考图</view>
 					<view class="img-box">
 						<up-image class="image" width="100%" height="100%" :src="item.submitimgs" mode="aspectFill">
@@ -16,7 +16,7 @@
 						</up-image>
 					</view>
 				</view>
-				<view class="grid" @click="handleDetail(item.waterimgs)">
+				<view class="grid" @click="handleDetail(item.waterimgs,item.downloadimg)">
 					<view class="grid-title">生成图</view>
 					<view class="img-box">
 						<up-image class="image" width="100%" height="100%" :src="item.waterimgs.length?item.waterimgs[0]:''" mode="aspectFill">
@@ -106,7 +106,7 @@
 	//监听到登录状态变化触发
 	useLoginRefresh(resetList)
 	
-	const handleDetail = (image) => {
+	const handleDetail = (image,downloadimg) => {
 		if(!image.length){
 			return uni.showToast({
 				title: '生成中，请稍后',
@@ -114,6 +114,8 @@
 			});
 		}
 		uni.setStorageSync('creationResults',image)
+		uni.setStorageSync('creationResultsDownloadimg',downloadimg)
+
 		uni.navigateTo({
 			url:`/pages/creation/creationDetail`
 		})

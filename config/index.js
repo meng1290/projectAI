@@ -14,8 +14,8 @@ let config = {
 
 
 //当前版本及更新内容
-config.version = '1.0.8'
-config.versionUpdateContent = '1.新版本上线\n2.修复已知内容'
+config.version = '1.0.9'
+config.versionUpdateContent = '1.界面样式优化\n2.修复已知问题'
 
 
 

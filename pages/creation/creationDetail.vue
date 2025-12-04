@@ -49,7 +49,7 @@
 	import { permissionCheck, phonePermissionSetting } from "@/utils/phonePermissionCheck.js"
 	
 	const creationResultsList = uni.getStorageSync('creationResults') || []
-	
+	const creationResultsDownloadimg = uni.getStorageSync('creationResultsDownloadimg') || []
 	
 	const handleSaveImage = () => {
 		if(!creationResultsList.length){
@@ -59,7 +59,7 @@
 			});
 		}
 		uni.showLoading()
-		let imgSrc = creationResultsList[0]
+		let imgSrc = creationResultsDownloadimg.length ? creationResultsDownloadimg[0] : creationResultsList[0]
 		uni.downloadFile({
 			url: imgSrc, //仅为示例，并非真实的资源
 			success: (res) => {
