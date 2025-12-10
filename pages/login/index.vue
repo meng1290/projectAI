@@ -51,7 +51,7 @@
 					<text @click="changeLoginType(5)" class="iconfont icon-iconfontapple"></text>
 				</view>
         <text v-if="isShowPhoneAuthLonginBtn" @click="changeLoginType(1)" class="iconfont icon-denglu-shoujidenglu"></text>
-        <text @click="changeLoginType(2)" class="iconfont icon-weixin"></text>
+        <text v-if="isShowWXLoginBtn" @click="changeLoginType(2)" class="iconfont icon-weixin"></text>
         <text @click="changeLoginType(3)" class="iconfont icon-duanxindenglu1"></text>
         <text @click="changeLoginType(4)" class="iconfont icon-mimadenglu"></text>
       </view>
@@ -107,6 +107,7 @@
 	const { form, rules } = toRefs(state)
 	const isShowPhoneAuthLonginBtn = ref(false)
 	const isIOS13Plus = ref(false)
+	const isShowWXLoginBtn = ref(false)
 	onLoad(() => {
 		// #ifdef APP-PLUS
 		//判断是否满足手机号一键登录条件
@@ -119,6 +120,20 @@
 				isShowPhoneAuthLonginBtn.value = false
 			}
 		})
+		// #endif
+		// #ifdef APP
+		//判断ios环境是否需要展示微信登录按钮
+		const platform = uni.getSystemInfoSync().platform
+		if (platform === 'ios') {
+			const result = plus.runtime.isApplicationExist({action: 'weixin://'})
+			if(result){
+				isShowWXLoginBtn.value = true
+			}else{
+				isShowWXLoginBtn.value = false
+			}
+		}else{
+			isShowWXLoginBtn.value = true
+		}
 		// #endif
 		//判断是否满足苹果授权登录条件
 		uni.getSystemInfo({
