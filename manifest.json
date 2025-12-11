@@ -2,8 +2,8 @@
     "name" : "童创AI",
     "appid" : "__UNI__8F2F210",
     "description" : "一键换装应用",
-    "versionName" : "1.0.9",
-    "versionCode" : 109,
+    "versionName" : "1.1.0",
+    "versionCode" : 110,
     "transformPx" : false,
     /* 5+App特有相关 */
     "app-plus" : {
@@ -74,8 +74,9 @@
                 },
                 "payment" : {
                     "alipay" : {
-                        "__platform__" : [ "ios", "android" ]
-                    }
+                        "__platform__" : [ "android" ]
+                    },
+                    "appleiap" : {}
                 }
             },
             "icons" : {
