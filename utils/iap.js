@@ -5,11 +5,11 @@ const ProviderType = {
 
 // 订单交易状态
 const IapTransactionState = {
-  purchasing: "0", // 交易处理中
-  purchased: "1", // 交易成功
-  failed: "2", // 交易失败
-  restored: "3", // 交易恢复（已购买过）
-  deferred: "4" // 交易等待中（如家长控制）
+  purchasing: "0",
+  purchased: "1",
+  failed: "2",
+  restored: "3",
+  deferred: "4"
 };
 
 class Iap {
@@ -17,6 +17,7 @@ class Iap {
   _channelError = null;
   _productIds = [];
   _ready = false;
+  _products = [];
 
   constructor({ products }) {
     this._productIds = products;
@@ -34,20 +35,27 @@ class Iap {
     });
   }
 
-  // 获取产品列表（从苹果服务器）
+  // 获取产品列表
   getProduct(productIds) {
-		console.log(1)
     return new Promise((resolve, reject) => {
       if (!this._channel) {
         reject(new Error('支付通道未初始化'));
         return;
       }
-      console.log(2,JSON.stringify(this._productIds))
-      this._channel.requestProduct(productIds || this._productIds, (res) => {
-				console.log(3)
-        resolve(res);
+
+      const ids = productIds || this._productIds;
+
+      // 检查商品ID是否为空
+      if (!ids || ids.length === 0) {
+        reject(new Error('商品ID列表为空，请检查配置'));
+        return;
+      }
+
+      this._channel.requestProduct(ids, (res) => {
+        this._products = res;
+        resolve(res || []);
       }, (err) => {
-				console.log(4)
+        console.error('IAP: 商品获取失败', err);
         reject(err);
       });
     });
@@ -60,40 +68,86 @@ class Iap {
         reject(new Error('支付通道未初始化'));
         return;
       }
-      
+
+      uni.showLoading({
+        title: '处理中...',
+        mask: true
+      });
+
       uni.requestPayment({
         provider: 'appleiap',
         orderInfo: orderInfo,
         success: (res) => {
+          uni.hideLoading();
+          console.log('IAP: 支付成功', res);
           resolve(res);
         },
         fail: (err) => {
+          uni.hideLoading();
+          console.error('IAP: 支付失败', err);
+          
+          if (err.errCode === -2 || err.errMsg?.includes('cancel')) {
+            uni.showToast({
+              title: '已取消支付',
+              icon: 'none'
+            });
+          } else {
+            uni.showToast({
+              title: `支付失败: ${err.errMsg || '未知错误'}`,
+              icon: 'none'
+            });
+          }
+          
           reject(err);
         }
       });
     });
   }
 
-  // 恢复已完成的交易（检测未关闭订单）
+  // 恢复购买
   restoreCompletedTransactions({ username = "" }) {
     return new Promise((resolve, reject) => {
       if (!this._channel) {
         reject(new Error('支付通道未初始化'));
         return;
       }
-      
+
+      uni.showLoading({
+        title: '恢复购买中...',
+        mask: true
+      });
+
       this._channel.restoreCompletedTransactions({
         manualFinishTransaction: true,
         username
       }, (res) => {
-        resolve(res);
+        uni.hideLoading();
+        console.log('IAP: 恢复成功', res);
+        
+        // 移除这里的toast，让调用方决定如何提示用户
+        // 因为可能没有可恢复的购买，这是正常情况
+        
+        resolve(res || []);
       }, (err) => {
-        reject(err);
+        uni.hideLoading();
+        console.error('IAP: 恢复失败', err);
+        
+        // 提供更友好的错误信息
+        let errorMsg = '恢复购买失败';
+        if (err.errMsg) {
+          if (err.errMsg.includes('cancel')) {
+            errorMsg = '已取消恢复购买';
+          } else {
+            errorMsg = err.errMsg;
+          }
+        }
+        
+        reject(new Error(errorMsg));
       });
     });
   }
 
-  // 完成交易（验证成功后调用）
+  // 完成交易
   finishTransaction(transaction) {
     return new Promise((resolve, reject) => {
       if (!this._channel) {
@@ -101,9 +155,16 @@ class Iap {
         return;
       }
       
+      if (!transaction) {
+        reject(new Error('交易信息无效'));
+        return;
+      }
+      
       this._channel.finishTransaction(transaction, (res) => {
+        console.log('IAP: 交易完成', res);
         resolve(res);
       }, (err) => {
+        console.error('IAP: 完成交易失败', err);
         reject(err);
       });
     });
@@ -144,14 +205,17 @@ class Iap {
     });
   }
 
-  // 只读属性：是否准备就绪
+  // 只读属性
   get ready() {
     return this._ready;
   }
 
-  // 只读属性：支付通道
   get channel() {
     return this._channel;
+  }
+
+  get products() {
+    return this._products;
   }
 }
 
