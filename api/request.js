@@ -32,6 +32,7 @@ async function baseRequest(url, method, data,opt = {needToken:true,isLoading:tru
 	}
 	isLoading?Loading.show():null
 	if(token) HEADER['X-Token'] = token;
+	// console.log(url,HEADER)
 	return new Promise((reslove, reject) => {
 		uni.request({
 			url: config.baseUrl + '/' + url,
@@ -39,6 +40,7 @@ async function baseRequest(url, method, data,opt = {needToken:true,isLoading:tru
 			header: HEADER,
 			data: data || {},
 			success: (data) => {
+				// console.log('request:sucess',data)
 				isLoading?Loading.hide():null
 				let res = data.data
 			  if ([200].indexOf(res.code)!=-1) {
@@ -70,6 +72,7 @@ async function baseRequest(url, method, data,opt = {needToken:true,isLoading:tru
 				}		
 			},
 			fail: (msg) => {
+				// console.log('request:fail',msg)
 				Loading.hide()
         uni.showToast({
           icon:'none',

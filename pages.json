@@ -151,14 +151,6 @@
 		  }
 		},
 		{
-		  "path": "pages/user/memberApple",
-		  "style": {
-		    "navigationBarTitleText": "开通会员",
-		    "navigationBarBackgroundColor": "#0166FE",
-		    "navigationBarTextStyle": "white"
-		  }
-		},
-		{
 			"path": "pages/class/filter",
 			"style": {
 				"navigationBarTitleText": "搜索"

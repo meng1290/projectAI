@@ -100,3 +100,7 @@ export function bindPhone(data) {
 export function payconfig(data) {
 	return request.get('payconfig',data)
 }
+/* 苹果支付回调验证 */
+export function appleVerify(data) {
+	return request.post('notice/iosnotice',data)
+}

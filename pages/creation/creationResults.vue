@@ -122,7 +122,7 @@
 	  }
 	  
 	  // 达到最大重试次数仍未获取到数据
-	  return {code: false,msg: "任务创作超时，稍后可在创作记录中查看",}
+	  return {code: false,msg: "图片正在创作中。，稍后可在创作记录中查看",}
 	}
 	const handleSaveImage = () => {
 		if(!creationResultsList.value.length){

@@ -57,29 +57,24 @@ export const useUserStore = defineStore('user', {
 		},
 		//手机号授权登录
 		phoneAuthLogin(data) {
-			console.log(1234,data)
 			return new Promise((resolve,reject) => {
 				authPhoneLogin(data).then(res => {
-					console.log(res,123)
 					this.token = res.token || ''
 					this.userInfo = res.user || {}
 					resolve(true)
 				}).catch(err => {
-					console.log(12345,err)
 					reject(false)
 				})
 			})
 		},
 		//苹果授权登录
 		appleAuthLogin(data) {
-			console.log('data',data)
 			return new Promise((resolve,reject) => {
 				appleLoagin(data).then(res => {
 					this.token = res.token || ''
 					this.userInfo = res.user || {}
 					resolve(true)
 				}).catch(err => {
-					console.log(12345,err)
 					reject(false)
 				})
 			})

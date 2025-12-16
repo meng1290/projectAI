@@ -52,7 +52,7 @@
 	const creationResultsDownloadimg = uni.getStorageSync('creationResultsDownloadimg') || []
 	
 	const handleSaveImage = () => {
-		if(!creationResultsList.length){
+		if(!creationResultsList.length && !creationResultsList[0]){
 			return uni.showToast({
 				title: '保存失败',
 				icon: 'none',

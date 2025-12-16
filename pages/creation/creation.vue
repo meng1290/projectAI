@@ -203,12 +203,7 @@
 		}
 		if(btnLoading.value)return
 		uni.navigateTo({
-			// #ifdef APP-IOS
 			url:"/pages/user/member",
-			// #endif
-			// #ifndef APP-IOS
-			url:"/pages/user/memberApple",
-			// #endif
 		})
 	}
 </script>
