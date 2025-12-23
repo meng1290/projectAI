@@ -47,6 +47,9 @@
 			</view>
 			
       <view class="loginType">
+				<view class="anonymous" v-if="isIOS" @click="changeLoginType(6)">
+					<text class="iconfont icon-wode"></text>
+				</view>
 				<view class="apple" v-if="isIOS13Plus">
 					<text @click="changeLoginType(5)" class="iconfont icon-iconfontapple"></text>
 				</view>
@@ -107,6 +110,7 @@
 	const { form, rules } = toRefs(state)
 	const isShowPhoneAuthLonginBtn = ref(false)
 	const isIOS13Plus = ref(false)
+	const isIOS = ref(false)
 	const isShowWXLoginBtn = ref(false)
 	onLoad(() => {
 		// #ifdef APP-PLUS
@@ -140,8 +144,11 @@
 			success: (res) => {
 				// 判断是否为 iOS 且系统版本 >= 13
 				if (res.platform === 'ios') {
+					isIOS.value = true
 					const iosVersion = parseFloat(res.osVersion)
 					isIOS13Plus.value = iosVersion >= 13.0
+				}else{
+					isIOS.value = false
 				}
 			}
 		})
@@ -165,7 +172,15 @@
 				});
 			}
 			handleAppleLogin()
-    }else{
+    }else if(type === 6){//匿名登录
+			if(!radiovalue.value.length){
+				return uni.showToast({
+					title: '请阅读并勾选服务协议',
+					icon: 'none'
+				});
+			}
+			handleAnonymousLogin()
+		}else{
 			if(type === loginType.value)return
 			loginType.value = type
 		}
@@ -409,7 +424,19 @@
 			}
 		});
 	}
-
+	//匿名登录
+	const handleAnonymousLogin = () => {
+		btnLoading.value = true
+		store.anonymousLogin().then(res => {
+			uni.showToast({
+				title: '登录成功',
+				icon: 'success'
+			});
+			navigateBackOrHome()
+		}).catch(err => {
+			btnLoading.value = false
+		})
+	}
 	
 	//协议勾选
 	const radiovalue = ref([])
@@ -556,26 +583,42 @@
         .iconfont{
           font-size: 70rpx;
           margin: 0 24rpx;
-        }
-				.apple{
-					width: 70rpx;
-					height: 70rpx;
-					border-radius: 60rpx;
-					display: flex;
-					justify-content: center;
-					align-items: center;
-					margin: 0 24rpx;
-					background-color: #000;
-					.icon-iconfontapple{
-						font-size: 32rpx;
-						margin: 0;
-						color: #fff;
-					}
-				}
-				.icon-denglu-shoujidenglu{color: #636DF1;}
-				.icon-weixin{color: #28C445;}
-				.icon-duanxindenglu1{color: #FFAE13;}
-				.icon-mimadenglu{color: #47A0FC;}
+        }		
+		.anonymous{
+			width: 70rpx;
+			height: 70rpx;
+			border-radius: 60rpx;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			margin: 0 24rpx;
+			background-color: #999;
+			.icon-wode{
+				font-size: 38rpx;
+				margin: 0;
+				color: #fff;
+			}
+		}
+		.apple{
+			width: 70rpx;
+			height: 70rpx;
+			border-radius: 60rpx;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			margin: 0 24rpx;
+			background-color: #000;
+			.icon-iconfontapple{
+				font-size: 32rpx;
+				margin: 0;
+				color: #fff;
+			}
+		}
+		.icon-denglu-shoujidenglu{color: #636DF1;}
+		.icon-weixin{color: #28C445;}
+		.icon-duanxindenglu1{color: #FFAE13;}
+		.icon-mimadenglu{color: #47A0FC;}
+				
       }
 		}
 		.agreement{

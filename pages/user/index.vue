@@ -44,6 +44,8 @@
 			<u-cell title="我的收藏" @click="handleCell(2)" :isLink="true" arrow-direction="right" color="#000"></u-cell>
 			<u-cell title="关于我们" @click="handleCell(3)" :isLink="true" arrow-direction="right" color="#000" :border="false"></u-cell>
 		</view>
+
+		<up-modal :show="showModal" title="提示" content='检测到您已购买会员，还未绑定账号，为防止数据丢失，请先绑定账号。' showCancelButton @confirm="handleBindAccount" @cancel="showModal = false" contentTextAlign="center"></up-modal>
 	</view>
 </template>
 
@@ -52,11 +54,25 @@
 	import { onLoad, onShow } from '@dcloudio/uni-app'
 	import { useUserStore } from '@/stores/index'
 	const store = useUserStore()
-	
+	const isIOS = ref(false)
+	onLoad(() => {
+		const systemInfo = uni.getSystemInfoSync()
+		isIOS.value = systemInfo.platform === 'ios'
+	})
 	onShow(() => {
-		if(store.isLogin){
-			store.getUserInfo()
-		}
+		if(!store.isLogin) return
+		store.getUserInfo().then(res => {
+			if(!res) return
+			if(!isIOS.value) return
+			if(store.userInfo.phone || !(store.userInfo.is_svip>=0)) return
+			
+			const todayKey = new Date().toDateString()
+			const lastShown = uni.getStorageSync('bindAccountModalShownDate')
+			if(lastShown === todayKey) return
+
+			showModal.value = true
+			uni.setStorageSync('bindAccountModalShownDate', todayKey)
+		})
 	})
 	
 	const handleLogin = () => {
@@ -99,6 +115,14 @@
 		}
 		uni.navigateTo({
 			url: routerList[index].url
+		})
+	}
+
+	const showModal = ref(false)
+	const handleBindAccount = () => {
+		showModal.value = false
+		uni.navigateTo({
+			url:"/pages/user/settings/modifyPhone"
 		})
 	}
 </script>

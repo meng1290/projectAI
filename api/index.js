@@ -104,3 +104,7 @@ export function payconfig(data) {
 export function appleVerify(data) {
 	return request.post('notice/iosnotice',data)
 }
+/* 匿名登录 */
+export function appleLoginX(data) {
+	return request.post('auth/AppleLoginX',data,{needToken:false})
+}

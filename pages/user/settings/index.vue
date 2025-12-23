@@ -30,26 +30,40 @@
 		</view>
 		
 		<view class="btns">
-			<up-button type="primary" @click="logOut" color="#aaa"  text="退出登录"></up-button>
+			<up-button v-if="isIOS" type="primary" @click="handleLogOut" color="#aaa"  text="退出登录"></up-button>
+			<up-button v-else type="primary" @click="logOut" color="#aaa"  text="退出登录"></up-button>
 			<view class="logOff" ><text @click="logOff">注销账户</text></view>
 		</view>
 		
 		
-		<up-modal :show="showModal" title="提示" content='您确认要退出登录吗？' showCancelButton @confirm="logOut" @cancel="showModal = false" contentTextAlign="center"></up-modal>
+		<up-modal :show="showModal" title="提示" content='检测到您已购买会员，还未绑定账号，为防止数据丢失，请先绑定账号。' showCancelButton @confirm="handleBindAccount" cancelText="仍然退出" confirmText="去绑定" @cancel="logOut" contentTextAlign="center"></up-modal>
 	</view>
 </template>
 
 <script setup>
 	import { reactive, ref, toRefs, unref, inject} from 'vue'
+	import { onLoad } from '@dcloudio/uni-app'
 	import utils from "@/utils/index.js"
 	import { useUserStore } from '@/stores/index'
 	const store = useUserStore()
-	
+	//
+	const isIOS = ref(false)
+	onLoad(() => {
+		const systemInfo = uni.getSystemInfoSync()
+		isIOS.value = systemInfo.platform === 'ios'
+	})
 	const showModal = ref(false)
 	
-
+	const handleLogOut = () => {
+		if(store.userInfo.phone && (store.userInfo.is_svip >= 0)){
+			showModal.value = true
+		}else{
+			logOut()
+		}
+	}
 	
 	const logOut = () => {
+		showModal.value = false
 		uni.showModal({
 			title:'退出登录',
 			content:'您确认要退出登录吗？',
@@ -90,7 +104,12 @@
 			url: routerList[index].url
 		})
 	}
-	
+	const handleBindAccount = () => {
+		showModal.value = false
+		uni.navigateTo({
+			url:"/pages/user/settings/modifyPhone"
+		})
+	}
 	
 </script>
 

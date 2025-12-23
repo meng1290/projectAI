@@ -21,6 +21,8 @@
 			<!-- 分页加载提示 -->
 			<up-loadmore line :status="loadStatus" />
 			
+			<!-- <LoginTip></LoginTip> -->
+			
 			<!-- #ifdef APP-HARMONY -->
 				<upgradePopupVue ref="upgradePopup" />
 			<!-- #endif -->

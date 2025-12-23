@@ -8,9 +8,11 @@ import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 export const pinia = Pinia.createPinia()
 pinia.use(piniaPluginPersistedstate)
 
+import LoginTip from "@/components/loginTip/index"
+
 export function createApp() {
   const app = createSSRApp(App)
-  
+  app.component('LoginTip', LoginTip) 
   // 使用插件
   app.use(pinia)
   app.use(uviewPlus)

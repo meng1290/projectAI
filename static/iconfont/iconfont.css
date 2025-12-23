@@ -1,15 +1,24 @@
 @font-face {
   font-family: "iconfont"; /* Project id 5032821 */
-  src: url('/static/iconfont/iconfont.woff2?t=17623989861001') format('woff2'),
-       url('/static/iconfont/iconfont.woff?t=17623989861001') format('woff'),
-       url('/static/iconfont/iconfont.ttf?t=17623989861001') format('truetype');
+  src: url('/static/iconfont/iconfont.woff2?t=1766454657071') format('woff2'),
+       url('/static/iconfont/iconfont.woff?t=1766454657071') format('woff'),
+       url('/static/iconfont/iconfont.ttf?t=1766454657071') format('truetype');
 }
+
 .iconfont {
   font-family: "iconfont" !important;
   font-size: 16px;
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-wode:before {
+  content: "\e63e";
+}
+
+.icon-wode2:before {
+  content: "\e622";
 }
 
 .icon-iconfontapple:before {

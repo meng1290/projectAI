@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { passWordLogin, authSmslogin, authApp, userInfo, authPhoneLogin, appleLoagin, userCancel  } from '@/api/index.js'
+import { passWordLogin, authSmslogin, authApp, userInfo, authPhoneLogin, appleLoagin, userCancel, appleLoginX  } from '@/api/index.js'
 
 // 定义 Store，第一个参数是 Store 的唯一标识
 export const useUserStore = defineStore('user', {
@@ -99,6 +99,18 @@ export const useUserStore = defineStore('user', {
 				console.log(`获取授权服务失败：${error.message}`);
 			});
 			// #endif
+		},
+		//匿名登录
+		anonymousLogin(data) {
+			return new Promise((resolve,reject) => {
+				appleLoginX(data).then(res => {
+					this.token = res.token || ''
+					this.userInfo = res.user || {}
+					resolve(true)
+				}).catch(err => {
+					reject(false)
+				})
+			})
 		},
 		// 退出登录
 		logout() {
