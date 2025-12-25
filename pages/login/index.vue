@@ -582,7 +582,7 @@
         margin-top: 60rpx;
         .iconfont{
           font-size: 70rpx;
-          margin: 0 24rpx;
+          margin: 0 20rpx;
         }		
 		.anonymous{
 			width: 70rpx;

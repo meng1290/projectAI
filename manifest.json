@@ -111,6 +111,10 @@
                     }
                 }
             }
+        },
+        "uniStatistics" : {
+            "enable" : true,
+            "version" : "2"
         }
     },
     /* 快应用特有相关 */
@@ -133,7 +137,8 @@
         "usingComponents" : true
     },
     "uniStatistics" : {
-        "enable" : false
+        "enable" : false,
+        "version" : "2"
     },
     "vueVersion" : "3",
     "app-harmony" : {
